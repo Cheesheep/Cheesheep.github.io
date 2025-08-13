@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  
+  
+  
+  <entry>
+    <title>重新开始写MD，重新配置一次typora</title>
+    <link href="/2025/08/13/%E9%87%8D%E6%96%B0%E5%BC%80%E5%A7%8B%E5%86%99MD/"/>
+    <url>/2025/08/13/%E9%87%8D%E6%96%B0%E5%BC%80%E5%A7%8B%E5%86%99MD/</url>
+    
+    <content type="html"><![CDATA[<p>时隔多久了，两年多了？都忘了</p><p>现在是2025年8月13日早上10：48，坐标位于深圳大学计算机与软件学院516我的工位上</p><p>自从23年年底开摆在之后好像就没有写过MD了，唉😔</p><p>没事儿，有结束，也有开始，本篇MD拿来测试一下新买的台式电脑配置的typora图床是否能够上传到Gitee</p><p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20250813104958998.png" alt="image-20250813104958998"></p><p>拍了张电脑全屏，yes！</p><p>上传成功啦！！堂堂复活！！</p><p>简单总结一下吧，其实也拖了比较久才弄完</p><ol><li>受到组长启发，想弄个人博客网站</li><li>框架下的博客网站只需要上传MD文件，因此打算重新写MD，这样就需要重新配一次Typora</li><li>下载Nodejs（博客网站的框架本来也要用到npm去下载，例如hexo），下载并配置Path后也需要重启才能全局cmd有npm的指令生效</li><li>下载Typora并激活（随便找个教程，里面有激活工具，会生成一个序列号）</li><li>下载PicGo（现在推荐下载2.4.0Beta9以后的，否则插件里面找不到Gitee，不过也可以直接在picgo文件夹下用命令行去npm install对应的plugin就行）</li><li>上网搜怎么配置Typora和PicGo，由于之前我已经创建过GItee仓库了，配置好后，立刻就能用了嘿嘿</li><li>接下来就是去弄网站了</li></ol><p>再测试多一张：</p><p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20250813110648510.png" alt="image-20250813110648510"></p>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="/2025/08/13/hello-world/"/>
+    <url>/2025/08/13/hello-world/</url>
+    
+    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is <a href="https://bilibili.com/">your</a> very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  
+</search>
