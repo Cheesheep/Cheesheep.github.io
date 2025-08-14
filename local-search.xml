@@ -4,6 +4,19 @@
   
   
   <entry>
+    <title>配置Fluid过程中遇到的问题</title>
+    <link href="/2025/08/14/%E9%85%8D%E7%BD%AEFluid%E8%BF%87%E7%A8%8B%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/"/>
+    <url>/2025/08/14/%E9%85%8D%E7%BD%AEFluid%E8%BF%87%E7%A8%8B%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98/</url>
+    
+    <content type="html"><![CDATA[<h1 id="配置Fluid过程中遇到的问题"><a href="#配置Fluid过程中遇到的问题" class="headerlink" title="配置Fluid过程中遇到的问题"></a>配置Fluid过程中遇到的问题</h1><blockquote><p>既然刚刚开始，那就在调试的时候顺便记录一下遇到的问题吧，边配置边写</p></blockquote><h2 id="1-Gitee图床的图片无法正常打开"><a href="#1-Gitee图床的图片无法正常打开" class="headerlink" title="1. Gitee图床的图片无法正常打开"></a>1. Gitee图床的图片无法正常打开</h2><p>这属于一个比较常见的问题，看了别的博主说是该死的Gitee（就你事多）启用了防盗链机制</p><p>导致图床图片无法显示在其他网站上面</p><p>为了解决这个问题，本质上来说，只需要在对应页面的<code>HTML</code>文件的<code>head</code>部分加上一行：</p><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;referrer&quot;</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;no-referrer&quot;</span> /&gt;</span><br></code></pre></td></tr></table></figure><p>而由于我使用的是Fluid框架，哪来的<code>HTML</code>文件呢，有两个方法</p><ol><li><p>在博客根目录的<code>\node_modules\hexo-theme-fluid\layout\_partials\head.ejs</code>当中添加上面的那一行，但是这样在以后如果更新了fluid框架则这句话自然就没有了，因此不够robust</p></li><li><p>所以需要使用无痛注入EJS的方法，在博客根目录的scripts目录下新建一个js文件（任意起名），然后写入下面的代码：</p><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-comment">// scripts/inject-head.js</span><br>hexo.<span class="hljs-property">extend</span>.<span class="hljs-property">injector</span>.<span class="hljs-title function_">register</span>(<br>  <span class="hljs-string">&#x27;head_begin&#x27;</span>,                  <span class="hljs-comment">// 插入到 &lt;head&gt; 开头</span><br>  <span class="hljs-string">&#x27;&lt;meta name=&quot;referrer&quot; content=&quot;no-referrer&quot; /&gt;&#x27;</span>, <span class="hljs-comment">//用于让Gitee的图床得以显示，因为一些防护机制无法正常显示图片</span><br>  <span class="hljs-string">&#x27;default&#x27;</span>                      <span class="hljs-comment">// 注入到所有页面</span><br>);<br></code></pre></td></tr></table></figure><p>这样就可以无痛将其注入到所有页面当中，当你打开你的博客页面使用开发者工具就可以查看到head处确实是添加了这么一句话</p></li></ol><p>然后Gitee图床的图片就能正常显示啦~</p><h2 id="2-LeanCloud配置了之后也无法显示阅读量之类的参数"><a href="#2-LeanCloud配置了之后也无法显示阅读量之类的参数" class="headerlink" title="2. LeanCloud配置了之后也无法显示阅读量之类的参数"></a>2. LeanCloud配置了之后也无法显示阅读量之类的参数</h2><p>网上搜到说是现在LeanCloud不支持国内使用了，所以即使注册成功了API key，配置好了也是无效的</p><p>可以去找其他的网页统计工具</p>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>重新开始写MD，重新配置一次typora</title>
     <link href="/2025/08/13/%E9%87%8D%E6%96%B0%E5%BC%80%E5%A7%8B%E5%86%99MD/"/>
     <url>/2025/08/13/%E9%87%8D%E6%96%B0%E5%BC%80%E5%A7%8B%E5%86%99MD/</url>
