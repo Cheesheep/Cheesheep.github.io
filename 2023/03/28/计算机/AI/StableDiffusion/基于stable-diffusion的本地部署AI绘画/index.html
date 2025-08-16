@@ -1,0 +1,824 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><meta name="referrer" content="no-referrer" /><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#4D783B">
+  <meta name="author" content="Cheesheep">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="基于stable - diffusion 的本地部署AI绘画教程 自从Stable Diffusion 1.0模型发布以来，“AI文本图片生成”真正的变成普通人也能使用的技术。同时各种国内外AI绘图软件，也不断频繁更新，AI绘画的关注度也越来越高。  以下是本人自己生成出来的一些AI绘图（夹带私货木木枭^ ^）   对应的提示语prompt为： 1&quot;a cute portrait of">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于stable-diffusion的本地部署AI绘画教程">
+<meta property="og:url" content="http://example.com/2023/03/28/%E8%AE%A1%E7%AE%97%E6%9C%BA/AI/StableDiffusion/%E5%9F%BA%E4%BA%8Estable-diffusion%E7%9A%84%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2AI%E7%BB%98%E7%94%BB/index.html">
+<meta property="og:site_name" content="Cheesheep的博客">
+<meta property="og:description" content="基于stable - diffusion 的本地部署AI绘画教程 自从Stable Diffusion 1.0模型发布以来，“AI文本图片生成”真正的变成普通人也能使用的技术。同时各种国内外AI绘图软件，也不断频繁更新，AI绘画的关注度也越来越高。  以下是本人自己生成出来的一些AI绘图（夹带私货木木枭^ ^）   对应的提示语prompt为： 1&quot;a cute portrait of">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/clip_image002.jpg">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230328124514865.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/clip_image002.gif">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230328125439720.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230328125645500.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230328125725221.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230328125752109.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230329010541624.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230329084230736.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230329084440540.png">
+<meta property="article:published_time" content="2023-03-27T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-08-16T13:12:55.066Z">
+<meta property="article:author" content="Cheesheep">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/clip_image002.jpg">
+  
+  
+  
+  <title>基于stable-diffusion的本地部署AI绘画教程 - Cheesheep的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_5000605_elx2s23tfw.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"mwBHMJuGLL6mKzq8fTgVohlj-gzGzoHsz","app_key":"WqtvgyDFD8JLi1VHAqiZB7n6","server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Cheesheep</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-category-fill"></i>
+                <span>文章</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/categories/" target="_self">
+                    
+                    <span>分类</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="/archives/" target="_self">
+                    
+                    <span>归档</span>
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/life/" target="_self">
+                <i class="iconfont icon-life"></i>
+                <span>生活</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/pokemon_grass_bg.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="基于stable-diffusion的本地部署AI绘画教程"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Cheesheep
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-03-28 00:00" pubdate>
+          2023年3月28日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          11 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">基于stable-diffusion的本地部署AI绘画教程</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="基于stable-diffusion-的本地部署AI绘画教程"><a href="#基于stable-diffusion-的本地部署AI绘画教程" class="headerlink" title="基于stable - diffusion 的本地部署AI绘画教程"></a>基于stable - diffusion 的本地部署AI绘画教程</h1><blockquote>
+<p>自从Stable Diffusion 1.0模型发布以来，“AI文本图片生成”真正的变成普通人也能使用的技术。同时各种国内外AI绘图软件，也不断频繁更新，AI绘画的关注度也越来越高。</p>
+</blockquote>
+<p>以下是本人自己生成出来的一些AI绘图（夹带私货木木枭^ ^）</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/clip_image002.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230328124514865.png" srcset="/img/loading.gif" lazyload alt="image-20230328124514865"></p>
+<p>对应的提示语prompt为：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-string">&quot;a cute portrait of rowlet,anime,warm style,suit , highly detailed, oil painting, concept art, smooth, sharp focus,high quality artwork&quot;</span><br></code></pre></td></tr></table></figure>
+
+<hr>
+<p>那么如果我们想要<strong>本地部署一个真正属于自己的AI绘画模型</strong>，需要哪些东西呢。</p>
+<p>要完成本次部署，我们需要导入一些包并且用里面封装好的参数来实现相应的功能,从而实现我们要的文字出图的功能.</p>
+<p>接下来详细介绍一下大概的步骤。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>操作环境：</td>
+<td>python 3.8.13</td>
+</tr>
+<tr>
+<td>操作软件：</td>
+<td>VsCode</td>
+</tr>
+<tr>
+<td>文件格式：</td>
+<td>ipynb</td>
+</tr>
+</tbody></table>
+<p>需要下载的包在后面会有讲到</p>
+<h2 id="1-连接显卡"><a href="#1-连接显卡" class="headerlink" title="1. 连接显卡"></a>1. 连接显卡</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">!nvidia-smi  <br></code></pre></td></tr></table></figure>
+
+<p>首先要让GPU连接到notebook上</p>
+<p>单独运行该语句后，成功后会显示如下提示</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/clip_image002.gif" srcset="/img/loading.gif" lazyload alt="img"></p>
+<h2 id="2-本地下载transformershe和diffusers包："><a href="#2-本地下载transformershe和diffusers包：" class="headerlink" title="2. 本地下载transformershe和diffusers包："></a>2. 本地下载transformershe和diffusers包：</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">%pip install diffusers==<span class="hljs-number">0.4</span><span class="hljs-number">.0</span>  <br>%pip install transformers scipy ftfy  <br></code></pre></td></tr></table></figure>
+
+<p>由于这里是jupyter所以和python 的pip的方式有点不一样</p>
+<p>或者通过conda下载也可以</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230328125439720.png" srcset="/img/loading.gif" lazyload alt="image-20230328125439720"></p>
+<p>下载成功后会有如上提示</p>
+<p>如果后面有</p>
+<p> <code>RuntimeError: CUDA error: no kernel image is available for execution on the device</code></p>
+<p>类似这种提示，则说明一般是cuda或者python的版本出了问题</p>
+<p>可能是版本不对，一般要求是3.8</p>
+<h2 id="3-获取hugging-face官网的access-token："><a href="#3-获取hugging-face官网的access-token：" class="headerlink" title="3. 获取hugging face官网的access token："></a>3. 获取hugging face官网的access token：</h2><p>安装好两个包后，就要开始获取用户的权限了，由于stable diffusion的hugging face上面的产品，要使用它的模型的时候需要一个token的申请。</p>
+<p>因此我们看一下如何获得申请</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-number">1.</span>	<span class="hljs-keyword">from</span> huggingface_hub <span class="hljs-keyword">import</span> notebook_login  <br><span class="hljs-number">2.</span>	  <br><span class="hljs-number">3.</span>	notebook_login()  <br></code></pre></td></tr></table></figure>
+
+<p>这里的代码只有两行</p>
+<p>如果没有安装huggingface_hub这个包的话用conda下载一下就可以了</p>
+<p>也是比较容易的</p>
+<p><code>Conda install huggingface_hub </code></p>
+<p>成功运行后会出现如下内容</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230328125645500.png" srcset="/img/loading.gif" lazyload alt="image-20230328125645500"></p>
+<p>要拿到这个token需要我们登录hugging face的官网</p>
+<p>注册一个账号，不需要手机号什么的，比较容易注册</p>
+<ul>
+<li><p>注册成功之后到个人设置这里</p>
+</li>
+<li><p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230328125725221.png" srcset="/img/loading.gif" lazyload alt="image-20230328125725221"></p>
+</li>
+<li><p>获取token之后就可以正常运行了</p>
+</li>
+<li><p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230328125752109.png" srcset="/img/loading.gif" lazyload alt="image-20230328125752109"></p>
+</li>
+</ul>
+<p>成功登录获取之后如上图提示内容</p>
+<h2 id="4-获取diffusers数据集并生成pipe管道"><a href="#4-获取diffusers数据集并生成pipe管道" class="headerlink" title="4. 获取diffusers数据集并生成pipe管道"></a>4. 获取diffusers数据集并生成pipe管道</h2><p>首先看一下这个的代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-number">1.</span>	<span class="hljs-keyword">import</span> torch  <br><span class="hljs-number">2.</span>	<span class="hljs-comment">#from torch import autocast  </span><br><span class="hljs-number">3.</span>	<span class="hljs-keyword">from</span> diffusers <span class="hljs-keyword">import</span> StableDiffusionPipeline  <br><span class="hljs-number">4.</span>	  <br><span class="hljs-number">5.</span>	<span class="hljs-comment"># make sure you&#x27;re logged in with `huggingface-cli login`  </span><br><span class="hljs-number">6.</span>	<span class="hljs-comment">#pipe = StableDiffusionPipeline.from_pretrained(&quot;CompVis/stable-diffusion-v1-4&quot;, revision=&quot;fp16&quot;, torch_dtype=torch.float16)    </span><br><span class="hljs-number">7.</span>	pipe = StableDiffusionPipeline.from_pretrained(<span class="hljs-string">&quot;./stable-diffusion-v1-4&quot;</span>)   <br></code></pre></td></tr></table></figure>
+
+<p>这里导入了torch包和之前下载的diffusers包</p>
+<p>进行模型，然后进行模型的加载</p>
+<p>Pipe就是加载成功后获得模型的管道了</p>
+<p>而这一句也是所有代码当中最核心的一句</p>
+<p>这里的<strong>文件路径</strong>是一个模型包</p>
+<p>可以在github或者huggingface上面都有，下载模型包</p>
+<p><a target="_blank" rel="noopener" href="https://huggingface.co/CompVis/stable-diffusion-v1-4">CompVis&#x2F;stable-diffusion-v1-4 · Hugging Face</a></p>
+<p>以上是官网链接</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230329010541624.png" srcset="/img/loading.gif" lazyload alt="image-20230329010541624"></p>
+<p>整个模型大概10GB（现在可能不止了）</p>
+<p>运行成功后没有提示语出现</p>
+<h3 id="5-将pipe管道部署到GPU上运行"><a href="#5-将pipe管道部署到GPU上运行" class="headerlink" title="5.将pipe管道部署到GPU上运行"></a>5.将pipe管道部署到GPU上运行</h3><p>如果我们使用CPU去跑这个模型，需要等待的时间将会非常非常的长，为了解决这个问题，这里提供了一个方法，可以将pipe管道移动到GPU上面去运行。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">pipe = pipe.to(<span class="hljs-string">&quot;cuda&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>但是这里会跟资源的分配有关，本地的电脑如果显卡没有这么强的话，很有可能会失败，例如提示显存不够给予去运算，例如本人的电脑如果开了其他运行程序就很容易出现内存分配不够的问题</p>
+<p>如果<strong>内存不够</strong>建议可以使用谷歌提供的colab云平台来运行自己的服务，谷歌会免费分配一个显卡资源给colab的账号。</p>
+<p>内存不足的时候运行上述代码会有相应的报错，注意看报错内容即可。</p>
+<h3 id="6-使用prompt生成图片"><a href="#6-使用prompt生成图片" class="headerlink" title="6. 使用prompt生成图片"></a>6. 使用prompt生成图片</h3><p>当我们可以正常使用GPU来跑模型之后，就可以正式开始生成我们的图片啦！</p>
+<p>我们只需要简单地输入一个字符串，就可以生成图片</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-number">1.</span>	<span class="hljs-comment">#提示语输入内容  </span><br><span class="hljs-number">2.</span>	prompt = <span class="hljs-string">&quot;a photograph of an astronaut riding a horse&quot;</span>  <br><span class="hljs-number">3.</span>	<span class="hljs-comment">#放入pipe中运行  </span><br><span class="hljs-number">4.</span>	image = pipe(prompt).images[<span class="hljs-number">0</span>]   <br><span class="hljs-number">5.</span>	  <br><span class="hljs-number">6.</span>	  <br><span class="hljs-number">7.</span>	<span class="hljs-comment">#直接显示图片  </span><br><span class="hljs-number">8.</span>	image <br><br></code></pre></td></tr></table></figure>
+
+<p>运行该代码，会出现一个进度条进行等待，运行成功后如下所示。</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230329084230736.png" srcset="/img/loading.gif" lazyload alt="image-20230329084230736"></p>
+<p>上图就是通过stable-diffusion模型生成的图片了</p>
+<p>给出的提示语是“a photograph of an astronauut riding a horse”</p>
+<p>可以看出给出的图片还是比较符合描述语的内容的，同时也有一种荒诞的感觉</p>
+<blockquote>
+<p>最后：如果想要让画面更加精美，需要给prompt的内容加上更加细节的描述</p>
+<p>如果自己想不到什么好的英文提示语，可以参考网站<a target="_blank" rel="noopener" href="https://lexica.art/">Lexica</a></p>
+<p>这个网站允许用户上传自己的prompt生成的图片</p>
+</blockquote>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230329084440540.png" srcset="/img/loading.gif" lazyload alt="image-20230329084440540"></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/" class="category-chain-item">计算机</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/AI/" class="category-chain-item">AI</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/AI/StableDiffusion/" class="category-chain-item">StableDiffusion</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>基于stable-diffusion的本地部署AI绘画教程</div>
+      <div>http://example.com/2023/03/28/计算机/AI/StableDiffusion/基于stable-diffusion的本地部署AI绘画/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Cheesheep</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年3月28日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/04/11/%E6%9C%AC%E7%A7%91/%E5%A4%A7%E4%B8%89%E4%B8%8B/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/%E5%A6%82%E4%BD%95%E5%B0%86%E5%B8%A6%E7%A9%BA%E5%AD%97%E7%AC%A6%E7%9A%84NFA%E8%BD%AC%E6%8D%A2%E6%88%90DFA/" title="将带空字符的NFA转换成DFA（用确定化算法生成状态表）&amp;&amp; 根据DFA识别字符串类型">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">将带空字符的NFA转换成DFA（用确定化算法生成状态表）&amp;&amp; 根据DFA识别字符串类型</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/03/16/%E6%9C%AC%E7%A7%91/%E5%A4%A7%E4%B8%89%E4%B8%8B/%E8%BD%AF%E5%B7%A5%E5%AE%9E%E8%AE%AD/%E3%80%8A%E8%BD%AF%E5%B7%A5%E5%AE%9E%E8%AE%AD%E3%80%8B%E5%86%B0%E7%AE%B1%E9%A1%B9%E7%9B%AE-%E5%89%8D%E5%9B%9B%E5%91%A8%E8%BF%AD%E4%BB%A3/" title="《软工实训》冰箱项目-前四周迭代">
+                        <span class="hidden-mobile">《软工实训》冰箱项目-前四周迭代</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
