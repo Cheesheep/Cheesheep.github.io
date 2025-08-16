@@ -1,0 +1,1369 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><meta name="referrer" content="no-referrer" /><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#4D783B">
+  <meta name="author" content="Cheesheep">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Android 模仿粤苗APP界面功能实现0. 题目要求题目：我的 粤苗APP \1. 粤苗APP界面 Ø 基于已完成的“APP调研报告”相关的经验总结，尽量模拟如下粤苗APP（华为应用市场：粤苗）的功能，即参考如下的界面展示形式及功能模块：  图1 粤苗APP；功能模块及其高清图可以去APP查看 \2. 具体要求 模拟图1所示粤苗APP，介绍该APP与服务相关的一些知识点并能提供相应功能： 1）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android模仿粤苗APP界面功能实现">
+<meta property="og:url" content="http://example.com/2023/06/20/%E6%9C%AC%E7%A7%91/%E5%A4%A7%E4%B8%89%E4%B8%8B/%E7%A7%BB%E5%8A%A8%E4%BA%92%E8%81%94%E7%BD%91%E7%BC%96%E7%A8%8B/Andoird%E6%A8%A1%E4%BB%BF%E7%B2%A4%E8%8B%97APP/index.html">
+<meta property="og:site_name" content="Cheesheep的博客">
+<meta property="og:description" content="Android 模仿粤苗APP界面功能实现0. 题目要求题目：我的 粤苗APP \1. 粤苗APP界面 Ø 基于已完成的“APP调研报告”相关的经验总结，尽量模拟如下粤苗APP（华为应用市场：粤苗）的功能，即参考如下的界面展示形式及功能模块：  图1 粤苗APP；功能模块及其高清图可以去APP查看 \2. 具体要求 模拟图1所示粤苗APP，介绍该APP与服务相关的一些知识点并能提供相应功能： 1）">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230620111831812.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230620111855908.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230620111909475.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230619171717.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230619173947816.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230619173712.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230619175026770.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230619175451553.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230619181107797.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230619183236.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230619183300.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230619183942699.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230422164201720.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230619184836054.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230619185152433.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230619215643.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230619224456710.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230619224916443.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230619171717.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230619225815739.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230518173736578.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230619231802297.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230620102313869.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230620004141771.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230620004532814.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230619173712.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230619232927.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230619175026770.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230620003114.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230620102537740.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230619173712.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230620005303301.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230620005557261.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230618215334.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230620101548.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230620103614531.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230619175419.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230620110133117.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230620110444203.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230518134252.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/48033d7ff4a64807b0cc8ce7ec026501.png">
+<meta property="article:published_time" content="2023-06-19T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-08-15T08:54:14.684Z">
+<meta property="article:author" content="Cheesheep">
+<meta property="article:tag" content="android">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230620111831812.png">
+  
+  
+  
+  <title>Android模仿粤苗APP界面功能实现 - Cheesheep的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_5000605_8e8395qng5b.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"mwBHMJuGLL6mKzq8fTgVohlj-gzGzoHsz","app_key":"WqtvgyDFD8JLi1VHAqiZB7n6","server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Cheesheep</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/pokemon_grass_bg.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.1)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Android模仿粤苗APP界面功能实现"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Cheesheep
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-06-20 00:00" pubdate>
+          2023年6月20日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          9.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          76 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Android模仿粤苗APP界面功能实现</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Android-模仿粤苗APP界面功能实现"><a href="#Android-模仿粤苗APP界面功能实现" class="headerlink" title="Android 模仿粤苗APP界面功能实现"></a>Android 模仿粤苗APP界面功能实现</h1><h2 id="0-题目要求"><a href="#0-题目要求" class="headerlink" title="0. 题目要求"></a>0. 题目要求</h2><p>题目：我的 粤苗APP</p>
+<p>\1. 粤苗APP界面</p>
+<p>Ø 基于已完成的“APP调研报告”相关的经验总结，尽量模拟如下粤苗APP（华为应用市场：粤苗）的功能，即参考如下的界面展示形式及功能模块：</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230620111831812.png" srcset="/img/loading.gif" lazyload alt="image-20230620111831812"><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230620111855908.png" srcset="/img/loading.gif" lazyload alt="image-20230620111855908"><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230620111909475.png" srcset="/img/loading.gif" lazyload alt="image-20230620111909475"></p>
+<p>图1 粤苗APP；功能模块及其高清图可以去APP查看</p>
+<p>\2. 具体要求</p>
+<p>模拟图1所示粤苗APP，介绍该APP与服务相关的一些知识点并能提供相应功能：</p>
+<p>1） 建议包含的一些功能：活动之间的转换与数据传递；能适应不同的展示界面；有登录功能，强制下线功能；数据有多样化的持久化功能；能跨程序提供与共享数据；有展示一些多媒体的功能；</p>
+<p>2） 较好的实现了书本上介绍的一些较成熟的功能，并能较好的把这些功能融合在一个完整且无大bug的APP里；</p>
+<p>3） 能在此基础上构建自己的报告亮点，如实现了书本不一样的功能模块，或者为某个知识点找到适当的新的应用场景，或者能解决同学们普遍存在的一些问题等；</p>
+<p>4） 模拟的APP不局限于所参照APP的功能，即只需尽量模拟这些功能，<strong>不要求将每个界面或功能都实现，如果某个界面或功能不能体现已学知识点，可以不用考虑</strong>，当然如果能想办法实现出来，可以作为报告亮点；即<strong>不必与这些界面或功能完全一样，可在此基础上进行变通，达到类似的效果就可以</strong>；如果设计了一些该APP没有的功能，请说明清楚这些功能的实现方式、潜在的用途等；</p>
+<p>5） <strong>总体目标是考察同学们是否已掌握课程内容，是否能灵活利用所学的知识点</strong>，做到每个功能各种实现方式的丰富化（如数据的持久化的三种实现方式都能在APP中有所体现），并且能了解并总结不同实现方式的优劣，且能通过APP的实现体现出来；</p>
+<p>\3. 部分参考</p>
+<p>1）功能实现参考：图第1-3列尽量参考第6章数据持久化技术的各个知识点；第1列尽量参考布局及活动之间的跳转，碎片的实现，多媒体展示功能；第1,2列可以利用Tablayout、ViewPager或RecyclerView；</p>
+<p>2）设计Android基于位置的服务，比如能根据用户所在位置查找最近的服务或门诊网点；添加一个小功能，整合网络技术的应用，比如“收藏”的功能，或个人接种记录的线下保存；利用数据后台下载的功能，比如接种手册或接种指导视频的下载等；</p>
+<p>3）可以借鉴的部分章节内容，第12章可以让你的APP界面变得更美观；第14章展示了一个大型的工程，可以学习下多个功能怎样在一个工程里体现；</p>
+<p>\4. 其它要求</p>
+<p>1）构建的APP要格式工整，美观；个人补充的新的功能或界面可以与“APP调研报告”的总结对应上；</p>
+<p>2）实验报告中需要有功能的描述、实验结果的截屏图像及详细说明；结果展示要具体，图文交叉解释；代码与文本重点要突出；建议报告采用白色背景的形式；</p>
+<p>3）也欢迎采用课程后续章节的知识点完成本次大作业，如果实现的功能言之合理，会考虑酌情加分；</p>
+<p>4）每位同学在最后一次课都需要上台报告，并且最好能现场演示APP的功能等，没上台报告的同学分数会受一定的影响；</p>
+<p>5）报告由个人独立完成。</p>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><p>[TOC]</p>
+<blockquote>
+<p>开发语言：Java</p>
+<p>开发工具：Android Studio</p>
+<p><strong>开发用到的外部包</strong>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//三个依赖，用于Tablayout，viewpager，recyclerView布局</span><br>implementation <span class="hljs-string">&#x27;androidx.legacy:legacy-support-v4:1.0.0&#x27;</span><br>implementation <span class="hljs-string">&#x27;com.google.android.material:material:1.5.0&#x27;</span><br>implementation <span class="hljs-string">&#x27;androidx.recyclerview:recyclerview:1.2.1&#x27;</span><br><span class="hljs-comment">//数据库的litepal</span><br>implementation <span class="hljs-title function_">files</span><span class="hljs-params">(<span class="hljs-string">&#x27;libs/litepal-2.0.0-src.jar&#x27;</span>)</span><br><span class="hljs-comment">//百度地图API</span><br>implementation <span class="hljs-title function_">files</span><span class="hljs-params">(<span class="hljs-string">&#x27;libs/BaiduLBS_Android.jar&#x27;</span>)</span><br><span class="hljs-comment">//引用别人的百度地图项目时用到的</span><br>implementation <span class="hljs-string">&#x27;com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-21&#x27;</span><br><span class="hljs-comment">//二维码扫描依赖</span><br>implementation <span class="hljs-string">&#x27;com.google.zxing:core:3.3.3&#x27;</span><br>implementation <span class="hljs-string">&#x27;com.journeyapps:zxing-android-embedded:3.6.0&#x27;</span><br><br></code></pre></td></tr></table></figure>
+
+<p>注意！！！</p>
+<ol>
+<li><p>这里可能有的人版本是support-v4对应的包</p>
+<p>添加了support-v4的包后发现build.gradle（Gradle Scripts文件夹下）有报错，</p>
+<p>报错内容类似<code>Version 28 (intended for Android Pie and below) is the last version of the legacy support library</code></p>
+<p>这是因为当前的AS已经不支持这些旧的包，因此可以将support-v4迁移到AndroidX，具体方法参考下面的文章或者自行搜索：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/lfdfhl/article/details/105269551">(174条消息) Version 28 (intended for Android Pie and below) is the last version of the legacy support library_谷哥的小弟的博客-CSDN博客</a></p>
+</li>
+<li><p>litepal的引入是<strong>本地</strong>下载好并且导入的依赖</p>
+<p>这里尝试过直接引入<code>implementation &#39;org.litepal.guolindev:core:3.2.0&#39;</code>或者是<code>implementation &#39;org.litepal.android:core:3.2.0&#39;</code></p>
+<p>但是发现在Java，manifest文件当中根本找不到喝这个库相关的内容</p>
+<p>于是就直接到github上面下载jar包并且导入了</p>
+<p>给出下载地址 ： <a target="_blank" rel="noopener" href="https://github.com/guolindev/LitePal#latest-downloads/">https://github.com/guolindev/LitePal#latest-downloads/</a></p>
+</li>
+<li><p>百度地图的API（LBS SDK）也是要上网下载到<strong>本地</strong>的，但是会有不同的包选择</p>
+<p>所以如果是使用别人的项目，那么则建议直接用别人libs下面的LBS SDK包，否则可能出现不兼容的情况</p>
+</li>
+<li><p>项目源码：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Cheesheep/AndroidFinal-YueMiaoApp">Cheesheep&#x2F;AndroidFinal-YueMiaoApp: the final project of Android Class in 2023’s Junior Year02 (github.com)</a></p>
+</li>
+</ol>
+</blockquote>
+<h2 id="1-效果展示"><a href="#1-效果展示" class="headerlink" title="1. 效果展示"></a>1. 效果展示</h2><blockquote>
+<p>全部功能实现功能如下：、</p>
+<p><strong>基本功能：</strong></p>
+<ul>
+<li>用户登录（数据持久化）：<strong>数据库文件存储和读取</strong>账号密码</li>
+<li>退出登录（广播机制实现强制下线）</li>
+<li>提示网络中断（广播机制实现网络监听）</li>
+<li>使用<strong>SharedPreference</strong>实现记住密码功能（数据持久化）：</li>
+<li>点击页面打开嵌入式Web内容（使用WebView）</li>
+<li><strong>侧边栏</strong>放置用户信息条（NavigationVIew）</li>
+<li>新闻内容使用Tab实现切换（ViewPager）</li>
+<li>使用RecyclerView实现多种布局（线性，瀑布式，网格等）</li>
+<li>网格菜单布局GridLayout</li>
+</ul>
+<p><strong>新功能：</strong></p>
+<ul>
+<li>zxing库实现<strong>扫描、生成二维码</strong>（跨程序共享数据，Thread）</li>
+<li>百度API（LBS SDK）实现地图以及寻找附近门诊功能（位置服务）</li>
+<li>受种者信息实现CRUD增删改查（数据库操作）</li>
+<li>轮播图实现（ViewPager，<strong>多线程</strong>）</li>
+</ul>
+</blockquote>
+<ul>
+<li><p>首先打开APP页面先进入的是登录界面，可以选择<strong>记住密码</strong></p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230619171717.png" srcset="/img/loading.gif" lazyload alt="联想截图_20230619171717"></p>
+</li>
+<li><p>登录成功后进入首页，页面从上到下是<strong>轮播图</strong>，<strong>预约专题菜单</strong>、<strong>新冠相关新闻</strong></p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230619173947816.png" srcset="/img/loading.gif" lazyload alt="image-20230619173947816"></p>
+<p>点击左上角的图标可以展示个人信息侧边栏</p>
+<p>首页下方的新闻可以实现fragemnt的<strong>页面切换</strong>，新闻具体页面用<strong>WebView嵌入网页</strong>对应内容</p>
+</li>
+<li><p>首页点击预约专题当中的<strong>团体预约</strong>：</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230619173712.png" srcset="/img/loading.gif" lazyload alt="联想截图_20230619173712"></p>
+<p>通过输入任意数字，英文，中文都可以生成属于自己的二维码，也可以点击扫描别人的二维码</p>
+<p>从而获取团体码数字内容</p>
+</li>
+<li><p>点击底部导航栏，切换到<strong>门诊</strong></p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230619175026770.png" srcset="/img/loading.gif" lazyload alt="image-20230619175026770"></p>
+<p>门诊使用了百度地图的API，点击社康，门诊，医院三个按钮，可以基于当前的位置搜索</p>
+<p>到附近最近的门诊等，如图为搜索麦当劳的结果</p>
+</li>
+<li><p>最后切换到个人页面，可以点击进去查看受种者信息</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230619175451553.png" srcset="/img/loading.gif" lazyload alt="image-20230619175451553"></p>
+<p>可以对受种者的信息实现增删改查，也可以将某个受种者绑定到当前的用户</p>
+</li>
+</ul>
+<h2 id="2-基本功能介绍"><a href="#2-基本功能介绍" class="headerlink" title="2. 基本功能介绍"></a>2. 基本功能介绍</h2><blockquote>
+<p>这一部分先简单地介绍一下一些基本的页面功能，大都是之前的实验曾经实现过的</p>
+<p>首先看一下Java文件的布局，文件较多，因此按照页面来进行分类</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230619181107797.png" srcset="/img/loading.gif" lazyload alt="image-20230619181107797"></p>
+<p>主要页面为四个，分别是登陆页面、首页、门诊页面、个人主页</p>
+<p>还有一些子页面，例如团体码扫描，受种者信息等在下面会详细展开</p>
+</blockquote>
+<h3 id="2-1-顶部栏ToolBar以及侧滑栏Navigation"><a href="#2-1-顶部栏ToolBar以及侧滑栏Navigation" class="headerlink" title="2.1 顶部栏ToolBar以及侧滑栏Navigation"></a>2.1 顶部栏ToolBar以及侧滑栏Navigation</h3><blockquote>
+<p>顶部菜单栏：</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230619183236.png" srcset="/img/loading.gif" lazyload alt="联想截图_20230619183236"></p>
+<p>侧边栏：</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230619183300.png" srcset="/img/loading.gif" lazyload alt="联想截图_20230619183300"></p>
+<p><strong>布局文件</strong>：</p>
+<ul>
+<li>activity_main.xml ：主活动页面</li>
+<li>toolbar_menu：菜单栏图标（右侧的分享和个人页面的logo）</li>
+<li>nav_header,xml ：侧滑栏的头部信息（头像，昵称，联系方式）</li>
+<li>left_drawer.xml：侧滑栏的菜单内容</li>
+</ul>
+<p><strong>java文件</strong>：</p>
+<ul>
+<li>MainActivity</li>
+<li>NavigationUtil</li>
+</ul>
+</blockquote>
+<h4 id="2-1-1-导入导航栏依赖"><a href="#2-1-1-导入导航栏依赖" class="headerlink" title="2.1.1 导入导航栏依赖"></a>2.1.1 导入导航栏依赖</h4><p>导入”NavigationView“的依赖</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml">implementation &#x27;com.android.support:design:29.0.1&#x27;<br></code></pre></td></tr></table></figure>
+
+<h4 id="2-1-2-配置toolbar菜单栏布局文件"><a href="#2-1-2-配置toolbar菜单栏布局文件" class="headerlink" title="2.1.2 配置toolbar菜单栏布局文件"></a>2.1.2 配置toolbar菜单栏布局文件</h4><p>关于toolbar的各种设置，可以参考以下文章</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42324086/article/details/117390236">(174条消息) Android Toolbar的使用详解_暗恋花香的博客-CSDN博客</a></p>
+<p><strong>设置为NoActionBar</strong>：</p>
+<p>要使用toolbar，首先要去掉系统默认设置的ActionBar</p>
+<p>在AndroidManifest.xml文件当中可以设置活动的主题，我们新建一个NoActionBar的主题，并且给我们需要配置toolBar的页面赋予这个主题即可</p>
+<p><strong>AndroidMenifest.xml</strong></p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230619183942699.png" srcset="/img/loading.gif" lazyload alt="image-20230619183942699"></p>
+<p><strong>themes.xml</strong></p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230422164201720.png" srcset="/img/loading.gif" lazyload alt="image-20230422164201720"></p>
+<p>看到最右边设置了<code>noActionBar</code>，这样才可以让toolbar正常显示</p>
+<p><strong>配置toolBar</strong></p>
+<p>需要在<code>activity_main.xml</code>文件当中放入toolBar，因为是在首页主活动放置toolBar</p>
+<p><strong>activity_main.xml部分代码</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!--    顶部菜单栏toolBar--&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">androidx.appcompat.widget.Toolbar</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:id</span>=<span class="hljs-string">&quot;@+id/my_toolbar&quot;</span>                                   				      	 <span class="hljs-attr">android:theme</span>=<span class="hljs-string">&quot;@style/ThemeOverlay.AppCompat.ActionBar&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">app:popupTheme</span>=<span class="hljs-string">&quot;@style/ThemeOverlay.AppCompat.Light&quot;</span></span><br><span class="hljs-tag">       	<span class="hljs-attr">......</span></span><br><span class="hljs-tag">/&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>除了在活动布局文件中放置toolbar，还需要一个菜单图标文件</p>
+<p><strong>toolbar_menu.xml</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">menu</span> <span class="hljs-attr">xmlns:android</span>=<span class="hljs-string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">xmlns:app</span>=<span class="hljs-string">&quot;http://schemas.android.com/apk/res-auto&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">item</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:icon</span>=<span class="hljs-string">&quot;@drawable/share&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:orderInCategory</span>=<span class="hljs-string">&quot;80&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:title</span>=<span class="hljs-string">&quot;edit&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">app:showAsAction</span>=<span class="hljs-string">&quot;ifRoom|withText&quot;</span> /&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">item</span></span><br><span class="hljs-tag">		<span class="hljs-attr">..........</span> /&gt;</span><br><span class="hljs-comment">&lt;!--    后面有更多的item如果放不下就会进入菜单栏--&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">menu</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>这里的配置和actionBar的menu绘制方法类似，唯一区别就是<code>app:showAsAction</code>不同，该属性是Toolbar当中很关键的属性</p>
+<p>其中四个不同的值的作用分别如下：</p>
+<p>1）always：这个值会使菜单项一直显示在 ToolBar上。<br>2）ifRoom：如果有足够的空间，这个值会使菜单项显示在 Tool Bar上。<br>3）never：这个值会使菜单项永远都不出现在 ToolBar上。<br>4）withText：这个值会使菜单项和它的图标、菜单文本一起显示。一般和ifRoom一起通过“|”使用<br>app:showAsAction 属性值为 ifRoom|withText，表示如果有空间，那么就连同文字一起显示在标题栏中，否则就显示在菜单栏中。<br>而当app:showAsAction 属性值为 never时，该项作用为Menu不显示在菜单组件中。</p>
+<p>这个文件后面我们会在<strong>activity的Java代码</strong>当中写入并且连接上</p>
+<p><strong>MainActivity.java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">myToolbar.inflateMenu(R.menu.toolbar_menu);<br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="2-1-3-配置侧滑栏xml文件"><a href="#2-1-3-配置侧滑栏xml文件" class="headerlink" title="2.1.3 配置侧滑栏xml文件"></a>2.1.3 配置侧滑栏xml文件</h4><p>添加NavigationView组件（要使用该组件需要从外部导入design包，在前面有提到导入的具体的包）</p>
+<p>将该组件添加到toolbar所在的活动的页面当中，也就是<code>activity_main.xml</code></p>
+<p><strong>activity_main.xml部分代码</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;utf-8&quot;</span>?&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">androidx.drawerlayout.widget.DrawerLayout</span></span><br><span class="hljs-tag">    <span class="hljs-attr">...............</span>&gt;</span><br><br>    ...............//其他布局代码<br>    <br><span class="hljs-comment">&lt;!--左侧导航菜单--&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">com.google.android.material.navigation.NavigationView</span></span><br><span class="hljs-tag">	<span class="hljs-attr">..............</span></span><br><span class="hljs-tag">    <span class="hljs-attr">app:headerLayout</span>=<span class="hljs-string">&quot;@layout/nav_header&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">app:menu</span>=<span class="hljs-string">&quot;@menu/left_drawer&quot;</span> /&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">androidx.drawerlayout.widget.DrawerLayout</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>这个菜单栏由于是侧滑出现的，所以放在整个布局的最外面，并且需要用<code>DrawerLayout</code>包裹</p>
+<p>注意看NavigationView里面有两个app的属性<code>app:headerLayout</code>和<code>app:menu</code></p>
+<p>因此这里需要新建两个文件，一个是头部的代码<code>nav_header</code>，一个是下面的菜单的部分<code>left_drawer</code></p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230619184836054.png" srcset="/img/loading.gif" lazyload alt="image-20230619184836054"></p>
+<p>对应APP页面内容如上，left_drawer是一个菜单menu文件，代码比较简单就不展示了</p>
+<h3 id="2-2-首页内容-网格菜单"><a href="#2-2-首页内容-网格菜单" class="headerlink" title="2.2 首页内容 网格菜单"></a>2.2 首页内容 网格菜单</h3><p>网格的内容比较简单，对应菜单样式</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230619185152433.png" srcset="/img/loading.gif" lazyload alt="image-20230619185152433"></p>
+<p>用了两层layout进行嵌套实现了上下不同的宽度，不同个数的菜单</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">GridLayout</span> <span class="hljs-attr">xmlns:android</span>=<span class="hljs-string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">android:columnCount</span>=<span class="hljs-string">&quot;1&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">android:rowCount</span>=<span class="hljs-string">&quot;2&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">android:layout_gravity</span>=<span class="hljs-string">&quot;center&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">android:orientation</span>=<span class="hljs-string">&quot;horizontal&quot;</span></span><br><span class="hljs-tag">    &lt;<span class="hljs-attr">GridLayout</span>  &gt;</span><br>        三个<span class="hljs-tag">&lt;<span class="hljs-name">Button</span> /&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">GridLayout</span>&gt;</span><br><span class="hljs-comment">&lt;!--    第二行--&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">GridLayout</span> &gt;</span><br>        五个<span class="hljs-tag">&lt;<span class="hljs-name">Button</span> /&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">GridLayout</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">GridLayout</span>&gt;</span><br><br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="2-3-首页内容-新闻列表（TabLayout-ViewPager-Fragment）"><a href="#2-3-首页内容-新闻列表（TabLayout-ViewPager-Fragment）" class="headerlink" title="2.3 首页内容 新闻列表（TabLayout + ViewPager + Fragment）"></a>2.3 首页内容 新闻列表（TabLayout + ViewPager + Fragment）</h3><blockquote>
+<p>通知列表使用了上述三样东西结合</p>
+<p>TabLayout：提供选项切换到不同的菜单</p>
+<p>ViewPager：用于滑动切换到不同的菜单</p>
+<p>Fragment：每个菜单显示的页面内容</p>
+<p><strong>实现效果</strong>：</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230619215643.png" srcset="/img/loading.gif" lazyload alt="联想截图_20230619215643"></p>
+<p><strong>涉及配置xml文件</strong>：</p>
+<ul>
+<li>fragment_homepage.xml （左侧碎片布局）</li>
+<li>main_grid_menu.xml （网格菜单）</li>
+<li>selected.xml （选中菜单的颜色设置）</li>
+<li>themes.xml  （设置菜单的文件大小）</li>
+<li>listview_item.xml （单条新闻列表的样式）</li>
+<li>fragment_news_list&#x2F;xml （新闻列表，只含一个listview的碎片）</li>
+</ul>
+<p><strong>Java代码文件</strong>：(package com.example.yuemiaoapp.homepage.fragment;)</p>
+<ul>
+<li>HomepageFragement （整体主页的碎片）</li>
+<li>NewsFragmentPagerAdapter（用于切换列表的适配器）</li>
+<li>NewsListFragement（新闻列表碎片，用于展示不同的碎片）</li>
+</ul>
+</blockquote>
+<h4 id="2-3-1-界面配置文件"><a href="#2-3-1-界面配置文件" class="headerlink" title="2.3.1 界面配置文件"></a>2.3.1 界面配置文件</h4><p>在主页的碎片文件中放入<code>TabLayout</code>和<code>ViewPager</code>控件</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">LinearLayout</span> <span class="hljs-attr">xmlns:android</span>=<span class="hljs-string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span><br><span class="hljs-tag">	<span class="hljs-attr">.................</span>&gt;</span><br>    <span class="hljs-comment">&lt;!--顶部导航栏，切换选项卡--&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">com.google.android.material.tabs.TabLayout</span></span><br><span class="hljs-tag">        <span class="hljs-attr">app:tabBackground</span>=<span class="hljs-string">&quot;@drawable/selected&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">app:tabTextAppearance</span>=<span class="hljs-string">&quot;@style/MyTabLayoutTextAppearance&quot;</span></span><br><span class="hljs-tag">		<span class="hljs-attr">................</span>/&gt;</span><br>    <span class="hljs-comment">&lt;!--用于实现左右滑动效果--&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">androidx.viewpager.widget.ViewPager</span></span><br><span class="hljs-tag">		<span class="hljs-attr">.........</span>/&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">LinearLayout</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>看到上面在TabLayout当中引入了两个新的东西：</p>
+<p>分别是<code>selected.xml</code>和<code>themes.xml</code>当中的<code>MyTabLayoutTextAppearance</code></p>
+<p>还有一个listview</p>
+<h4 id="2-3-2-java-代码"><a href="#2-3-2-java-代码" class="headerlink" title="2.3.2 java 代码"></a>2.3.2 java 代码</h4><p>这里稍微说明一下<strong>实现的步骤</strong></p>
+<ul>
+<li><p>初始化ViewPager和TabLayout</p>
+<p><strong>HomepageFragment.java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//将页面绑定viewPager，进行设置</span><br>initViewPager();<br><span class="hljs-comment">//初始化layout的设置，例如图标，定位</span><br>initTabLayoutView();<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>使用开源的<code>litepal</code>库从数据库当中获取数据</p>
+<p><strong>NewsListFragment.java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">initData</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-comment">//根据label标签条件查询处相应的文章</span><br>    mList = LitePal.where(<span class="hljs-string">&quot;label = ?&quot;</span>,label).find(Notification.class);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>可以看到获取数据库的数据是非常简单的，数据库的配置这里就不详细介绍了</p>
+<p>使用LitePal库配置是比较简单的</p>
+<p>对应数据库表的内容：</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230619224456710.png" srcset="/img/loading.gif" lazyload alt="image-20230619224456710"></p>
+<p>这些刚好对应了每一条新闻列表上面的数据</p>
+<p>点击之后就会根据url的内容跳转到一个带有<strong>WebView</strong>的页面，从而将新闻内容渲染出来</p>
+</li>
+<li><p>渲染到<code>listView</code>控件上面</p>
+<p>成功获取数据后，我们会使用<strong>Adapter</strong>类来对页面的listView进行渲染</p>
+<p>这里由于为了方便，就将对应的适配器类<code>NewsAdapter</code>放在<code>NewsListFragment.java</code>文件当中了</p>
+<p>既然是listview那么就会有对应的listview_item.xml来对应每一条list的样式内容</p>
+<p><strong>listview_item.xml</strong></p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230619224916443.png" srcset="/img/loading.gif" lazyload alt="image-20230619224916443"></p>
+<p>上面是对应的每条新闻列表的样式</p>
+</li>
+</ul>
+<h3 id="2-4-登录页面（sharedPreference存储密码-数据库校对用户信息）"><a href="#2-4-登录页面（sharedPreference存储密码-数据库校对用户信息）" class="headerlink" title="2.4 登录页面（sharedPreference存储密码 + 数据库校对用户信息）"></a>2.4 登录页面（sharedPreference存储密码 + 数据库校对用户信息）</h3><blockquote>
+<p><strong>xml文件</strong>：</p>
+<p>activity_login.xml</p>
+<p><strong>登录账号</strong>：</p>
+<p>详见下面的数据库</p>
+<p><strong>java 相关文件</strong>：</p>
+<ul>
+<li>LoginActivity （登录页面对应的活动）</li>
+<li>BaseActivity  （增加监听广播的内容，所有类的基类）</li>
+<li>ForceOffLineReceiver （广播：用来强制下线）</li>
+</ul>
+<p><strong>登录界面</strong>：</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230619171717.png" srcset="/img/loading.gif" lazyload alt="联想截图_20230619171717"></p>
+</blockquote>
+<p>这里的布局文件只有一个，就不详细介绍了</p>
+<p>包裹输入内容的<strong>透明背景</strong>使用zxing库自带的<code>#00000000</code> </p>
+<p>说一下用了哪些主要的控件：</p>
+<ul>
+<li>editText：输入框，可通过<code>android:theme</code>设置颜色风格</li>
+<li>CheckBox：勾选框</li>
+</ul>
+<h4 id="2-4-1-用户信息校对"><a href="#2-4-1-用户信息校对" class="headerlink" title="2.4.1  用户信息校对"></a>2.4.1  用户信息校对</h4><p>从<strong>数据库</strong>当中获取用户的所有信息，和当前输入框的信息进行校对</p>
+<p><strong>LoginActivity</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">onClick</span><span class="hljs-params">(View view)</span> &#123;<br>    <span class="hljs-type">String</span> <span class="hljs-variable">account</span> <span class="hljs-operator">=</span> accountEdit.getText().toString();<br>    <span class="hljs-type">String</span> <span class="hljs-variable">password</span> <span class="hljs-operator">=</span> passwordEdit.getText().toString();<br>    <span class="hljs-comment">//如果账号是admin且密码是123456,就认为登录成功</span><br>    userInfoList = LitePal.findAll(UserInfo.class);<span class="hljs-comment">//获取密码数据库信息</span><br>    <span class="hljs-keyword">for</span>(UserInfo info : userInfoList)&#123;<br>        <span class="hljs-keyword">if</span>(info.getAdmin().equals(account.trim()) &amp;&amp; info.getPassword().equals(password.trim()))<br>        &#123; <span class="hljs-comment">//密码正确后的逻辑代码&#125;</span><br>    &#125;<br></code></pre></td></tr></table></figure>
+
+<p>看到上面的代码通过<strong>litepal库</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">userInfoList = LitePal.findAll(UserInfo.class);<span class="hljs-comment">//获取密码数据库信息</span><br></code></pre></td></tr></table></figure>
+
+<p>这一行来获取<strong>数据库中该表的所有数据</strong></p>
+<p>用户信息表userinfo的内容如下，有密码，姓名等信息</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230619225815739.png" srcset="/img/loading.gif" lazyload alt="image-20230619225815739"></p>
+<p>最后面有一个inoculate_id是用在受种者的功能处的，用于绑定当前使用受种者去预约疫苗记录等操作</p>
+<h4 id="2-4-2-记录用户数据（SharedPreference）"><a href="#2-4-2-记录用户数据（SharedPreference）" class="headerlink" title="2.4.2 记录用户数据（SharedPreference）"></a>2.4.2 记录用户数据（SharedPreference）</h4><p>为了让用户登录更加方便，在登录页面当中，<strong>记住密码</strong>这个功能是必不可少的</p>
+<p>而用SharedPreference可以很方便地实现这个功能</p>
+<p>代码也很简单</p>
+<p><strong>LoginActivity.java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java">SharedPreferences pref;<br>SharedPreferences.<span class="hljs-type">Editor</span> <span class="hljs-variable">editor</span> <span class="hljs-operator">=</span> pref.edit();<br><span class="hljs-keyword">if</span>(rememberPass.isChecked())&#123; <span class="hljs-comment">//检查是否勾选了记住密码</span><br>    <span class="hljs-comment">//使用Editor来添加数据存储</span><br>    editor.putBoolean(<span class="hljs-string">&quot;remember_password&quot;</span>,<span class="hljs-literal">true</span>);<br>    editor.putString(<span class="hljs-string">&quot;account&quot;</span>,account);<br>    editor.putString(<span class="hljs-string">&quot;password&quot;</span>,password);<br>&#125;<br><span class="hljs-keyword">else</span> editor.clear();<br></code></pre></td></tr></table></figure>
+
+<p>上图也就十行代码，只需要直接调用SharedPreference的库提供的内容</p>
+<p>在检测到用户勾选了”记住密码“之后，就将数据都put到editor当中，这样就已经将用户的信息存在本地了，它的具体文件位置可以上网搜索</p>
+<p>下次再次进入到LoginActivity的时候，就可以直接调用存在SharedPreference的数据了</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java">pref = PreferenceManager.getDefaultSharedPreferences(<span class="hljs-built_in">this</span>);<br><span class="hljs-type">boolean</span> <span class="hljs-variable">isRemember</span> <span class="hljs-operator">=</span> pref.getBoolean(<span class="hljs-string">&quot;remember_password&quot;</span>,<span class="hljs-literal">false</span>);<br><span class="hljs-keyword">if</span>(isRemember)&#123;<br>    <span class="hljs-comment">//将记住的内容直接设置上去</span><br>    accountEdit.setText(pref.getString(<span class="hljs-string">&quot;account&quot;</span>,<span class="hljs-string">&quot;&quot;</span>));<br>    passwordEdit.setText(pref.getString(<span class="hljs-string">&quot;password&quot;</span>,<span class="hljs-string">&quot;&quot;</span>));<br>    rememberPass.setChecked(<span class="hljs-literal">true</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="2-5-数据库配置-（文件读写-LitePal库）"><a href="#2-5-数据库配置-（文件读写-LitePal库）" class="headerlink" title="2.5 数据库配置 （文件读写 + LitePal库）"></a>2.5 数据库配置 （文件读写 + LitePal库）</h3><blockquote>
+<p><strong>相关配置文件</strong>：</p>
+<ul>
+<li>litepal.xml</li>
+<li>AndroidManifest.xml</li>
+<li>SchioolDemo.db</li>
+<li>build.gradle</li>
+</ul>
+<p><strong>相关Java文件</strong>：</p>
+<p>DatabaseUtil.java</p>
+</blockquote>
+<h4 id="2-5-1-导入依赖以及配置"><a href="#2-5-1-导入依赖以及配置" class="headerlink" title="2.5.1 导入依赖以及配置"></a>2.5.1 导入依赖以及配置</h4><p>这里我学习了《第一行代码》当中给出的LitePal的库的使用并且进行了导入</p>
+<p>不过这里用给出的<strong>导入方法或者网上的</strong>都不行，于是只能到github直接将<strong>Jar包</strong>下载下来了。</p>
+<p><strong>配置数据库方法</strong></p>
+<p>这里书上也有教程，这里就简单介绍一下</p>
+<ul>
+<li><p>导入依赖</p>
+<p>在build.gradle（Module.app）当中导入</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">implementation <span class="hljs-title function_">files</span><span class="hljs-params">(<span class="hljs-string">&#x27;libs\\litepal-2.0.0-src.jar&#x27;</span>)</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>在main当中新建assets文件夹，并新建一个litepal.xml</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230518173736578.png" srcset="/img/loading.gif" lazyload alt="image-20230518173736578"></p>
+<p>该文件用于配置数据库和Java当中的类的关系映射</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">litepal</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dbname</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;MyDBDemo&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">dbname</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;3&quot;</span> &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">list</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">mapping</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.example.yuemiaoapp.entity.Notification&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">mapping</span>&gt;</span><br> ..........<span class="hljs-tag">&lt;/<span class="hljs-name">list</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">litepal</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><p>dbname：数据库名字为”SchoolDemo“，然后一共有三个数据表，</p>
+</li>
+<li><p>version ：value就是数据表的个数</p>
+</li>
+<li><p>list：对应每一个Java当中的类的一个映射</p>
+</li>
+</ul>
+</li>
+<li><p>在<code>AndroidManifest.xml</code>当中配置一下</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">application</span></span><br><span class="hljs-tag">    <span class="hljs-attr">android:name</span>=<span class="hljs-string">&quot;org.litepal.LitePalApplication&quot;</span></span><br><span class="hljs-tag">             <span class="hljs-attr">.......</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">application</span>&gt;</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+<p>配置成功后，可以通过android studio自带的<strong>Device File Explorer</strong>来查找虚拟机当中的文件</p>
+<p>它在虚拟机文件当中的路径为<code>data/data/com.example.mewsapppage/databases</code></p>
+<p>不过这个路径在本机电脑当中是不实际存在的，也就是说你无法在<strong>虚拟机关机</strong>的情况下去<strong>修改这个文件</strong>.</p>
+<h4 id="2-5-2-存储提前准备好的数据文件"><a href="#2-5-2-存储提前准备好的数据文件" class="headerlink" title="2.5.2 存储提前准备好的数据文件"></a>2.5.2 存储提前准备好的数据文件</h4><p>由于考虑到每次到一台新的机器上面，都会创建一个新的数据库db，因为它是不存在本地的，因此我们要去读取它的文件</p>
+<p>为了避免在Java当中还要手动写代码去导入数据到数据库当中，而且数据也不方便修改</p>
+<p>于是可以采用将<strong>存在安卓资源文件中的db数据库</strong> 写入 到android手机存储db数据库的位置当中，这样就实现了文件的覆盖，可以使用预先写好数据的数据库了！</p>
+<p>这就涉及到文件的读写操作了，我们将数据库文件存放在assets目录下面</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230619231802297.png" srcset="/img/loading.gif" lazyload alt="image-20230619231802297"></p>
+<p>名字也要和我们要生成的安卓手机上的数据库<strong>文件名字一致</strong>，接着编写代码进行IO操作</p>
+<p><strong>DatabaseUtil.java</strong></p>
+<p>首先在Java当中获取存取的路径名称</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">String</span> <span class="hljs-variable">DB_PATH</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;/data/data/&quot;</span> + context.getPackageName() +<span class="hljs-string">&quot;/databases/&quot;</span>;<br><span class="hljs-type">String</span> <span class="hljs-variable">DB_NAME</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;MyDBDemo.db&quot;</span>;<br></code></pre></td></tr></table></figure>
+
+<p>接着使用<code>InputStream</code> 和<code>FileOutputStream</code>类来分别进行<strong>字节流</strong>的输入输出操作</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 得到 assets 目录下我们实现准备好的 SQLite 数据库作为输入流</span><br><span class="hljs-type">InputStream</span> <span class="hljs-variable">is</span> <span class="hljs-operator">=</span> context.getAssets().open(DB_NAME);<br><span class="hljs-comment">// 输出流,在指定路径下生成db文件</span><br><span class="hljs-type">OutputStream</span> <span class="hljs-variable">os</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">FileOutputStream</span>(DB_PATH + DB_NAME);<br><span class="hljs-comment">// 文件写入</span><br><span class="hljs-type">byte</span>[] buffer = <span class="hljs-keyword">new</span> <span class="hljs-title class_">byte</span>[<span class="hljs-number">1024</span>];<br><span class="hljs-type">int</span> length;<br><span class="hljs-keyword">while</span> ((length = is.read(buffer)) &gt; <span class="hljs-number">0</span>) <br>    os.write(buffer, <span class="hljs-number">0</span>, length);<br><span class="hljs-comment">// 关闭文件流</span><br>os.flush();os.close();is.close();<br></code></pre></td></tr></table></figure>
+
+<p>代码也比较简单，这样我们就实现了文件的写入覆盖，就可以在<strong>本地编辑好数据库</strong>之后，直接将数据库跑在安卓的机器上啦</p>
+<h3 id="2-6-强制下线以及网络监听（广播机制）"><a href="#2-6-强制下线以及网络监听（广播机制）" class="headerlink" title="2.6 强制下线以及网络监听（广播机制）"></a>2.6 强制下线以及网络监听（广播机制）</h3><blockquote>
+<p><strong>涉及Java代码</strong>：</p>
+<ul>
+<li>ForceOfflineReceiver.java</li>
+<li>BaseActivity.java</li>
+<li>ActivityCollector.java</li>
+</ul>
+<p><strong>相关配置文件：</strong></p>
+<p>无直接相关的，只需要调用上面的Java类代码即可自动触发功能</p>
+</blockquote>
+<p><strong>退出登录</strong>以及<strong>网络中断</strong>的实现效果：</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230620102313869.png" srcset="/img/loading.gif" lazyload alt="image-20230620102313869"></p>
+<h4 id="2-6-1-注册广播器："><a href="#2-6-1-注册广播器：" class="headerlink" title="2.6.1 注册广播器："></a>2.6.1 注册广播器：</h4><p>首先要对广播器Receiver进行<strong>注册</strong></p>
+<p>在BaseActivity当中进行注册，然后所有有需求执行登出操作的界面都可以继承这个类作为基类，这样就会统一收到广播了</p>
+<p>注册的代码如下：</p>
+<p><strong>BaseActivity：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Override</span><br><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">onResume</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-comment">//动态注册广播器</span><br>    <span class="hljs-built_in">super</span>.onResume();<br>    <span class="hljs-type">IntentFilter</span> <span class="hljs-variable">filter</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">IntentFilter</span>();<br>    <span class="hljs-comment">//增加需要监听的内容</span><br>    filter.addAction(<span class="hljs-string">&quot;com.example.myyuemiao.FORCE_OFFLINE&quot;</span>); <span class="hljs-comment">//监听强制下线广播</span><br>    filter.addAction(<span class="hljs-string">&quot;android.net.conn.CONNECTIVITY_CHANGE&quot;</span>); <span class="hljs-comment">//监听网络连接广播</span><br>    forceOffLineReceiver = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ForceOffLineReceiver</span>();<br>    <span class="hljs-comment">//注册监听，这样ForceOfflineReceiver就可以接收到所有FORCE——OFFLINE的广播</span><br>    registerReceiver(forceOffLineReceiver,filter);<br>&#125;<br><span class="hljs-meta">@Override</span><br><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">onPause</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-built_in">super</span>.onPause();<br>    <span class="hljs-keyword">if</span>(forceOffLineReceiver != <span class="hljs-literal">null</span>)<br>        unregisterReceiver(forceOffLineReceiver); <span class="hljs-comment">//最后取消注册</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这里增加了两条需要监听的内容，分别是强制下线广播和网络链接广播，这样就很容易地实现了注册</p>
+<p>最后不要忘了在onPause或者onDestroy的时候进行取消注册，不然可能会引发一些后果。</p>
+<h4 id="2-6-2-实现监听触发事件"><a href="#2-6-2-实现监听触发事件" class="headerlink" title="2.6.2 实现监听触发事件"></a>2.6.2 实现监听触发事件</h4><p>接下来就是要到ForceOffLineReceiver这个类当中去实现具体的<strong>监听触发</strong>事件了。</p>
+<p>具体类实现：</p>
+<p><strong>ForceOffLineReceiver</strong>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ForceOffLineReceiver</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">BroadcastReceiver</span> &#123;<br>    <span class="hljs-comment">//该监听器包括了网络监听何强制下线监听</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">onReceive</span><span class="hljs-params">(Context context, Intent intent)</span> &#123;<br>        AlertDialog.<span class="hljs-type">Builder</span> <span class="hljs-variable">builder</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">AlertDialog</span>.Builder(context);<span class="hljs-comment">//构建对话框</span><br>        builder.setTitle(<span class="hljs-string">&quot;警告&quot;</span>);<br>        <span class="hljs-type">String</span> <span class="hljs-variable">action</span> <span class="hljs-operator">=</span> intent.getAction();<br>        <span class="hljs-keyword">if</span> (action.equals(<span class="hljs-string">&quot;com.example.myyuemiao.FORCE_OFFLINE&quot;</span>)) &#123;<br>            <span class="hljs-comment">// Handle the FORCE_OFFLINE broadcast</span><br>        &#125;<br>        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (action.equals(<span class="hljs-string">&quot;android.net.conn.CONNECTIVITY_CHANGE&quot;</span>)) &#123;<br>            <span class="hljs-comment">// Handle the CONNECTIVITY_CHANGE broadcast</span><br>        &#125;<br>        builder.show();<span class="hljs-comment">//令该对话框可视化</span><br>    &#125;<br></code></pre></td></tr></table></figure>
+
+<p>首先该监听器要继承<code>BroadcastReceiver</code>，然后去重载它的<code>onReceive（）</code>方法，</p>
+<p>该方法在收到之前添加的监听事件之后就会触发，我们需要做一个if判断它是哪个类型的事件触发了即可</p>
+<hr>
+<h2 id="3-新功能以及亮点"><a href="#3-新功能以及亮点" class="headerlink" title="3. 新功能以及亮点"></a>3. 新功能以及亮点</h2><blockquote>
+<p> 这一部分介绍的是过去实验未实现的功能，以及一些APP没有的功能的亮点介绍</p>
+<h3 id="新功能介绍"><a href="#新功能介绍" class="headerlink" title="新功能介绍"></a>新功能介绍</h3><ol>
+<li>轮播图（ViewPager + Thread线程轮询）</li>
+<li>位置服务（位置服务）</li>
+<li>受种者信息数据库</li>
+<li>二维码扫码（跨程序共享数据，zxing框架）</li>
+</ol>
+</blockquote>
+<h3 id="3-0-亮点介绍"><a href="#3-0-亮点介绍" class="headerlink" title="3.0 亮点介绍"></a>3.0 亮点介绍</h3><ol>
+<li><p>轮播图的实现，虽然是之前用过的ViewPager，但是用了同样的工具，展现的是完全不一样的功能，让主页<strong>更加动态和内容更加丰富</strong></p>
+</li>
+<li><p>百度地图实现搜索功能：</p>
+<p>这里是书上也并没有的教程，该APP中不仅实现了基础的当前定位功能，还可以对周围建筑地址<strong>进行搜索</strong>，并且返回一个列表，点击提供的社康，门诊的按键也可以快速地查找周围的门诊或者医院</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230620004141771.png" srcset="/img/loading.gif" lazyload alt="image-20230620004141771"></p>
+</li>
+<li><p>受种者信息操作：（完善原APP功能）</p>
+<p>这里在原本的APP里面只能新增受种者信息，但是发现无法进行删除和修改</p>
+<p>于是将它的增删改查都完善了，并且加上了<strong>绑定当前用户</strong>的功能</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230620004532814.png" srcset="/img/loading.gif" lazyload alt="image-20230620004532814"></p>
+</li>
+<li><p>最后是二维码扫描：</p>
+<p>这里不仅调用了摄像头的接口，并且也实现了<strong>二维码的扫描匹配</strong>，可以扫描或者使用相册里面的图片</p>
+<p>也可以根据输入的信息生成自己的团体码，或者输入别人的来加入团体</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230619173712.png" srcset="/img/loading.gif" lazyload alt="联想截图_20230619173712"></p>
+</li>
+</ol>
+<h3 id="3-1-轮播图"><a href="#3-1-轮播图" class="headerlink" title="3.1 轮播图"></a>3.1 轮播图</h3><p>参考博客：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/GYongJia/article/details/89645378">(158条消息) Android开发-轮播图的详细实现_android31实现轮播图_GYongJia的博客-CSDN博客</a></p>
+<p>实现过程中若遇到问题可以到我最下面的第四部分看看有没有同样的问题出现</p>
+<blockquote>
+<p>实现效果：</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230619232927.png" srcset="/img/loading.gif" lazyload alt="联想截图_20230619232927"></p>
+<ul>
+<li>xml文件：<ul>
+<li>fragment_slide_show.xml （对应布局文件）</li>
+<li>pager_img.xml （values当中的资源文件）</li>
+<li>dot.xml（drawable下的描点文件，用以表示轮播的当前位置）</li>
+<li>五张轮播图照（png）</li>
+<li>两种点的照片（分别表示选中和未选中）</li>
+</ul>
+</li>
+<li>java文件：<ul>
+<li>SlideShowFragment.java（碎片）</li>
+<li>LoopViewAdapter.class（该类直接放在上面的碎片java文件当中）</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h4 id="3-1-1-xml文件配置"><a href="#3-1-1-xml文件配置" class="headerlink" title="3.1.1 xml文件配置"></a>3.1.1 xml文件配置</h4><p>这里用到了三个xml文件</p>
+<p>主要看 <code>fragment_slide_show.xml</code> ，该文件使用ViewPager实现轮播图；</p>
+<p>其实原理是和之前的新闻列表切换是一样的，只不过这次没有了TabLayout</p>
+<p><strong>fragment_slide_show.xml</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">FrameLayout</span> <span class="hljs-attr">xmlns:android</span>=<span class="hljs-string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">.....</span></span><br><span class="hljs-tag">    <span class="hljs-attr">tools:context</span>=<span class="hljs-string">&quot;.homepage.fragment.SlideShowFragment&quot;</span>&gt;</span><br>    <span class="hljs-comment">&lt;!--存放图片的ViewPager--&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">androidx.viewpager.widget.ViewPager</span></span><br><span class="hljs-tag">        <span class="hljs-attr">.......</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:id</span>=<span class="hljs-string">&quot;@+id/loopviewpager&quot;</span>/&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">LinearLayout</span></span><br><span class="hljs-tag">        <span class="hljs-attr">.....</span>    &gt;</span><br>        <span class="hljs-comment">&lt;!-- 标题--&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">TextView</span></span><br><span class="hljs-tag">            <span class="hljs-attr">......</span>/&gt;</span><br>        <span class="hljs-comment">&lt;!-- 小圆点--&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">LinearLayout</span></span><br><span class="hljs-tag">            <span class="hljs-attr">android:id</span>=<span class="hljs-string">&quot;@+id/ll_dots_loop&quot;</span><span class="hljs-attr">....</span>/&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">LinearLayout</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">FrameLayout</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>可以看到这里的布局比较简单，上面是用一个ViewPager，实现轮播图的效果</p>
+<p>然后用圆点和标题方便标识不同的页面</p>
+<h4 id="3-1-2-Java文件"><a href="#3-1-2-Java文件" class="headerlink" title="3.1.2 Java文件"></a>3.1.2 Java文件</h4><p>所有相关的代码都在<code>SlideShowFragment.java</code>下</p>
+<p><strong>开启线程Thread</strong></p>
+<p>这里主要讲下轮播图如何实现定时滚动</p>
+<p>关键代码在于开启一个新的线程来进行轮询，这样就可以在不影响主线程的情况下</p>
+<p>做到定时轮询，然后同时也可以实现其他的功能了。</p>
+<p><strong>SlideShowFragment.java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 开启轮询 </span><br><span class="hljs-keyword">new</span> <span class="hljs-title class_">Thread</span>()&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">run</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-keyword">while</span>(isRunning)&#123;<br>            <span class="hljs-keyword">try</span>&#123;<br>                Thread.sleep(<span class="hljs-number">5000</span>); <span class="hljs-comment">//间隔5s换一张图</span><br>            &#125; <span class="hljs-keyword">catch</span> (InterruptedException e) &#123;<br>                e.printStackTrace();<br>            &#125;<br>            <span class="hljs-comment">//下一条</span><br>            <span class="hljs-keyword">if</span>(!isRunning) <span class="hljs-comment">//若退出登录，则活动停止，线程终止</span><br>                <span class="hljs-keyword">break</span>;<br>            requireActivity().runOnUiThread(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Runnable</span>() &#123;<br>                <span class="hljs-meta">@Override</span><br>                <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">run</span><span class="hljs-params">()</span> &#123;<br>                    viewPager.setCurrentItem(viewPager.getCurrentItem()+<span class="hljs-number">1</span>);<br>                &#125; &#125;); &#125; &#125;<br>&#125;.start();<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="3-2-地图功能实现"><a href="#3-2-地图功能实现" class="headerlink" title="3.2 地图功能实现"></a>3.2 地图功能实现</h3><p>这个功能可以说是工程量较大的一个内容了；</p>
+<p>需要导入百度的SDK，还要获取API KEY</p>
+<p><strong>主要参考：</strong></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43117800/article/details/116236948">(159条消息) Android集成百度地图实现搜索及列表展示_android 模仿百度地图搜索_“嗯哈的博客-CSDN博客</a></p>
+<p>参考该博客的gitee的源码，写的挺完善的。</p>
+<blockquote>
+<p>实现效果以及功能：</p>
+<ul>
+<li><p>可以点击地图的不同位置，会自动在下面列表显示相关的地址信息</p>
+</li>
+<li><p>右上角的logo可以回到我们当前所在的位置</p>
+</li>
+<li><p>也可以直接搜索我们想要的地址信息</p>
+</li>
+<li><p>双击或者双指滑动可以放大地图等等</p>
+</li>
+</ul>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230619175026770.png" srcset="/img/loading.gif" lazyload alt="image-20230619175026770"></p>
+<p>xml配置文件：</p>
+<ul>
+<li>activity_clinic_map.xml 、location_item.xml （layout文件夹）</li>
+<li>gray_bk_15.xml 、seach_bg.xml（drawable文件夹）</li>
+</ul>
+<p>java 文件配置：</p>
+<ul>
+<li>ClinicMapActivity（地图页面）</li>
+<li>ClinicListAdapter（搜索结果列表适配器）</li>
+<li>BaiduMapUtils（提供位置信息<code>LocatioClient</code>的初始化以及计算距离等相关函数）</li>
+</ul>
+<p>外部导入包以及API KEY获取：</p>
+<p>这些网上都有很多教程，这里就不赘述了</p>
+</blockquote>
+<h4 id="3-2-1-xml文件配置"><a href="#3-2-1-xml文件配置" class="headerlink" title="3.2.1 xml文件配置"></a>3.2.1 xml文件配置</h4><p><strong>activity_clinic_map.xml</strong> </p>
+<p>首先是地图的页面，这里用到了一个关键的控件<code>MapView</code>，是百度的SDK提供的</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">com.baidu.mapapi.map.MapView</span></span><br><span class="hljs-tag">    <span class="hljs-attr">android:id</span>=<span class="hljs-string">&quot;@+id/mapview&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">android:clickable</span>=<span class="hljs-string">&quot;true&quot;</span> /&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>AndroidManifest.xml</strong></p>
+<p>这个文件的配置很重要，主要配置两个地方</p>
+<ul>
+<li><p>权限配置</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!-- 这个权限用于进行网络定位 --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">uses-permission</span> <span class="hljs-attr">android:name</span>=<span class="hljs-string">&quot;android.permission.ACCESS_COARSE_LOCATION&quot;</span> /&gt;</span> <span class="hljs-comment">&lt;!-- 这个权限用于访问GPS定位 --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">uses-permission</span> <span class="hljs-attr">android:name</span>=<span class="hljs-string">&quot;android.permission.ACCESS_FINE_LOCATION&quot;</span> /&gt;</span> <span class="hljs-comment">&lt;!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位 --&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">uses-permission</span> <span class="hljs-attr">android:name</span>=<span class="hljs-string">&quot;android.permission.ACCESS_WIFI_STATE&quot;</span> /&gt;</span> <span class="hljs-comment">&lt;!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位 --&gt;</span><br>...........<br></code></pre></td></tr></table></figure>
+
+<p>这里涉及到很多权限，具体完整的可以直接去看源码</p>
+</li>
+<li><p>API KEY配置</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">application</span> <span class="hljs-attr">android:name</span>=<span class="hljs-string">&quot;.MyApplication&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">service</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:name</span>=<span class="hljs-string">&quot;com.baidu.location.f&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:enabled</span>=<span class="hljs-string">&quot;true&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:process</span>=<span class="hljs-string">&quot;:remote&quot;</span> /&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">meta-data</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:name</span>=<span class="hljs-string">&quot;com.baidu.lbsapi.API_KEY&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:value</span>=<span class="hljs-string">&quot;这里换成你自己API KEY的值&quot;</span> /&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">application</span>&gt;</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="3-2-2-java相关文件"><a href="#3-2-2-java相关文件" class="headerlink" title="3.2.2 java相关文件"></a>3.2.2 java相关文件</h4><ul>
+<li>在<code>ClinicMapAcitiity</code>和<code>BaiduMapUtils</code>当中的很多代码都是以配置为主</li>
+</ul>
+<p>具体的配置代码在官网也可以查询到</p>
+<p>例如初始化<strong>当前定位信息</strong>，调用的是<code>initLocation()</code></p>
+<p><strong>ClinicMapActivity.java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">initLocation</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-comment">//client的各种配置信息</span><br>    mLocationClient = BaiduMapUtils.getLocationClient(ClinicMapActivity.<span class="hljs-built_in">this</span>);<br>    <span class="hljs-comment">//添加监听器</span><br>    <span class="hljs-type">MyLocationListener</span> <span class="hljs-variable">myLocationListener</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">MyLocationListener</span>();<br>    mLocationClient.registerLocationListener(myLocationListener);<br>    mLocationClient.start();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>在MyLocationListener当中会进行调用回调函数<code>onReceiveLocation()</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java">    <span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyLocationListener</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">BDAbstractLocationListener</span> &#123;<br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">onReceiveLocation</span><span class="hljs-params">(BDLocation location)</span> &#123;<br>			.....<br>            showMap(native_latitude, native_longitude);<br><span class="hljs-comment">//            mLocationClient.stop();</span><br>        &#125;<br>    &#125;<br></code></pre></td></tr></table></figure>
+
+<p>这个函数的调用的是时候我是遇到了一点问题的，我放到后面讲</p>
+<p>这里的<strong>showMap</strong>函数可以实现定位到想要去的位置，只要<strong>输入经度纬度</strong>即可</p>
+<p>实现效果如下：</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230620003114.png" srcset="/img/loading.gif" lazyload alt="联想截图_20230620003114"></p>
+<p>实现的效果如上图所示，可以自动移动地图，并且在当前经纬度<strong>标上一个记号</strong></p>
+<ul>
+<li>而在<code>ClinicListAdapter</code>则是对获取的poiInfo信息进行处理，poiInfo是定位后返回的list列表的信息</li>
+</ul>
+<p>最终渲染出来的<strong>搜索的列表</strong>如下：</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230620102537740.png" srcset="/img/loading.gif" lazyload alt="image-20230620102537740"></p>
+<p>而实现它的关键就是使用百度地图的POI搜索，PoiInfo是什么呢，简单介绍一下：</p>
+<blockquote>
+<p>POI（Point of Interest），即“兴趣点”。在地理信息系统中，一个POI可以是一栋房子、一个景点、一个邮筒或者一个公交站等。<br>百度地图SDK提供三种类型 的POI检索：城市内检索、周边检索和区域检索（即矩形区域检索）。下面分别对三种POI检索服务的使用方法作说明。</p>
+</blockquote>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs json">PoiInfo<span class="hljs-punctuation">:</span> name = 五里店; uid = fe29f769d4d79f839d9d682e; address = 江北区; province = 重庆市; city = 重庆市; area = 江北区; street_id = fe29f769d4d79f839d9d682e; phoneNum = ; postCode = <span class="hljs-literal"><span class="hljs-keyword">null</span></span>; detail = <span class="hljs-number">1</span>; location = latitude<span class="hljs-punctuation">:</span> <span class="hljs-number">29.584075</span><span class="hljs-punctuation">,</span> longitude<span class="hljs-punctuation">:</span> <span class="hljs-number">106.562899</span>; hasCaterDetails = <span class="hljs-literal"><span class="hljs-keyword">false</span></span>; isPano = <span class="hljs-literal"><span class="hljs-keyword">false</span></span>; tag = <span class="hljs-literal"><span class="hljs-keyword">null</span></span>; poiDetailInfo = PoiDetailInfo<span class="hljs-punctuation">:</span> ......<br></code></pre></td></tr></table></figure>
+
+<p>上面是PoiInfo的部分信息，可以看到会返回非常详细的信息，支撑我们做出各种数据处理</p>
+<p>在<code>ClinicMapActivity</code>当中获取到poi数据后,传入到<code>ClinicListAdapter</code>进行数据渲染</p>
+<p><strong>ClinicMapActivity</strong></p>
+<p>在代码当中注册Poi搜索的<strong>监听器</strong>,然后调用<code>mClinicListAdapter.addAll(native_latitude, native_longitude, allPoi);</code>传输数据</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">initpoiSearch</span><span class="hljs-params">()</span> &#123;<br>    mPoiSearch = PoiSearch.newInstance();<br>    mPoiSearch.setOnGetPoiSearchResultListener(<span class="hljs-keyword">new</span> <span class="hljs-title class_">OnGetPoiSearchResultListener</span>() &#123;       <span class="hljs-meta">@Override</span><br>        <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">onGetPoiResult</span><span class="hljs-params">(PoiResult poiResult)</span> &#123;<br>            List&lt;PoiInfo&gt; allPoi = poiResult.getAllPoi();<br>            <span class="hljs-keyword">if</span> (allPoi != <span class="hljs-literal">null</span> &amp;&amp; allPoi.size() != <span class="hljs-number">0</span>) &#123;<br>                mLocation = allPoi.get(<span class="hljs-number">0</span>);<br>                mClinicListAdapter.addAll(native_latitude, native_longitude, allPoi);<br>            &#125; <span class="hljs-keyword">else</span> &#123;mClinicListAdapter.notifyDataSetChanged();&#125;<br>        &#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="3-3-二维码生成以及扫描"><a href="#3-3-二维码生成以及扫描" class="headerlink" title="3.3  二维码生成以及扫描"></a>3.3  二维码生成以及扫描</h3><blockquote>
+<p>参考博客（该功能的项目文件体量是目前所有功能当中最大的）：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/lowprofile_coding/article/details/83386050">(159条消息) zxing开源库的基本使用_安辉就是我的博客-CSDN博客</a></p>
+<p>对应Github源码地址</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/ansen666/ZxingTest">ansen666&#x2F;ZxingTest (github.com)</a></p>
+<p>实现效果：</p>
+<p>通过输入任意数字，英文，中文都可以生成属于自己的二维码，也可以点击扫描别人的二维码从而获取团体码数字内容</p>
+<p>可以长按自己的二维码进行<strong>识别或者保存</strong></p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230619173712.png" srcset="/img/loading.gif" lazyload alt="联想截图_20230619173712"></p>
+<p>外部导入依赖（Google的zxing库）：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs gradle">implementation <span class="hljs-string">&#x27;com.google.zxing:core:3.3.3&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>xml文件</strong>：</p>
+<ul>
+<li><p>源项目对应的xml配置</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230620005303301.png" srcset="/img/loading.gif" lazyload alt="image-20230620005303301"></p>
+<p>这里的activity_main移植之后换成自己定义的活动页面就好了</p>
+</li>
+<li><p>还有一些colors、themes、strings等文件需要替换，但是这些也可以不用它的</p>
+<p>不是必需的</p>
+</li>
+</ul>
+<p><strong>java文件</strong>：</p>
+<p>对应的Java文件也是挺多的，分成了不同的模块</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230620005557261.png" srcset="/img/loading.gif" lazyload alt="image-20230620005557261"></p>
+<p>大概有十个文件左右，除了两个activity，其他全是各种功能类</p>
+</blockquote>
+<h4 id="3-3-1-xml文件配置"><a href="#3-3-1-xml文件配置" class="headerlink" title="3.3.1 xml文件配置"></a>3.3.1 xml文件配置</h4><p>首先是AndroidManifest的权限配置：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">uses-permission</span> <span class="hljs-attr">android:name</span>=<span class="hljs-string">&quot;android.permission.CAMERA&quot;</span> /&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">uses-permission</span> <span class="hljs-attr">android:name</span>=<span class="hljs-string">&quot;android.permission.VIBRATE&quot;</span> /&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">uses-permission</span> <span class="hljs-attr">android:name</span>=<span class="hljs-string">&quot;android.permission.WRITE_EXTERNAL_STORAGE&quot;</span> /&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">uses-feature</span> <span class="hljs-attr">android:name</span>=<span class="hljs-string">&quot;android.hardware.camera&quot;</span> /&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">uses-feature</span> <span class="hljs-attr">android:name</span>=<span class="hljs-string">&quot;android.hardware.camera.autofocus&quot;</span> /&gt;</span><br><br></code></pre></td></tr></table></figure>
+
+<p><strong>activity_scan.xml</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">LinearLayout</span> <span class="hljs-attr">xmlns:android</span>=<span class="hljs-string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span><br><span class="hljs-tag">              <span class="hljs-attr">..</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">include</span> <span class="hljs-attr">layout</span>=<span class="hljs-string">&quot;@layout/title_top_white&quot;</span>/&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">FrameLayout</span>  <span class="hljs-attr">......</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">SurfaceView</span></span><br><span class="hljs-tag">            <span class="hljs-attr">android:id</span>=<span class="hljs-string">&quot;@+id/scan_activity_preview&quot;</span></span><br><span class="hljs-tag">            <span class="hljs-attr">android:keepScreenOn</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">...</span>/&gt;</span><br><br>        <span class="hljs-tag">&lt;<span class="hljs-name">com.example.yuemiaoapp.teambookpage.view.ScannerView</span></span><br><span class="hljs-tag">            <span class="hljs-attr">android:id</span>=<span class="hljs-string">&quot;@+id/scan_activity_mask&quot;</span></span><br><span class="hljs-tag">            <span class="hljs-attr">....</span> /&gt;</span><br>......<br><span class="hljs-tag">&lt;/<span class="hljs-name">LinearLayout</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>这里导入了两个比较特别的控件，<code>SurfaceView</code>和<code>ScannerView</code>，用来实现扫描的效果</p>
+<h4 id="3-3-2-Java源码"><a href="#3-3-2-Java源码" class="headerlink" title="3.3.2 Java源码"></a>3.3.2 Java源码</h4><ol>
+<li><strong>扫描识别二维码：</strong></li>
+</ol>
+<p>先介绍一下点击扫描二维码的功能，使用intent来开启一个<code>ScanActivity</code>，这个Activity是我已经封装好的，对应UI实现如下：</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230618215334.png" srcset="/img/loading.gif" lazyload alt="联想截图_20230618215334"></p>
+<p>ScanActivity里面处理了扫描二维码的整个流程，扫描成功后会把扫描结果返回。ScanActivity类的代码有点多，就不贴出来了，有兴趣的自己看源码。</p>
+<ol start="2">
+<li><strong>TeamBookActivity</strong></li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">case</span> R.id.btn_scanning:<span class="hljs-comment">//扫描</span><br>    <span class="hljs-type">Intent</span> <span class="hljs-variable">intent</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Intent</span>(TeamBookActivity.<span class="hljs-built_in">this</span>,ScanActivity.class);<br>    startActivityForResult(intent,SCAN_REQUEST_CODE);<br>    <span class="hljs-keyword">break</span>;<br></code></pre></td></tr></table></figure>
+
+<p>然后在重写Activity类的onActivityResult方法来处理收到的数据：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Override</span><br><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">onActivityResult</span><span class="hljs-params">(<span class="hljs-type">int</span> requestCode, <span class="hljs-type">int</span> resultCode, <span class="hljs-meta">@Nullable</span> Intent intent)</span> &#123;<br>    <span class="hljs-built_in">super</span>.onActivityResult(requestCode, resultCode, intent);<br>    <span class="hljs-keyword">if</span> (requestCode == SCAN_REQUEST_CODE &amp;&amp; resultCode == RESULT_OK) &#123;<br>        <span class="hljs-type">String</span> <span class="hljs-variable">input</span> <span class="hljs-operator">=</span> intent.getStringExtra(ScanActivity.INTENT_EXTRA_RESULT);<br>        showToast(<span class="hljs-string">&quot;扫描结果:&quot;</span>+input);<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><strong>从相册选择二维码图片</strong></li>
+</ol>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230620101548.png" srcset="/img/loading.gif" lazyload alt="联想截图_20230620101548"></p>
+<p>代码同样在<code>teambookactivity</code>下，启动系统相册，并且从中选择图片</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">Intent</span> <span class="hljs-variable">innerIntent</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Intent</span>(Intent.ACTION_PICK,<br>MediaStore.Images.Media.EXTERNAL_CONTENT_URI);<br><span class="hljs-type">Intent</span> <span class="hljs-variable">wrapperIntent</span> <span class="hljs-operator">=</span> Intent.createChooser(innerIntent, <span class="hljs-string">&quot;选择二维码图片&quot;</span>);<br>startActivityForResult(wrapperIntent, SELECT_IMAGE_REQUEST_CODE);<br></code></pre></td></tr></table></figure>
+
+<p>然后同样是在<code>onActivityResult</code>当中处理选择的图片的内容，调用BitmapUtil.parseQRcode方法解析二维码图片。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Override</span><br><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">onActivityResult</span><span class="hljs-params">(<span class="hljs-type">int</span> requestCode, <span class="hljs-type">int</span> resultCode, <span class="hljs-meta">@Nullable</span> Intent intent)</span> &#123;<br>    <span class="hljs-built_in">super</span>.onActivityResult(requestCode, resultCode, intent);<br>    <span class="hljs-keyword">if</span>(requestCode==SELECT_IMAGE_REQUEST_CODE)&#123;<span class="hljs-comment">//从图库选择图片</span><br>		......<br>        <span class="hljs-keyword">if</span> (cursor.moveToFirst()) &#123;<br>            ......<br>            String result= BitmapUtil.parseQRcode(photoPath);<br>            <span class="hljs-keyword">if</span> (!TextUtils.isEmpty(result)) &#123;<br>                showToast(<span class="hljs-string">&quot;从图库选择的图片识别结果:&quot;</span>+result);<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                showToast(<span class="hljs-string">&quot;从图库选择的图片不是二维码图片&quot;</span>);<br>            &#125;<br>        &#125;<br>        cursor.close();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><code>parseQRcode()</code>方法是将文件路径读取成Bitmap格式的数据进行压缩</p>
+<ol start="4">
+<li><strong>生成二维码图片</strong></li>
+</ol>
+<p>实现效果:</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230620103614531.png" srcset="/img/loading.gif" lazyload alt="image-20230620103614531"></p>
+<p>生成二维码图片调用CreateQRBitmp.createQRCodeBitmap方法生成，这个方法是我们自己封装的，需要传入两个参数:</p>
+<p>参数1:  图片内容、   参数2:   二维码图片最中间显示的logo(Bitmap对象)。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">String</span> <span class="hljs-variable">contentString</span> <span class="hljs-operator">=</span> etInput.getText().toString().trim();<br><span class="hljs-keyword">if</span>(TextUtils.isEmpty(contentString))&#123;<br>    showToast(<span class="hljs-string">&quot;请输入二维码内容&quot;</span>);<br>    <span class="hljs-keyword">return</span> ;<br>&#125;<br><span class="hljs-type">Bitmap</span> <span class="hljs-variable">portrait</span> <span class="hljs-operator">=</span> BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher);<br><span class="hljs-comment">//两个方法，一个不传大小，使用默认</span><br>qrCodeBitmap = CreateQRBitmp.createQRCodeBitmap(contentString, portrait);<br>ivQrImage.setImageBitmap(qrCodeBitmap);<br></code></pre></td></tr></table></figure>
+
+<p>至此扫描二维码的主要功能就介绍完了.</p>
+<h3 id="3-4-受种者记录操作"><a href="#3-4-受种者记录操作" class="headerlink" title="3.4 受种者记录操作"></a>3.4 受种者记录操作</h3><blockquote>
+<p>实现效果:</p>
+<p>可以在受种者记录处查看当前的记录信息,可以点击右下角的＋号进行新增</p>
+<p>也可以点击进去具体的记录信息查看,同时具体的信息界面提供了修改以及绑定用户的方法</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230619175419.png" srcset="/img/loading.gif" lazyload alt="联想截图_20230619175419"></p>
+<p>xml文件:</p>
+<ul>
+<li>activity_inoculate_edit.xml　（编辑或者新增１具体信息）</li>
+<li>activity_inoculate_info_page.xml　（展示具体信息）</li>
+<li>activity_inoculate_list.xml （受种者信息的列表）</li>
+<li>activity_person_page.xml (入口)</li>
+</ul>
+<p>Java文件(personpage软件包下):</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230620110133117.png" srcset="/img/loading.gif" lazyload alt="image-20230620110133117"></p>
+</blockquote>
+<p><strong>功能介绍:</strong></p>
+<p><strong>展现受种者信息:</strong></p>
+<p>对应数据表(inoculateinfo):</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230620110444203.png" srcset="/img/loading.gif" lazyload alt="image-20230620110444203"></p>
+<p>看到最右边的字段是user_id作为外键, 区分不同用户下的受种者记录,防止冲突</p>
+<p><strong>InoculateListAdapter</strong> (该类在InoculateListActivity文件当中)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-title function_">InoculateListAdapter</span><span class="hljs-params">(Activity activity)</span>&#123;<br>    <span class="hljs-built_in">this</span>.activity = activity;<br>    <span class="hljs-comment">//获取当前用户的受种者记录</span><br>    inoculateInfoList = LitePal.where(<span class="hljs-string">&quot;user_id = ?&quot;</span>,String.valueOf(userInfo.getId()))<br>            .find(InoculateInfo.class);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>上面在初始化Adapter的时候,通过<code>LitePal.where()</code>来筛选不同用户对应的受种者信息.</p>
+<h2 id="4-遇到的问题"><a href="#4-遇到的问题" class="headerlink" title="4. 遇到的问题"></a>4. 遇到的问题</h2><h3 id="4-1-设置NavigationView时控件无法直接引用"><a href="#4-1-设置NavigationView时控件无法直接引用" class="headerlink" title="4.1 设置NavigationView时控件无法直接引用"></a>4.1 设置NavigationView时控件无法直接引用</h3><p>nav_header无法直接被<code>activity.findViewById()</code>找到</p>
+<p>由于该控件不是在<strong>activity_main.xml</strong>当中，只是被引用了</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230518134252.png" srcset="/img/loading.gif" lazyload alt="联想截图_20230518134252"></p>
+<p>所以无法直接找到，因此要用如下代码获得</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java">        <br><span class="hljs-type">NavigationView</span> <span class="hljs-variable">mNavigationView</span> <span class="hljs-operator">=</span> activity.findViewById(R.id.nav_view);<br><span class="hljs-type">View</span> <span class="hljs-variable">headerView</span> <span class="hljs-operator">=</span> mNavigationView.getHeaderView(<span class="hljs-number">0</span>);<br></code></pre></td></tr></table></figure>
+
+<p>也就是先获得NavigationView，再获取它当中的<strong>headerVIew</strong></p>
+<h3 id="4-2-轮播图遇到的问题："><a href="#4-2-轮播图遇到的问题：" class="headerlink" title="4.2  轮播图遇到的问题："></a>4.2  轮播图遇到的问题：</h3><ul>
+<li><p>在退出登录的时候，Thread线程没有结束，但是活动已经销毁了，所以会导致报错</p>
+<p><strong>解决方法</strong>：退出登录的时候要用标志位进行判断</p>
+</li>
+</ul>
+<h3 id="4-3-百度地图遇到的问题："><a href="#4-3-百度地图遇到的问题：" class="headerlink" title="4.3 百度地图遇到的问题："></a>4.3 <strong>百度地图遇到的问题：</strong></h3><ul>
+<li><p>debug.keystore报错不能运行 说是invalid</p>
+<p>解决：删除debug.keystore 等它自动重新创建</p>
+</li>
+<li><p>butterknife工具无法使用</p>
+<p>解决：要把gradle版本调低</p>
+</li>
+<li><p>smartrefresh包无法正常导入</p>
+<p>解决：新版的gradle里面没有这个库</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/Goals1989/article/details/125724756">(159条消息) Failed to resolve: com.scwang.smartrefresh:SmartRefreshLayout:1.1.2_hudawei996的博客-CSDN博客</a></p>
+<p>对应上面博客，将setting.gradle当中的文件修改一下，加上jcenter</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/48033d7ff4a64807b0cc8ce7ec026501.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+</li>
+<li><p>外部导入的包发现和support-v4有冲突</p>
+<p>解决：在<code>gradle.properties</code>加上</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">android.enableJetifier</span>=<span class="hljs-string">true</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>模拟器运行的时候无法执行LocationListener监听器<code>onRecieveLocation</code>函数，但是用<strong>真机</strong>又可以、</p>
+<p>也就是说模拟器运行状态下无法实现<strong>当前位置的定位</strong></p>
+</li>
+<li><p>报错<code>has been stopped because you do not aaree with the orivacy compliance policy,Please recheck the setAoreePriyacy intarfao</code></p>
+<p>网上都说是没有设置那个<code>setAgreePrivacy</code>为True，但是设置了也不行</p>
+</li>
+</ul>
+<h3 id="4-4-数据库的框架litepal无法直接导入"><a href="#4-4-数据库的框架litepal无法直接导入" class="headerlink" title="4.4 数据库的框架litepal无法直接导入"></a>4.4 数据库的框架litepal无法直接导入</h3><p>关于这个问题和那个<code>smartrefresh</code>开源包无法导入是一样的，当前gradle不支持了</p>
+<p>所以还是要将<code>settng.gradle</code> 的两个Management 都加上<code>jcenter（）</code></p>
+<h2 id="5-总结"><a href="#5-总结" class="headerlink" title="5. 总结"></a>5. 总结</h2><p>xxxxxxxxxxxxxxxxxxxxxx不给你看</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%9C%AC%E7%A7%91/" class="category-chain-item">本科</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%9C%AC%E7%A7%91/%E5%A4%A7%E4%B8%89%E4%B8%8B/" class="category-chain-item">大三下</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%9C%AC%E7%A7%91/%E5%A4%A7%E4%B8%89%E4%B8%8B/%E7%A7%BB%E5%8A%A8%E4%BA%92%E8%81%94%E7%BD%91%E7%BC%96%E7%A8%8B/" class="category-chain-item">移动互联网编程</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/android/" class="print-no-link">#android</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Android模仿粤苗APP界面功能实现</div>
+      <div>http://example.com/2023/06/20/本科/大三下/移动互联网编程/Andoird模仿粤苗APP/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Cheesheep</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年6月20日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/06/20/%E5%90%84%E7%A7%8D%E9%9A%8F%E7%AC%94%E7%BB%8F%E9%AA%8C%E8%AE%B0%E5%BD%95/gradle%E9%83%A8%E5%88%86%E4%BE%9D%E8%B5%96%E6%97%A0%E6%B3%95%E5%AF%BC%E5%85%A5%E9%97%AE%E9%A2%98/" title="Android的build.gradle执行implementation无法导入依赖的解决方法">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Android的build.gradle执行implementation无法导入依赖的解决方法</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/06/04/%E6%9C%AC%E7%A7%91/%E5%A4%A7%E4%B8%89%E4%B8%8B/%E8%BD%AF%E5%B7%A5%E5%AE%9E%E8%AE%AD/Springboot%E4%BD%BF%E7%94%A8Elastic%20Search%E6%95%99%E7%A8%8B/" title="Springboot项目使用Elastic Search教程">
+                        <span class="hidden-mobile">Springboot项目使用Elastic Search教程</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

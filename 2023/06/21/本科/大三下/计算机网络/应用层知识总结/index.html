@@ -1,0 +1,766 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><meta name="referrer" content="no-referrer" /><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#4D783B">
+  <meta name="author" content="Cheesheep">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="应用层知识点 1. 网络体系结构与网络协议\1. 网络协议 u 统一的信息交换规则，规定信息格式，规定如何发送和接收信息。 u 协议三要素：语法、语义、时序（或者是 同步 也是正确的）。    \2. 协议分层思想 u 将网络系统功能分解为功能层，用协议规定功能（要做什么）。 u 对等功能层之间采用协议进行约束（协议数据单元、协议格式）。 u 相邻功能层之间采用接口进行交互（接口标准、使用服务）。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="应用层知识点">
+<meta property="og:url" content="http://example.com/2023/06/21/%E6%9C%AC%E7%A7%91/%E5%A4%A7%E4%B8%89%E4%B8%8B/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E5%BA%94%E7%94%A8%E5%B1%82%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="Cheesheep的博客">
+<meta property="og:description" content="应用层知识点 1. 网络体系结构与网络协议\1. 网络协议 u 统一的信息交换规则，规定信息格式，规定如何发送和接收信息。 u 协议三要素：语法、语义、时序（或者是 同步 也是正确的）。    \2. 协议分层思想 u 将网络系统功能分解为功能层，用协议规定功能（要做什么）。 u 对等功能层之间采用协议进行约束（协议数据单元、协议格式）。 u 相邻功能层之间采用接口进行交互（接口标准、使用服务）。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230624215020662.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/5925973f8d684b58b25331ee78dd659b.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230624220930869.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230624230047111.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230625154841648.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230625154903851.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/2020032007452929.png">
+<meta property="article:published_time" content="2023-06-20T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-08-15T09:01:18.079Z">
+<meta property="article:author" content="Cheesheep">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230624215020662.png">
+  
+  
+  
+  <title>应用层知识点 - Cheesheep的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_5000605_8e8395qng5b.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"mwBHMJuGLL6mKzq8fTgVohlj-gzGzoHsz","app_key":"WqtvgyDFD8JLi1VHAqiZB7n6","server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Cheesheep</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/pokemon_grass_bg.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.1)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="应用层知识点"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Cheesheep
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-06-21 00:00" pubdate>
+          2023年6月21日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          12 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">应用层知识点</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="应用层知识点"><a href="#应用层知识点" class="headerlink" title="应用层知识点"></a>应用层知识点</h1><hr>
+<h2 id="1-网络体系结构与网络协议"><a href="#1-网络体系结构与网络协议" class="headerlink" title="1. 网络体系结构与网络协议"></a>1. 网络体系结构与网络协议</h2><p>\1. 网络协议</p>
+<p>u 统一的信息交换规则，规定信息格式，规定如何发送和接收信息。</p>
+<p>u 协议三要素：<strong>语法、语义、时序（或者是 同步 也是正确的）。</strong></p>
+<p>   \2. 协议分层思想</p>
+<p>u 将网络系统功能分解为功能层，用协议规定功能（要做什么）。</p>
+<p>u <strong>对等功能层</strong>之间采用<strong>协议</strong>进行约束（协议数据单元、协议格式）。</p>
+<p>u <strong>相邻功能层</strong>之间采用<strong>接口</strong>进行交互（接口标准、使用服务）。</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230624215020662.png" srcset="/img/loading.gif" lazyload alt="image-20230624215020662"></p>
+<h3 id="1-1资源子网和通信子网："><a href="#1-1资源子网和通信子网：" class="headerlink" title="1.1资源子网和通信子网："></a>1.1资源子网和通信子网：</h3><p>把计算机网络中实现网络通信功能的设备及其软件的集合称为网络的<strong>通信子网</strong>，</p>
+<p>而把网络中实现资源共享功能的设备及其软件的集合称为<strong>资源子网</strong>。</p>
+<p>通信子网组成：各种网络通讯设备，如路由器，网络节点，通信链路等</p>
+<p>资源子网组成：计算机、外部设备，打印机等等</p>
+<h3 id="1-12OSI-模型和IP-TCP"><a href="#1-12OSI-模型和IP-TCP" class="headerlink" title="1.12OSI 模型和IP&#x2F;TCP"></a>1.12OSI 模型和IP&#x2F;TCP</h3><p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/5925973f8d684b58b25331ee78dd659b.png" srcset="/img/loading.gif" lazyload alt="OSI和TCP&#x2F;IP协议之间的对应关系"></p>
+<p>N层实体利用<strong>N-1层实体</strong>所提供的服务，向N+I层实体提供功能更强大的服务。这可以概括为“服务是垂直的”。例如，传输层实体利用网络层实体的服务，向应用层实体提供<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E7%BD%91%E9%A1%B5/99347?fromModule=lemma_inlink">网页</a>传输服务。 [4] </p>
+<p>N层实体使用N-1层实体所提供的服务时，不需要知道N-1层实体所提供的服务是如何实现的以及N-1层实体间的协议，而只需要知道下一层可以为自己提供哪些服务(是快速昂贵通信还是慢速低廉通信)，以及<strong>通过什么样的接口提</strong>供的。</p>
+<h2 id="2-数据交换技术"><a href="#2-数据交换技术" class="headerlink" title="2. 数据交换技术"></a>2. 数据交换技术</h2><ol>
+<li><p><strong>电路交换</strong>(circuit switching)<br>最典型的电路交换网络：电话网络<br>电路交换分为三个阶段</p>
+<p>​    建立连接（电路建立）<br>​    数据传输<br>​    释放连接（拆除电路）<br>电路交换的特征：<strong>资源独占</strong><br>采用电路交换的通信中，通信双方独占其使用的通信资源<br>即使没有数据在传输，第三方也无法使用这个闲置资源</p>
+</li>
+<li><p>报文交换(message switching)</p>
+<p>报文交换广泛应用于上世纪五六十年代至七十年代的电报通信</p>
+<ul>
+<li>将要发送的数据整体作为报文，如 一个文件，以报文为单位进行传输</li>
+<li>采用<strong>存储</strong>+<strong>转发</strong>的交换方式</li>
+</ul>
+</li>
+</ol>
+<h2 id="3-网络应用对传输层的协议选择"><a href="#3-网络应用对传输层的协议选择" class="headerlink" title="3. 网络应用对传输层的协议选择"></a>3. 网络应用对传输层的协议选择</h2><p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230624220930869.png" srcset="/img/loading.gif" lazyload alt="image-20230624220930869"></p>
+<p><strong>各种协议的常用端口号</strong></p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230624230047111.png" srcset="/img/loading.gif" lazyload alt="image-20230624230047111"></p>
+<p><strong>补充：</strong></p>
+<ul>
+<li>TFTP ： port： 69 简单文件传输协议</li>
+</ul>
+<h2 id="4-电子邮件服务与协议"><a href="#4-电子邮件服务与协议" class="headerlink" title="4. 电子邮件服务与协议"></a>4. 电子邮件服务与协议</h2><p>邮件<strong>传输</strong>协议：SMTP&#x2F;MIME （通用Internet邮件<strong>扩展</strong>协议MIME）</p>
+<p>邮件<strong>存储访问</strong>协议：POP、IMAP</p>
+<p>p<strong>邮件传输协议</strong></p>
+<p>Ø客户端到邮件服务器、邮件服务器之间简单<strong>邮件传输协议STMP</strong></p>
+<p><strong>SMTP：</strong></p>
+<p>不支持多语种邮件的传输等</p>
+<p>是一个相对简单的基于文本的协议（ <strong>只传送7位的ASCII码</strong>），使用TCP端口25</p>
+<p>Ø通用Internet邮件<strong>扩展协议MIME</strong></p>
+<p>在MIME下，可以实现二进制的编码，可<strong>传输各种格式的文件，以及支持多语种邮件等</strong></p>
+<p>p<strong>邮件存储访问协议</strong></p>
+<p>Ø邮件服务器到客户端</p>
+<p>Ø邮政协议第3版POP-3</p>
+<p>ØInternet邮件访问协议第4版IMAP-4</p>
+<h3 id="基于Web的电子邮件"><a href="#基于Web的电子邮件" class="headerlink" title="基于Web的电子邮件"></a>基于Web的电子邮件</h3><p>Ø20世纪90年代中期，Hotmail开发了基于Web的电子邮件系统</p>
+<p>Ø目前几乎所有门户网站都提供基于Web的电子邮件，使用Web浏览器收发邮件</p>
+<p>Ø基于Web电子邮件，用户代理就是Web浏览器，用户与远程邮箱之间的通信使用的是HTTP协议，而不是POP3或IMAP4协议</p>
+<p>Ø邮件服务器之间的通信仍然使用SMTP协议</p>
+<h2 id="5-FTP"><a href="#5-FTP" class="headerlink" title="5. FTP"></a>5. FTP</h2><h3 id="5-1-工作原理："><a href="#5-1-工作原理：" class="headerlink" title="5.1 工作原理："></a>5.1 工作原理：</h3><p>p<strong>控制连接</strong>：FTP客户端使用临时端口号（如5100）与服务器端熟知**端口号（21）**之间连接一个控制连接</p>
+<p>p<strong>用户鉴别</strong>：控制连接建立之后，服务器端要求客户端发送用户名和口令</p>
+<p>p<strong>数据连接</strong>：服务器端接收到客户端文件传输命令后，开始发起与客户端的数据连接。客户端使用临时端口号（如5000）与服务器端熟知<strong>端口号20</strong>之间建立数据连接</p>
+<p>p<strong>TFTP</strong>*的特点</p>
+<p>Ø传输可靠性：FTP面向连接的可靠传输，采用<strong>TCP</strong>；TFTP简洁、采用<strong>UDP</strong></p>
+<p>Ø协议命令集：FTP包含发送&#x2F;接收文件、列出目录与删除文件等<strong>复杂命令</strong>，TFTP协议只定义文件发送&#x2F;接收<strong>基本命令</strong></p>
+<p>Ø数据表示：FTP可<strong>指定数据类型</strong>，TFTP只允许传输<strong>ASCII****码或二进制文本文件</strong></p>
+<p>Ø用户鉴别：FTP有登录用户鉴别功能，TFTP不提供用户鉴别功能</p>
+<h2 id="6-DNS"><a href="#6-DNS" class="headerlink" title="6. DNS"></a>6. DNS</h2><p>使用TCP或者UDP都可以</p>
+<p>端口：53</p>
+<p><strong>递归解析</strong>和<strong>迭代解析</strong>的两种定义需要区分清楚</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230625154841648.png" srcset="/img/loading.gif" lazyload alt="image-20230625154841648"></p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230625154903851.png" srcset="/img/loading.gif" lazyload alt="image-20230625154903851"></p>
+<h2 id="7-HTTP连接方式以及计算RTT："><a href="#7-HTTP连接方式以及计算RTT：" class="headerlink" title="7. HTTP连接方式以及计算RTT："></a>7. HTTP连接方式以及计算RTT：</h2><p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/2020032007452929.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>因此如果要读取一个网页的三张图片（不包括网页HTML），需要的RTT时间分别是（建立连接要<strong>2RTT</strong>）</p>
+<ul>
+<li>非持续连接：2RTT *  3</li>
+<li>持续连接：RTT</li>
+<li>流水线：RTT</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%9C%AC%E7%A7%91/" class="category-chain-item">本科</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%9C%AC%E7%A7%91/%E5%A4%A7%E4%B8%89%E4%B8%8B/" class="category-chain-item">大三下</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%9C%AC%E7%A7%91/%E5%A4%A7%E4%B8%89%E4%B8%8B/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" class="category-chain-item">计算机网络</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>应用层知识点</div>
+      <div>http://example.com/2023/06/21/本科/大三下/计算机网络/应用层知识总结/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Cheesheep</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年6月21日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/06/21/%E6%9C%AC%E7%A7%91/%E5%A4%A7%E4%B8%89%E4%B8%8B/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E4%BC%A0%E8%BE%93%E5%B1%82%E9%9A%BE%E9%A2%98/" title="传输层难题">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">传输层难题</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/06/21/%E6%9C%AC%E7%A7%91/%E5%A4%A7%E4%B8%89%E4%B8%8B/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E5%BA%94%E7%94%A8%E5%B1%82%E9%9A%BE%E9%A2%98/" title="应用层难题">
+                        <span class="hidden-mobile">应用层难题</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

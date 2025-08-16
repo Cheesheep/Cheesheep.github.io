@@ -1,0 +1,1053 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><meta name="referrer" content="no-referrer" /><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#4D783B">
+  <meta name="author" content="Cheesheep">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Android实现一个简易的新闻列表APP（TabLayout+ViewPager+Fragment）[TOC]  开发语言：Java 开发工具：Android Studio 用到的一些控件，功能： Tablayout，ViewPager（滑动切换菜单功能），Navigation，ToolBar 需要的外部包： 123import androidx.fragment.app.Fragment;im">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android实现一个简易的新闻列表APP（TabLayouut + ViewPager + Fragment）">
+<meta property="og:url" content="http://example.com/2023/04/22/%E6%9C%AC%E7%A7%91/%E5%A4%A7%E4%B8%89%E4%B8%8B/%E7%A7%BB%E5%8A%A8%E4%BA%92%E8%81%94%E7%BD%91%E7%BC%96%E7%A8%8B/Android%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%AE%80%E6%98%93%E7%9A%84%E6%96%B0%E9%97%BB%E5%88%97%E8%A1%A8APP%EF%BC%88TabLayout+ViewPager+Fragment%EF%BC%89/index.html">
+<meta property="og:site_name" content="Cheesheep的博客">
+<meta property="og:description" content="Android实现一个简易的新闻列表APP（TabLayout+ViewPager+Fragment）[TOC]  开发语言：Java 开发工具：Android Studio 用到的一些控件，功能： Tablayout，ViewPager（滑动切换菜单功能），Navigation，ToolBar 需要的外部包： 123import androidx.fragment.app.Fragment;im">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230422151217835.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230422151529248.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230422151800242.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230422151907617.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230422152926285.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230422153049656.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230422153131.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230422164518062.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230422153131.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230422162635485.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230422164201720.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230422181842842.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230423002236907.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230423003925586.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230423004808391.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230423005006208.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230423010309674.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230423011751041.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230423012206793.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230423013518.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230423091235.png">
+<meta property="article:published_time" content="2023-04-21T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-08-15T08:53:50.114Z">
+<meta property="article:author" content="Cheesheep">
+<meta property="article:tag" content="android">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230422151217835.png">
+  
+  
+  
+  <title>Android实现一个简易的新闻列表APP（TabLayouut + ViewPager + Fragment） - Cheesheep的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_5000605_8e8395qng5b.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"mwBHMJuGLL6mKzq8fTgVohlj-gzGzoHsz","app_key":"WqtvgyDFD8JLi1VHAqiZB7n6","server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Cheesheep</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/pokemon_grass_bg.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.1)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Android实现一个简易的新闻列表APP（TabLayouut + ViewPager + Fragment）"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Cheesheep
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-04-22 00:00" pubdate>
+          2023年4月22日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          49 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Android实现一个简易的新闻列表APP（TabLayouut + ViewPager + Fragment）</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Android实现一个简易的新闻列表APP（TabLayout-ViewPager-Fragment）"><a href="#Android实现一个简易的新闻列表APP（TabLayout-ViewPager-Fragment）" class="headerlink" title="Android实现一个简易的新闻列表APP（TabLayout+ViewPager+Fragment）"></a>Android实现一个简易的新闻列表APP（TabLayout+ViewPager+Fragment）</h1><p>[TOC]</p>
+<blockquote>
+<p>开发语言：Java</p>
+<p>开发工具：Android Studio</p>
+<p>用到的一些控件，功能：</p>
+<p>Tablayout，ViewPager（滑动切换菜单功能），Navigation，ToolBar</p>
+<p><strong>需要的外部包</strong>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> androidx.fragment.app.Fragment;<br><span class="hljs-keyword">import</span> androidx.fragment.app.FragmentManager;<br><span class="hljs-keyword">import</span> androidx.fragment.app.FragmentPagerAdapter;<br></code></pre></td></tr></table></figure>
+
+<p>注意！！！这里可能有的人版本是support-v4对应的包</p>
+<p>添加了support-v4的包后发现build.gradle（Gradle Scripts文件夹下）有报错，</p>
+<p>报错内容类似<code>Version 28 (intended for Android Pie and below) is the last version of the legacy support library</code></p>
+<p>这是因为当前的AS已经不支持这些旧的包，因此可以将support-v4迁移到AndroidX，具体方法参考下面的文章或者自行搜索：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/lfdfhl/article/details/105269551">(174条消息) Version 28 (intended for Android Pie and below) is the last version of the legacy support library_谷哥的小弟的博客-CSDN博客</a></p>
+<p>代码的<strong>源码仓库</strong>地址为</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Cheesheep/AndroidExp2-News-App/tree/master">Cheesheep&#x2F;AndroidExp2-News-App at master (github.com)</a></p>
+</blockquote>
+<h2 id="1-实现内容以及效果"><a href="#1-实现内容以及效果" class="headerlink" title="1.实现内容以及效果"></a>1.实现内容以及效果</h2><p>先放出最终的<strong>实现效果</strong>：</p>
+<ul>
+<li><p>首页是国际新闻列表，总共有四个菜单</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230422151217835.png" srcset="/img/loading.gif" lazyload alt="image-20230422151217835"></p>
+</li>
+<li><p>可以通过<strong>滑动或点击</strong>切换到其他菜单，可以看到不同页面的列表有一定的差异</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230422151529248.png" srcset="/img/loading.gif" lazyload alt="image-20230422151529248"></p>
+</li>
+<li><p>点击查看其中一篇文章，可以看到本地是加载了一篇纯文本的内容</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230422151800242.png" srcset="/img/loading.gif" lazyload alt="image-20230422151800242"></p>
+</li>
+<li><p>点击右上角的菜单列表，有另外两种查看该文章的方式，选择<strong>阅读原文</strong></p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230422151907617.png" srcset="/img/loading.gif" lazyload alt="image-20230422151907617"></p>
+<p>接着在app内显示出原文所在的网页</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230422152926285.png" srcset="/img/loading.gif" lazyload alt="image-20230422152926285"></p>
+<p>再次点击<strong>右上角菜单</strong>可以选择重新显示本地的文章</p>
+<p>如果选择浏览器打开，就会<strong>跳转到浏览器</strong>并且显示该网页</p>
+</li>
+<li><p>回到主页面，左划或者点击左上角即可显示滑动菜单栏</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230422153049656.png" srcset="/img/loading.gif" lazyload alt="image-20230422153049656"></p>
+<p>打开后这里放了一些个人页面的信息</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230422153131.png" srcset="/img/loading.gif" lazyload alt="联想截图_20230422153131"></p>
+<p>不过菜单上面的功能都没有实现，只是做了样式，包括顶部的分享和个人页面按钮也是</p>
+</li>
+</ul>
+<h2 id="2-实现代码"><a href="#2-实现代码" class="headerlink" title="2. 实现代码"></a>2. 实现代码</h2><h3 id="2-1-顶部菜单栏以及侧滑栏实现（Toolbar）"><a href="#2-1-顶部菜单栏以及侧滑栏实现（Toolbar）" class="headerlink" title="2.1 顶部菜单栏以及侧滑栏实现（Toolbar）"></a>2.1 顶部菜单栏以及侧滑栏实现（Toolbar）</h3><blockquote>
+<p>顶部菜单栏的效果如图</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230422164518062.png" srcset="/img/loading.gif" lazyload alt="image-20230422164518062"></p>
+<p>涉及到的配置文件：</p>
+<ul>
+<li><p>activity_main.xml ：主活动页面</p>
+</li>
+<li><p>toolbar_menu：菜单栏图标（右侧的分享和个人页面的logo）</p>
+</li>
+<li><p>nav_header,xml ：侧滑栏的头部信息（头像，昵称，联系方式）</p>
+</li>
+<li><p>left_drawer.xml：侧滑栏的菜单内容</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230422153131.png" srcset="/img/loading.gif" lazyload alt="联想截图_20230422153131"></p>
+<p>侧滑栏如上</p>
+</li>
+<li><p>Java活动文件：</p>
+<p><strong>MainActivity.java</strong> :全部逻辑功能代码都在该活动当中</p>
+</li>
+</ul>
+</blockquote>
+<h4 id="2-1-1-导入导航栏依赖"><a href="#2-1-1-导入导航栏依赖" class="headerlink" title="2.1.1 导入导航栏依赖"></a>2.1.1 导入导航栏依赖</h4><p>导入”NavigationView“的依赖</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml">implementation &#x27;com.android.support:design:29.0.1&#x27;<br></code></pre></td></tr></table></figure>
+
+<h4 id="2-1-2-配置toolbar菜单栏布局文件"><a href="#2-1-2-配置toolbar菜单栏布局文件" class="headerlink" title="2.1.2 配置toolbar菜单栏布局文件"></a>2.1.2 配置toolbar菜单栏布局文件</h4><p>关于toolbar的各种设置，可以参考以下文章</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42324086/article/details/117390236">(174条消息) Android Toolbar的使用详解_暗恋花香的博客-CSDN博客</a></p>
+<p><strong>设置为NoActionBar</strong>：</p>
+<p>要使用toolbar，首先要去掉系统默认设置的ActionBar</p>
+<p>在AndroidManifest.xml文件当中可以设置活动的主题，我们新建一个NoActionBar的主题，并且给我们需要配置toolBar的页面赋予这个主题即可</p>
+<p><strong>AndroidManifest.xml</strong></p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230422162635485.png" srcset="/img/loading.gif" lazyload alt="image-20230422162635485"></p>
+<p><strong>themes.xml</strong></p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230422164201720.png" srcset="/img/loading.gif" lazyload alt="image-20230422164201720"></p>
+<p>最右边是noActionBar，内容设置了toolbar的背景颜色等等</p>
+<p><strong>配置toolBar</strong></p>
+<p>需要在<code>activity_main.xml</code>文件当中放入toolBar，因为是在首页主活动放置toolBar</p>
+<p><strong>activity_main.xml部分代码</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!--    顶部菜单栏toolBar--&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">androidx.appcompat.widget.Toolbar</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:id</span>=<span class="hljs-string">&quot;@+id/my_toolbar&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">&quot;match_parent&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">&quot;?attr/actionBarSize&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:background</span>=<span class="hljs-string">&quot;?attr/colorPrimary&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">app:titleTextColor</span>=<span class="hljs-string">&quot;@color/white&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:elevation</span>=<span class="hljs-string">&quot;4dp&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:theme</span>=<span class="hljs-string">&quot;@style/ThemeOverlay.AppCompat.ActionBar&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">app:popupTheme</span>=<span class="hljs-string">&quot;@style/ThemeOverlay.AppCompat.Light&quot;</span>/&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>除了在活动布局文件中放置toolbar，还需要一个菜单图标文件</p>
+<p><strong>toolbar_menu.xml</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;utf-8&quot;</span>?&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">menu</span> <span class="hljs-attr">xmlns:android</span>=<span class="hljs-string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">xmlns:app</span>=<span class="hljs-string">&quot;http://schemas.android.com/apk/res-auto&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">item</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:id</span>=<span class="hljs-string">&quot;@+id/tool_msg&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:icon</span>=<span class="hljs-string">&quot;@drawable/share&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:orderInCategory</span>=<span class="hljs-string">&quot;80&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:title</span>=<span class="hljs-string">&quot;edit&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">app:showAsAction</span>=<span class="hljs-string">&quot;ifRoom|withText&quot;</span> /&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">item</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:id</span>=<span class="hljs-string">&quot;@+id/tool_user&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:icon</span>=<span class="hljs-string">&quot;@drawable/personal&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:orderInCategory</span>=<span class="hljs-string">&quot;80&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:title</span>=<span class="hljs-string">&quot;share&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">app:showAsAction</span>=<span class="hljs-string">&quot;ifRoom|withText&quot;</span> /&gt;</span><br><span class="hljs-comment">&lt;!--    后面有更多的item如果放不下就会进入菜单栏--&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">menu</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>这里的配置和actionBar的menu绘制方法类似，唯一区别就是<code>app:showAsAction</code>不同，该属性是Toolbar当中很关键的属性</p>
+<p>其中四个不同的值的作用分别如下：</p>
+<p>1）always：这个值会使菜单项一直显示在 ToolBar上。<br>2）ifRoom：如果有足够的空间，这个值会使菜单项显示在 Tool Bar上。<br>3）never：这个值会使菜单项永远都不出现在 ToolBar上。<br>4）withText：这个值会使菜单项和它的图标、菜单文本一起显示。一般和ifRoom一起通过“|”使用<br>app:showAsAction 属性值为 ifRoom|withText，表示如果有空间，那么就连同文字一起显示在标题栏中，否则就显示在菜单栏中。<br>而当app:showAsAction 属性值为 never时，该项作用为Menu不显示在菜单组件中。</p>
+<p>这个文件后面我们会在<strong>activity的Java代码</strong>当中写入并且连接上</p>
+<p><strong>MainActivity.java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">myToolbar.inflateMenu(R.menu.toolbar_menu);<br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="2-1-3-配置侧滑栏的xml布局文件"><a href="#2-1-3-配置侧滑栏的xml布局文件" class="headerlink" title="2.1.3 配置侧滑栏的xml布局文件"></a>2.1.3 配置侧滑栏的xml布局文件</h4><p>添加NavigationView组件</p>
+<p>（要使用该组件需要从外部导入design包，在前面有提到导入的具体的包）</p>
+<p>将该组件添加到toolbar所在的活动的页面当中，这里就是activity_main.xml</p>
+<p><strong>activity_main.xml部分代码</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;utf-8&quot;</span>?&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">androidx.drawerlayout.widget.DrawerLayout</span></span><br><span class="hljs-tag">    <span class="hljs-attr">xmlns:android</span>=<span class="hljs-string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">xmlns:app</span>=<span class="hljs-string">&quot;http://schemas.android.com/apk/res-auto&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">android:id</span>=<span class="hljs-string">&quot;@+id/drawer_layout&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">&quot;match_parent&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">&quot;match_parent&quot;</span>&gt;</span><br><br>    --------<br>    这里是该页面的其他布局文件，可以将整个布局文件代码放进去也是可以的<br>    <br>    --------<br>    <br><span class="hljs-comment">&lt;!--左侧导航菜单--&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">com.google.android.material.navigation.NavigationView</span></span><br><span class="hljs-tag">    <span class="hljs-attr">android:id</span>=<span class="hljs-string">&quot;@+id/nav_view&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">&quot;wrap_content&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">&quot;match_parent&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">android:layout_gravity</span>=<span class="hljs-string">&quot;start&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">android:background</span>=<span class="hljs-string">&quot;@color/colorPrimary&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">app:headerLayout</span>=<span class="hljs-string">&quot;@layout/nav_header&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">app:menu</span>=<span class="hljs-string">&quot;@menu/left_drawer&quot;</span> /&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">androidx.drawerlayout.widget.DrawerLayout</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>这个菜单栏由于是侧滑出现的，所以放在整个布局的最外面，并且需要用<code>DrawerLayout</code>包裹</p>
+<p>注意看下面两个app的属性<code>app:headerLayout</code>和<code>app:menu</code></p>
+<p>除此之外需要新建两个文件，一个是头部的代码，一个是菜单的部分</p>
+<p><strong>nav_header.xml</strong></p>
+<p>这里代码就不全部放出来了，给出效果</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230422181842842.png" srcset="/img/loading.gif" lazyload alt="image-20230422181842842"></p>
+<p><strong>left_drawer.xml</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;utf-8&quot;</span>?&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">menu</span> <span class="hljs-attr">xmlns:app</span>=<span class="hljs-string">&quot;http://schemas.android.com/apk/res-auto&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">xmlns:android</span>=<span class="hljs-string">&quot;http://schemas.android.com/apk/res/android&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">item</span></span><br><span class="hljs-tag">            <span class="hljs-attr">android:id</span>=<span class="hljs-string">&quot;@+id/navigation_item_user&quot;</span></span><br><span class="hljs-tag">            <span class="hljs-attr">android:title</span>=<span class="hljs-string">&quot;用户中心&quot;</span> /&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">item</span></span><br><span class="hljs-tag">            <span class="hljs-attr">android:id</span>=<span class="hljs-string">&quot;@+id/navigation_item_setting&quot;</span></span><br><span class="hljs-tag">            <span class="hljs-attr">android:title</span>=<span class="hljs-string">&quot;用户设置&quot;</span> /&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">item</span></span><br><span class="hljs-tag">            <span class="hljs-attr">android:id</span>=<span class="hljs-string">&quot;@+id/navigation_item_about&quot;</span></span><br><span class="hljs-tag">            <span class="hljs-attr">android:title</span>=<span class="hljs-string">&quot;关于我们&quot;</span> /&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">item</span></span><br><span class="hljs-tag">            <span class="hljs-attr">android:id</span>=<span class="hljs-string">&quot;@+id/navigation_item_logout&quot;</span></span><br><span class="hljs-tag">            <span class="hljs-attr">android:title</span>=<span class="hljs-string">&quot;注销&quot;</span> /&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">menu</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>这个是菜单栏的页面，预览的效果和最终实现的效果是<strong>有差异的</strong>，不需要以预览的那个效果为准。</p>
+<p>将nav_header和left_drawer结合之后，效果图片在上面有显示。</p>
+<h4 id="2-1-4-Java逻辑代码实现"><a href="#2-1-4-Java逻辑代码实现" class="headerlink" title="2.1.4 Java逻辑代码实现"></a>2.1.4 Java逻辑代码实现</h4><p>布局文件写好后，就是在Activity活动当中去实现我们的点击事件，以及一些组件的连接，布局的设置其他等等。</p>
+<p>这里对应的Java代码<strong>全部都在MainActivity.java</strong>当中</p>
+<p>ToolBar和侧边栏的初始化都在MainActivity的<code>initToolBarView()</code>方法当中</p>
+<p><strong>初始化Toolbar</strong>：</p>
+<p><strong>MainActivity.java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">initToolBarView</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-type">Toolbar</span> <span class="hljs-variable">myToolbar</span> <span class="hljs-operator">=</span> findViewById(R.id.my_toolbar);<br>    drawer_layout = findViewById(R.id.drawer_layout);<br>    <span class="hljs-comment">//将图标菜单文件添加到toolbar当中</span><br>    myToolbar.inflateMenu(R.menu.toolbar_menu);<br>    myToolbar.setTitle(<span class="hljs-string">&quot;Hello News&quot;</span>);<br>    <span class="hljs-comment">//ToolBar的菜单的点击事件</span><br>    myToolbar.setOnMenuItemClickListener(<span class="hljs-keyword">new</span> <span class="hljs-title class_">Toolbar</span>.OnMenuItemClickListener() &#123;<br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">onMenuItemClick</span><span class="hljs-params">(MenuItem item)</span> &#123;<br>            <span class="hljs-keyword">switch</span> (item.getItemId())&#123;<br>                <span class="hljs-keyword">default</span>:<br>                    Toast.makeText(MainActivity.<span class="hljs-built_in">this</span>, <span class="hljs-string">&quot;菜单栏功能尚未开发&quot;</span>, Toast.LENGTH_SHORT).show();<br>            &#125;<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>        &#125;<br>    &#125;);<br></code></pre></td></tr></table></figure>
+
+<p>通过<code>inflateMenu（）</code>将右侧的菜单图标添加到toolbar当中。</p>
+<p>然后设置这些图标的点击事件，只不过这里我没有去写对应的功能，要用到的话，识别item当中的id即可。</p>
+<p><strong>监听打开侧滑栏的按钮</strong>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//配置侧滑栏，并且监听点击事件</span><br>myToolbar.setNavigationIcon(R.drawable.left_nav);<br><span class="hljs-comment">//打开侧滑栏的监听事件</span><br>myToolbar.setNavigationOnClickListener(<span class="hljs-keyword">new</span> <span class="hljs-title class_">View</span>.OnClickListener() &#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">onClick</span><span class="hljs-params">(View view)</span> &#123;<br>        drawer_layout.openDrawer(GravityCompat.START);<br>    &#125;<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<p>这样就可以通过点击打开侧滑栏了。</p>
+<p>然后是侧滑栏的按钮的监听设置</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs Java"><span class="hljs-comment">//侧滑栏里面的菜单的监听事件</span><br><span class="hljs-type">NavigationView</span> <span class="hljs-variable">mNavigationView</span> <span class="hljs-operator">=</span> findViewById(R.id.nav_view);<br>mNavigationView.setNavigationItemSelectedListener(<span class="hljs-keyword">new</span> <span class="hljs-title class_">NavigationView</span>.OnNavigationItemSelectedListener() &#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">onNavigationItemSelected</span><span class="hljs-params">(<span class="hljs-meta">@NonNull</span> MenuItem item)</span> &#123;<br>        <span class="hljs-comment">//侧滑栏中菜单的点击事件</span><br>    &#125;<br><br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<p>这样就完成了toolbar的代码了</p>
+<hr>
+<p><strong>注意事项</strong>！：</p>
+<p><strong>想让Toolbar本身的inflateMenu生效，则必须删去以下类似代码！！！</strong></p>
+<p>不然会由于同时使用了ActionBar导致失效</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"> <span class="hljs-comment">//设置侧边栏</span><br>setSupportActionBar(myToolbar);<br>setTitle(<span class="hljs-string">&quot;Top News&quot;</span>);<span class="hljs-comment">//设置标题名称</span><br>getSupportActionBar().setDisplayHomeAsUpEnabled(<span class="hljs-literal">true</span>);<span class="hljs-comment">//设置左边home键</span><br>getSupportActionBar().setHomeAsUpIndicator(R.drawable.left_nav);<span class="hljs-comment">//更换home键样式</span><br><br></code></pre></td></tr></table></figure>
+
+
+
+
+<h3 id="2-2-导航栏实现（TabLayout-ViewPager-Fragment）"><a href="#2-2-导航栏实现（TabLayout-ViewPager-Fragment）" class="headerlink" title="2.2 导航栏实现（TabLayout + ViewPager + Fragment）"></a>2.2 导航栏实现（TabLayout + ViewPager + Fragment）</h3><blockquote>
+<p>导航栏使用了上述三样东西结合</p>
+<p>TabLayout：提供选项切换到不同的菜单</p>
+<p>ViewPager：用于滑动切换到不同的菜单</p>
+<p>Fragment：每个菜单显示的页面内容</p>
+<p><strong>涉及配置文件</strong>：</p>
+<ul>
+<li>activity_main.xml</li>
+<li>selected.xml （选中菜单的颜色设置）</li>
+<li>themes.xml  （设置菜单的文件大小）</li>
+</ul>
+</blockquote>
+<h4 id="2-2-1-导入相关依赖"><a href="#2-2-1-导入相关依赖" class="headerlink" title="2.2.1 导入相关依赖"></a>2.2.1 导入相关依赖</h4><p>如果是旧版的话应当是导入support-v4里面的组件，这个时候可能会出现兼容问题</p>
+<h4 id="2-2-2-界面配置文件"><a href="#2-2-2-界面配置文件" class="headerlink" title="2.2.2 界面配置文件"></a>2.2.2 界面配置文件</h4><p>该菜单就是在首页展现的，因此所有布局文件也都在<strong>activity_main.xml</strong>当中</p>
+<p><strong>Tablayout+ViewPager控件</strong>：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!--顶部导航栏，切换选项卡--&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">com.google.android.material.tabs.TabLayout</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:id</span>=<span class="hljs-string">&quot;@+id/tabLayout&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">&quot;match_parent&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">&quot;80dp&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">app:tabIndicatorColor</span>=<span class="hljs-string">&quot;#ffffff&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">app:tabIndicatorHeight</span>=<span class="hljs-string">&quot;5dp&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">app:tabTextColor</span>=<span class="hljs-string">&quot;@color/white&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">app:tabIconTint</span>=<span class="hljs-string">&quot;@color/white&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">app:tabSelectedTextColor</span>=<span class="hljs-string">&quot;@color/white&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">app:tabMode</span>=<span class="hljs-string">&quot;fixed&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">app:tabBackground</span>=<span class="hljs-string">&quot;@drawable/selected&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">app:tabTextAppearance</span>=<span class="hljs-string">&quot;@style/MyTabLayoutTextAppearance&quot;</span></span><br><span class="hljs-tag">        /&gt;</span><br><span class="hljs-comment">&lt;!--用于实现左右滑动效果--&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">androidx.viewpager.widget.ViewPager</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:id</span>=<span class="hljs-string">&quot;@+id/viewPager&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">&quot;match_parent&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">&quot;0dp&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:layout_weight</span>=<span class="hljs-string">&quot;1&quot;</span>/&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>接着要在对应的页面的活动文件当中进行代码逻辑编写：</p>
+<p><strong>initViewPager()</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">initViewPager</span><span class="hljs-params">()</span> &#123;<br>    mViewPager= (ViewPager) findViewById(R.id.viewPager);<br>    <span class="hljs-type">MyFragmentPagerAdapter</span> <span class="hljs-variable">myFragmentPagerAdapter</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">MyFragmentPagerAdapter</span>(getSupportFragmentManager());<br>    mViewPager.setAdapter(myFragmentPagerAdapter);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>初始化viewPager，这里用到了一个新的类myFragmentPagerAdapter来初始化内容</p>
+<p>该类需要继承<code>FragmentPagerAdapter</code>，不过现在的android studio当中会显示该类已经被移除了，但是实际上还能用，不报错就行，不用管那个下划线，</p>
+<p><strong>FragmentPagerAdapter.java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyFragmentPagerAdapter</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">FragmentPagerAdapter</span> &#123;<br>    <span class="hljs-keyword">private</span> String[] mTitles = <span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>[]&#123;<span class="hljs-string">&quot;国际&quot;</span>, <span class="hljs-string">&quot;体育&quot;</span>, <span class="hljs-string">&quot;生活&quot;</span>,<span class="hljs-string">&quot;科学&quot;</span>&#125;;<br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">MyFragmentPagerAdapter</span><span class="hljs-params">(FragmentManager fm)</span> &#123;<br>        <span class="hljs-built_in">super</span>(fm);<br>    &#125;<br>    <span class="hljs-comment">//选择不同的菜单返回不同的Fragment页面</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> Fragment <span class="hljs-title function_">getItem</span><span class="hljs-params">(<span class="hljs-type">int</span> position)</span> &#123;<br>        <span class="hljs-keyword">if</span> (position == <span class="hljs-number">1</span>) &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">SportNewsFragment</span>();<br>        &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (position == <span class="hljs-number">2</span>) &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">LifeNewsFragment</span>();<br>        &#125;<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (position==<span class="hljs-number">3</span>)&#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ScienceNewsFragment</span>();<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">GlobalNewsFragment</span>();<br>    &#125;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">getCount</span><span class="hljs-params">()</span> &#123;<span class="hljs-keyword">return</span> mTitles.length;&#125;<br><br>    <span class="hljs-comment">//ViewPager与TabLayout绑定后，这里获取到PageTitle就是Tab的Text</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> CharSequence <span class="hljs-title function_">getPageTitle</span><span class="hljs-params">(<span class="hljs-type">int</span> position)</span> &#123;<span class="hljs-keyword">return</span> mTitles[position];&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>该类的代码也比较简短，根据需要的菜单数量，增加String数组元素个数和页面Fragment的数量就行</p>
+<p><strong>initTabLayoutView()</strong> </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">initTabLayoutView</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-comment">//将TabLayout与ViewPager绑定在一起</span><br>    <span class="hljs-type">TabLayout</span> <span class="hljs-variable">mTabLayout</span> <span class="hljs-operator">=</span> (TabLayout) findViewById(R.id.tabLayout);<br>    mTabLayout.setupWithViewPager(mViewPager);<br><br>    <span class="hljs-comment">//指定Tab的位置</span><br>    TabLayout.<span class="hljs-type">Tab</span> <span class="hljs-variable">one</span> <span class="hljs-operator">=</span> mTabLayout.getTabAt(<span class="hljs-number">0</span>);<br>    TabLayout.<span class="hljs-type">Tab</span> <span class="hljs-variable">two</span> <span class="hljs-operator">=</span> mTabLayout.getTabAt(<span class="hljs-number">1</span>);<br>    TabLayout.<span class="hljs-type">Tab</span> <span class="hljs-variable">three</span> <span class="hljs-operator">=</span> mTabLayout.getTabAt(<span class="hljs-number">2</span>);<br>    TabLayout.<span class="hljs-type">Tab</span> <span class="hljs-variable">four</span> <span class="hljs-operator">=</span> mTabLayout.getTabAt(<span class="hljs-number">3</span>);<br><br>    <span class="hljs-comment">//设置Tab的图标，假如不需要则把下面的代码删去</span><br>    one.setIcon(R.drawable.global);<br>    two.setIcon(R.drawable.soccer);<br>    three.setIcon(R.drawable.life);<br>    four.setIcon(R.drawable.science);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>初始化TabLayout的设置，先将viewPager与TabLayout<strong>绑定</strong>在一起，然后设定对应的位置，最后设置图标，代码比较简单。</p>
+<p><strong>注意事项！：</strong></p>
+<p><strong>其他xml文件的添加</strong></p>
+<p>这里说几个tablayout和viewPager要导入的一些其他的简短的xml文件</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230423002236907.png" srcset="/img/loading.gif" lazyload alt="image-20230423002236907"></p>
+<p>在<code>themes.xml</code>（或styles.xml）文件当中要添加<code>style name = MyTabLayoutTextAppearance</code>的样式</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!--    TabLayout的文本大小--&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">style</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;MyTabLayoutTextAppearance&quot;</span> <span class="hljs-attr">parent</span>=<span class="hljs-string">&quot;TextAppearance.AppCompat.Widget.ActionBar.Title&quot;</span>&gt;</span><span class="language-xml"></span><br><span class="language-xml">        <span class="hljs-tag">&lt;<span class="hljs-name">item</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;android:textSize&quot;</span>&gt;</span>18sp<span class="hljs-tag">&lt;/<span class="hljs-name">item</span>&gt;</span></span><br><span class="language-xml">        <span class="hljs-tag">&lt;<span class="hljs-name">item</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;android:textColor&quot;</span>&gt;</span>@color/white<span class="hljs-tag">&lt;/<span class="hljs-name">item</span>&gt;</span></span><br><span class="language-xml">    </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>还有在drawable文件下的 <code>selected.xml</code>，用于展示被选中下菜单的颜色</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;utf-8&quot;</span>?&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">selector</span> <span class="hljs-attr">xmlns:android</span>=<span class="hljs-string">&quot;http://schemas.android.com/apk/res/android&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">item</span> <span class="hljs-attr">android:state_selected</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">android:drawable</span>=<span class="hljs-string">&quot;@color/TabBackGround&quot;</span>/&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">item</span> <span class="hljs-attr">android:drawable</span>=<span class="hljs-string">&quot;@color/colorAccent&quot;</span>/&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">selector</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="2-3-新闻列表实现"><a href="#2-3-新闻列表实现" class="headerlink" title="2.3 新闻列表实现"></a>2.3 新闻列表实现</h3><blockquote>
+<p><strong>涉及配置文件</strong>：</p>
+<ul>
+<li>fragment_global_news.xml 以及类似的四个文件（都是只有一个ListView）</li>
+<li>listView_item.xml以及相关的三种卡片布局</li>
+</ul>
+<p><strong>Java文件</strong>：</p>
+<ul>
+<li>GlobalNewsFragment.java （新闻列表的显示页面）</li>
+<li>NewsUtils.java （存放新闻的数据，例如标题，内容，url）</li>
+<li>NewsBean.java 新闻类（含标题，内容等）</li>
+</ul>
+</blockquote>
+<p>由于四个新闻列表页面的布局是很像的，所以这里只拿<strong>其中一个</strong>举例</p>
+<p>菜单的布局实现后，就要说下具体怎么实现新闻的列表内容了。</p>
+<p>这里也是相对复杂一点的内容，因为该Fragment的代码内容比较多</p>
+<p>但是布局文件xml是比较少的，或者说都是相似的</p>
+<h4 id="2-3-1-布局配置文件"><a href="#2-3-1-布局配置文件" class="headerlink" title="2.3.1 布局配置文件"></a>2.3.1 布局配置文件</h4><p>首先是Fragment碎片的布局</p>
+<p>很简单，只有一个ListView在里面</p>
+<p><strong>fragment_global_news.xml</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;utf-8&quot;</span>?&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">FrameLayout</span> <span class="hljs-attr">xmlns:android</span>=<span class="hljs-string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">xmlns:tools</span>=<span class="hljs-string">&quot;http://schemas.android.com/tools&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">&quot;match_parent&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">&quot;match_parent&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">tools:context</span>=<span class="hljs-string">&quot;.newsListPage.GlobalNewsFragment&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">ListView</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">&quot;match_parent&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">&quot;match_parent&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:id</span>=<span class="hljs-string">&quot;@+id/globalList&quot;</span></span><br><span class="hljs-tag">        /&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">FrameLayout</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>相对的其他的碎片文件也是一样</p>
+<p>接着是list里面每个的样式该怎么实现呢？</p>
+<p>这就要我们自己去涉及一个布局样式</p>
+<p><strong>listview_item.xml</strong></p>
+<p>这里代码较长，就只给出一个样式结合以及图片了</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230423003925586.png" srcset="/img/loading.gif" lazyload alt="image-20230423003925586"></p>
+<p>其他的样式例如有</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230423004808391.png" srcset="/img/loading.gif" lazyload alt="image-20230423004808391"></p>
+<h4 id="2-3-2-Java代码实现listView与自定义新闻卡片结合"><a href="#2-3-2-Java代码实现listView与自定义新闻卡片结合" class="headerlink" title="2.3.2 Java代码实现listView与自定义新闻卡片结合"></a>2.3.2 Java代码实现listView与自定义新闻卡片结合</h4><p>接下来是将listView与自定义的卡片xml文件结合到一起</p>
+<p>最终效果如下：</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230423005006208.png" srcset="/img/loading.gif" lazyload alt="image-20230423005006208"></p>
+<p><strong>GlobalNewsFragment.java</strong> ：</p>
+<p>首先看看代码初始化的内容</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">GlobalNewsFragment</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Fragment</span> &#123;<br>    <span class="hljs-keyword">private</span> ListView lv;<br>    <span class="hljs-keyword">private</span> ArrayList&lt;NewsBean&gt; mList;<br>    <span class="hljs-keyword">private</span> View globalView;<br>    <span class="hljs-keyword">private</span> MainActivity mainActivity;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> View <span class="hljs-title function_">onCreateView</span><span class="hljs-params">(LayoutInflater inflater, ViewGroup container,</span><br><span class="hljs-params">                             Bundle savedInstanceState)</span> &#123;<br>        <span class="hljs-comment">// 获取view，并且连接到主活动上面</span><br>        globalView = inflater.inflate(R.layout.fragment_global_news, container, <span class="hljs-literal">false</span>);<br>        mainActivity =(MainActivity) getActivity();<br>        initUI();<br>        initData();<br>        initAdapter();<br>        <span class="hljs-keyword">return</span> globalView;<br>    &#125;<br></code></pre></td></tr></table></figure>
+
+<p>只需要一个onCreateVIew（）是Fragment类当中的函数重载，其他的函数都是自己写出来的了。</p>
+<p>初始化globalVIew的时候，获取了上面写好的配置文件<code>fragment_global_news.xml</code> 。</p>
+<p>介绍三个初始化的函数内容</p>
+<ul>
+<li><p><strong>initUI（）</strong>：</p>
+<p>监听列表每个item的点击事件</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">initUI</span><span class="hljs-params">()</span> &#123;<br>    lv = (ListView) globalView.findViewById(R.id.globalList);<br>    <span class="hljs-comment">//设置点击事件监听</span><br>    lv.setOnItemClickListener(<span class="hljs-keyword">new</span> <span class="hljs-title class_">AdapterView</span>.OnItemClickListener() &#123;<br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">onItemClick</span><span class="hljs-params">(AdapterView&lt;?&gt; parent, View view, <span class="hljs-type">int</span> position, <span class="hljs-type">long</span> id)</span> &#123;<br>            <span class="hljs-comment">//跳转到显示文章内容的活动</span><br>            <span class="hljs-type">NewsBean</span> <span class="hljs-variable">bean</span> <span class="hljs-operator">=</span> mList.get(position); 		         NewsArticleContentActivity.actionStart(mainActivity,bean.title,bean.news_content,bean.news_url);<br>        &#125;<br>    &#125;);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这里就是对每个列表的新闻卡片做了一个点击监听的事件，通过<strong>Intent</strong>跳转到文章的详情页面，经典的活动之间的跳转方法，不阐述了。</p>
+<p>listView的获取连接了之前写的xml文件<code>globalList.xml</code>当中</p>
+<p>该意图已经封装好一个方法，只需要传固定的参数即可，分别是标题，内容，还有url链接。</p>
+<p>文章的详情页面用一个Activity来实现，下一小节会讲到。</p>
+</li>
+<li><p><strong>initData（）</strong>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">initData</span><span class="hljs-params">()</span> &#123;<br>    mList = NewsUtils.getGlobalNews(mainActivity);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这里只调用了一个函数。</p>
+<p>功能是将数据存到mList当中，方便后面用适配器Adapter调用</p>
+<p>来看下<strong>NewsUtils</strong>类里面是怎么获取数据的</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230423010309674.png" srcset="/img/loading.gif" lazyload alt="image-20230423010309674"></p>
+<p>代码内容是比较简单直接的，虽然这里可以使用数据库的方式会更高效。</p>
+<p>MewsBean里面的内容也只有简单的几个成员数据而已。</p>
+<p><strong>NewsBean</strong>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">NewsBean</span> &#123;<br>    <span class="hljs-keyword">public</span> String title;<br>    <span class="hljs-keyword">public</span> String des;<br>    <span class="hljs-keyword">public</span> Drawable icon;<br>    <span class="hljs-keyword">public</span> String news_url;<br>    <span class="hljs-keyword">public</span> String news_content;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+</li>
+<li><p><strong>initAdapter（）</strong></p>
+<p>一行代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">initAdapter</span><span class="hljs-params">()</span> &#123;<br>    lv.setAdapter(<span class="hljs-keyword">new</span> <span class="hljs-title class_">GlobalNewsFragment</span>.NewsAdapter());<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>setAdapter（）方法是官方提供的，而里面的NewsAdapter（）则需要我们去自定义实现</p>
+<p><strong>NewsAdpter类</strong>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">NewsAdapter</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">BaseAdapter</span> &#123;<br>    <span class="hljs-comment">//适配器处理新闻列表</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">getCount</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> mList.size();<br>    &#125;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> NewsBean <span class="hljs-title function_">getItem</span><span class="hljs-params">(<span class="hljs-type">int</span> position)</span> &#123;<br>        <span class="hljs-keyword">return</span> mList.get(position);<br>    &#125;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">long</span> <span class="hljs-title function_">getItemId</span><span class="hljs-params">(<span class="hljs-type">int</span> position)</span> &#123;<br>        <span class="hljs-keyword">return</span> position;<br>    &#125;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> View <span class="hljs-title function_">getView</span><span class="hljs-params">(<span class="hljs-type">int</span> position, View convertView, ViewGroup parent)</span> &#123;<br>        GlobalNewsFragment.ViewHolder holder;<br>        <span class="hljs-keyword">if</span> (convertView == <span class="hljs-literal">null</span>) &#123;<span class="hljs-comment">//获取卡片的具体内容</span><br>            holder = <span class="hljs-keyword">new</span> <span class="hljs-title class_">GlobalNewsFragment</span>.ViewHolder();<br>            convertView = View.inflate(mainActivity.getApplicationContext(), R.layout.listview_item, <span class="hljs-literal">null</span>);<br>            holder.tv_title = (TextView) convertView.findViewById(R.id.tv_title);<br>            holder.tv_des = (TextView) convertView.findViewById(R.id.tv_des);<br>            holder.iv_icon = (ImageView) convertView.findViewById(R.id.iv_icon);<br>            convertView.setTag(holder);<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            holder = (GlobalNewsFragment.ViewHolder) convertView.getTag();<br>        &#125;<br>        <span class="hljs-type">NewsBean</span> <span class="hljs-variable">item</span> <span class="hljs-operator">=</span> getItem(position);<br>        holder.tv_title.setText(item.title);<br>        holder.tv_des.setText(item.des);<br>        holder.iv_icon.setImageDrawable(item.icon);<br>        <span class="hljs-keyword">return</span> convertView;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>该类继承了BaseAdapter，并对四个基本的方法进行了重载。</p>
+<p>前面的三个都比较简单，根据名字就可以知道该方法调用的是一些基本的参数，例如获得列表当中的item等等。</p>
+<p>最后的getView（）比较长，主要是将数据<strong>传递到view</strong>布局上面</p>
+<p>该方法可以看到调用了<code>listview_item.xml</code>文件，想要不同的<strong>卡片样式</strong>，这里可以选中不同的布局文件。</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230423011751041.png" srcset="/img/loading.gif" lazyload alt="image-20230423011751041"></p>
+<p>holder类（直接定义在当前的Fragment类里面就行）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ViewHolder</span> &#123;<br>    TextView tv_title;<br>    TextView tv_des;<br>    ImageView iv_icon;<br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ul>
+<p>至此就完成了新闻列表样式的渲染和点击事件了。</p>
+<h3 id="2-4-新闻具体内容实现"><a href="#2-4-新闻具体内容实现" class="headerlink" title="2.4 新闻具体内容实现"></a>2.4 新闻具体内容实现</h3><blockquote>
+<p><strong>相关配置文件</strong>：</p>
+<ul>
+<li>activity_news_article_content.xml</li>
+<li>article_open_browser.xml （设置右上角菜单内容）</li>
+</ul>
+<p><strong>java代码</strong>：</p>
+<ul>
+<li>NewsArticleContentActivity.java</li>
+</ul>
+</blockquote>
+<p>该页面对应一个Activity，实现效果如下：</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230423012206793.png" srcset="/img/loading.gif" lazyload alt="image-20230423012206793"></p>
+<p>点击阅读原文，实际上是将当前页面的标题和内容<strong>隐藏</strong>，然后将webView显示出来。</p>
+<h4 id="2-4-1-布局配置文件"><a href="#2-4-1-布局配置文件" class="headerlink" title="2.4.1 布局配置文件"></a>2.4.1 布局配置文件</h4><p>根据页面内容可以看出，活动文件的内容应当有标题，内容，webView。</p>
+<p><strong>activity_news_article_content.xml</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;utf-8&quot;</span>?&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">LinearLayout</span> <span class="hljs-attr">xmlns:android</span>=<span class="hljs-string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">xmlns:app</span>=<span class="hljs-string">&quot;http://schemas.android.com/apk/res-auto&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">xmlns:tools</span>=<span class="hljs-string">&quot;http://schemas.android.com/tools&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">&quot;match_parent&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">&quot;match_parent&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">android:orientation</span>=<span class="hljs-string">&quot;vertical&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">tools:context</span>=<span class="hljs-string">&quot;.NewsArticleContentActivity&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">ScrollView</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">&quot;match_parent&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">&quot;match_parent&quot;</span>&gt;</span><br><br>        <span class="hljs-tag">&lt;<span class="hljs-name">LinearLayout</span></span><br><span class="hljs-tag">            <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">&quot;match_parent&quot;</span></span><br><span class="hljs-tag">            <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">&quot;match_parent&quot;</span></span><br><span class="hljs-tag">            <span class="hljs-attr">android:orientation</span>=<span class="hljs-string">&quot;vertical&quot;</span>&gt;</span><br><span class="hljs-comment">&lt;!--标题--&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">TextView</span></span><br><span class="hljs-tag">                <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">&quot;match_parent&quot;</span></span><br><span class="hljs-tag">                <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">&quot;wrap_content&quot;</span></span><br><span class="hljs-tag">                <span class="hljs-attr">android:gravity</span>=<span class="hljs-string">&quot;center&quot;</span></span><br><span class="hljs-tag">                <span class="hljs-attr">android:textSize</span>=<span class="hljs-string">&quot;30sp&quot;</span></span><br><span class="hljs-tag">                <span class="hljs-attr">android:fontFamily</span>=<span class="hljs-string">&quot;sans-serif-black&quot;</span></span><br><span class="hljs-tag">                <span class="hljs-attr">android:id</span>=<span class="hljs-string">&quot;@+id/LocalTitle&quot;</span>/&gt;</span><br><span class="hljs-comment">&lt;!--下划线--&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">View</span></span><br><span class="hljs-tag">                <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">&quot;match_parent&quot;</span></span><br><span class="hljs-tag">                <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">&quot;1dp&quot;</span></span><br><span class="hljs-tag">                <span class="hljs-attr">android:background</span>=<span class="hljs-string">&quot;@color/cardview_dark_background&quot;</span></span><br><span class="hljs-tag">                /&gt;</span><br><span class="hljs-comment">&lt;!--文章内容--&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">TextView</span></span><br><span class="hljs-tag">                <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">&quot;match_parent&quot;</span></span><br><span class="hljs-tag">                <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">&quot;wrap_content&quot;</span></span><br><span class="hljs-tag">                <span class="hljs-attr">android:textSize</span>=<span class="hljs-string">&quot;18sp&quot;</span></span><br><span class="hljs-tag">                <span class="hljs-attr">android:id</span>=<span class="hljs-string">&quot;@+id/LocalContent&quot;</span>/&gt;</span><br><span class="hljs-comment">&lt;!-- 嵌入网页内容--&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">WebView</span></span><br><span class="hljs-tag">                <span class="hljs-attr">android:id</span>=<span class="hljs-string">&quot;@+id/news_webView&quot;</span></span><br><span class="hljs-tag">                <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">&quot;match_parent&quot;</span></span><br><span class="hljs-tag">                <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">&quot;match_parent&quot;</span></span><br><span class="hljs-tag">                <span class="hljs-attr">android:visibility</span>=<span class="hljs-string">&quot;gone&quot;</span></span><br><span class="hljs-tag">                /&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">LinearLayout</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">ScrollView</span>&gt;</span><br><span class="hljs-comment">&lt;!--    先隐藏嵌入的网页--&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">LinearLayout</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>这里要用到<strong>scorllView</strong>来避免由于文章内容过多而页面无法下拉的问题。</p>
+<p>一开始的WebView设置是<strong>不可见gone</strong>的，在运行后经过点击事件才能让其可见。</p>
+<p><strong>标题栏</strong>：</p>
+<p>直接使用默认给出的actionBar</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">style</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;Theme.NEWSPage&quot;</span> <span class="hljs-attr">parent</span>=<span class="hljs-string">&quot;Theme.MaterialComponents.DayNight.DarkActionBar&quot;</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>标题当中的菜单栏</strong></p>
+<p><strong>article_open_browser.xml</strong> </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;utf-8&quot;</span>?&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">menu</span> <span class="hljs-attr">xmlns:android</span>=<span class="hljs-string">&quot;http://schemas.android.com/apk/res/android&quot;</span> &gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">item</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:id</span>=<span class="hljs-string">&quot;@+id/article_open_webView&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:title</span>=<span class="hljs-string">&quot;阅读原文&quot;</span>/&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">item</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:id</span>=<span class="hljs-string">&quot;@+id/article_open_browser&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:title</span>=<span class="hljs-string">&quot;用浏览器打开&quot;</span>/&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">menu</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230423013518.png" srcset="/img/loading.gif" lazyload alt="联想截图_20230423013518"></p>
+<h4 id="2-4-2-Java代码实现"><a href="#2-4-2-Java代码实现" class="headerlink" title="2.4.2 Java代码实现"></a>2.4.2 Java代码实现</h4><p>相关代码都在<strong>NewsArticleContentActivity.java</strong>当中实现</p>
+<p>首先看看初始化这个活动的时候用到的代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Override</span><br><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">onCreate</span><span class="hljs-params">(Bundle savedInstanceState)</span> &#123;<br>    <span class="hljs-built_in">super</span>.onCreate(savedInstanceState);<br>    setContentView(R.layout.activity_news_article_content);<br>    <span class="hljs-comment">//设置标题栏内容</span><br>    <span class="hljs-type">ActionBar</span> <span class="hljs-variable">actionBar</span> <span class="hljs-operator">=</span> getSupportActionBar();<br>    <span class="hljs-keyword">if</span>(actionBar != <span class="hljs-literal">null</span>)&#123;<br>        setTitle(<span class="hljs-string">&quot;Article&quot;</span>);<br>        actionBar.setHomeButtonEnabled(<span class="hljs-literal">true</span>);<span class="hljs-comment">//设置左上角是否可以点击</span><br>        actionBar.setDisplayHomeAsUpEnabled(<span class="hljs-literal">true</span>);<span class="hljs-comment">//添加返回的图标</span><br>    &#125;<br>    <span class="hljs-comment">//设置文章内容</span><br>    <span class="hljs-type">String</span> <span class="hljs-variable">newsTitle</span> <span class="hljs-operator">=</span> getIntent().getStringExtra(<span class="hljs-string">&quot;news_title&quot;</span>);<br>    <span class="hljs-type">String</span> <span class="hljs-variable">newsContent</span> <span class="hljs-operator">=</span> getIntent().getStringExtra(<span class="hljs-string">&quot;news_content&quot;</span>);<br>    articleUrl = getIntent().getStringExtra(<span class="hljs-string">&quot;news_url&quot;</span>);<br>    title = findViewById(R.id.LocalTitle);<br>    content = findViewById(R.id.LocalContent);<br>    title.setText(newsTitle);<br>    content.setText(newsContent);<br>    <span class="hljs-comment">//设置webView内容</span><br>    isArticleDisplayed = <span class="hljs-literal">true</span>;<span class="hljs-comment">//从新闻列表进入文章的时候默认标志位为真</span><br>    webView = findViewById(R.id.news_webView);<br>    webView.getSettings().setJavaScriptEnabled(<span class="hljs-literal">true</span>);<br>    webView.setWebViewClient(<span class="hljs-keyword">new</span> <span class="hljs-title class_">WebViewClient</span>()&#123;<br>        <span class="hljs-comment">//重写这个方法解决重定向的问题</span><br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">shouldOverrideUrlLoading</span><span class="hljs-params">(WebView view, String url)</span> &#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>        &#125;<br>    &#125;);<br>    webView.loadUrl(articleUrl);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这里都是对<code>activity_news_article_content.xml</code>布局的内容渲染。</p>
+<p>代码分为三个步骤</p>
+<ol>
+<li>通过<code>setHomeBUttonEnabled（）</code>和<code>setDisplayHomeAsUpEnabled（）</code>来设置顶部菜单栏左边的返回按钮。</li>
+<li>用<code>getIntent（）</code>获取传过来的文章标题，内容和链接urls，并且给控件的内容设置相应的文本</li>
+<li>设置WebView，加载Url链接到WebView控件上面。（这里还需要去AndroidManifest当中设置一下uses-permission和usesClearText）</li>
+</ol>
+<p>关于getIntent获得的数据，我在NewsArticleContentActivity类当中写了一个<code>actionStart（）</code>方法作为接口来接收Intent，提供给外部想要进入这个活动并且传参。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//提供一个传入意图的接口，用来跳转活动</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">actionStart</span><span class="hljs-params">(Context context,String newsTitle,String newsContent,String newsUrl)</span>&#123;<br>    <span class="hljs-type">Intent</span> <span class="hljs-variable">intent</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Intent</span>(context,NewsArticleContentActivity.class);<br>    intent.putExtra(<span class="hljs-string">&quot;news_title&quot;</span>,newsTitle);<br>    intent.putExtra(<span class="hljs-string">&quot;news_content&quot;</span>,newsContent);<br>    intent.putExtra(<span class="hljs-string">&quot;news_url&quot;</span>,newsUrl);<br>    context.startActivity(intent);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>创建右侧的顶部菜单栏</strong>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//重写顶部菜单栏构造方法</span><br><span class="hljs-meta">@Override</span><br><span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">onCreateOptionsMenu</span><span class="hljs-params">(Menu menu)</span> &#123;<br>    <span class="hljs-type">MenuInflater</span> <span class="hljs-variable">inflater</span> <span class="hljs-operator">=</span> getMenuInflater();<br>    inflater.inflate(R.menu.article_open_browser,menu);<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">super</span>.onCreateOptionsMenu(menu);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这里的方法将之前写好的<code>article_open_browser.xml</code>放到menu当中</p>
+<p>最后是重写这个菜单里面的点击触发事件，代码如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Override</span><br><span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">onOptionsItemSelected</span><span class="hljs-params">(<span class="hljs-meta">@NonNull</span> MenuItem item)</span> &#123;<br>    <span class="hljs-keyword">switch</span> (item.getItemId()) &#123;<br>        <span class="hljs-keyword">case</span> android.R.id.home:<br>            <span class="hljs-comment">//设置返回按钮事件</span><br>            finish();<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>        <span class="hljs-keyword">case</span> R.id.article_open_browser:<br>            <span class="hljs-comment">//设置浏览器打开事件</span><br>            <span class="hljs-type">Intent</span> <span class="hljs-variable">intent</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Intent</span>();<br>            intent.setAction(Intent.ACTION_VIEW);<br>            intent.setData(Uri.parse(articleUrl));<span class="hljs-comment">//跳转到网页</span><br>            startActivity(intent);<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>        <span class="hljs-keyword">case</span> R.id.article_open_webView:<br>            <span class="hljs-comment">//设置显示的显示网页内容</span><br>            <span class="hljs-keyword">if</span>(isArticleDisplayed)&#123;<br>                title.setVisibility(View.GONE);<br>                content.setVisibility(View.GONE);<br>                webView.setVisibility(View.VISIBLE);<br>                item.setTitle(<span class="hljs-string">&quot;本地文章&quot;</span>);<br>            &#125;<span class="hljs-keyword">else</span> &#123;<br>                title.setVisibility(View.VISIBLE);<br>                content.setVisibility(View.VISIBLE);<br>                webView.setVisibility(View.GONE);<br>                item.setTitle(<span class="hljs-string">&quot;嵌入网页&quot;</span>);<br>            &#125;<br>            isArticleDisplayed = !isArticleDisplayed;<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>        <span class="hljs-keyword">default</span>:<br>            <span class="hljs-keyword">break</span>;<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">super</span>.onOptionsItemSelected(item);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>分别对返回键，显示网页内容，和跳转浏览器三个按键做了点击响应</p>
+<p>对应下图的三个图标：</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230423091235.png" srcset="/img/loading.gif" lazyload alt="联想截图_20230423091235"></p>
+<p>至此就完成了新闻文章详情页面的所有功能了。</p>
+<p><strong>注意事项！！：</strong></p>
+<p>webview无法正常打开的原因（这里指已经设置了uses-permission的情况）：</p>
+<p>可以参考这篇博客文章，完美解决问题</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/jppipai/article/details/124433198">(174条消息) WebView出现net:ERR_CLEARTEXT_NOT_PERMITTED和net::ERR_UNKNOWN_URL_SCHEME错误的解决办法_飞鸭传书的博客-CSDN博客</a></p>
+<p>主要原因有例如现在的版本不支持http格式的协议，因此需要在AndroidManifest.xml当中新添加一行</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!--    用于允许网络连接--&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">uses-permission</span> <span class="hljs-attr">android:name</span>=<span class="hljs-string">&quot;android.permission.INTERNET&quot;</span>/&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">application</span></span><br><span class="hljs-tag">   <span class="hljs-attr">........其他设置</span></span><br><span class="hljs-tag">    <span class="hljs-attr">android:usesCleartextTraffic</span>=<span class="hljs-string">&quot;true&quot;</span></span><br><span class="hljs-tag">   <span class="hljs-attr">......其他设置</span></span><br><span class="hljs-tag">    &gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>接着会出现网页能够加载一下，然后就又发生了错误，这次提示<code>net::ERR_UNKNOWN_URL_SCHEME错误</code>,这里是重定向的问题</p>
+<p>解决方法是重写 <code>shouldOverrideUrlLoading(WebView view, String url)</code> 方法</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs typescript">webView.<span class="hljs-title function_">setWebViewClient</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">WebViewClient</span>()&#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">boolean</span> <span class="hljs-title function_">shouldOverrideUrlLoading</span>(<span class="hljs-params"><span class="hljs-title class_">WebView</span> view, <span class="hljs-title class_">String</span> url</span>) &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    &#125;<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><p><code>return true</code> 表示当前url即使是重定向url也不会再执行（除了在return true之前使用webview.loadUrl(url)除外，因为这个会重新加载）</p>
+</li>
+<li><p><code>return false</code> 表示由系统执行url，直到不再执行此方法，即加载完重定向的ur（即具体的url，不再有重定向）。</p>
+</li>
+</ul>
+<p>或者采用上面博客给出的更加多判断的方法，可以对更多类型的页面的重定向进行判断</p>
+<hr>
+<h2 id="3-总结"><a href="#3-总结" class="headerlink" title="3. 总结"></a>3. 总结</h2><p>最后来说一下总结吧</p>
+<p>本次可以说是安卓课上第一次做一个比较像App的实验了，之前的几次实验和作业也只是实现了一些简单的样式或者功能，而这次不仅要实现功能，UI也要进行一定的设计和美化。</p>
+<p>个人认为工作量还是比较大的了，花费的时间也比较多，虽然最后做出来的功能其实并没有很多，但是因为是第一次做这种体量的安卓项目。</p>
+<p>相比于以往接触到的小程序开发，web开发，android给人最大的不同就是需要配置大量的布局文件。在android当中，并不需要编写像html，css这样的文件去渲染页面，而是需要用xml文件来展现布局的页面内容，也并没有JavaScript这样的语言去对前端的样式，数据逻辑进行处理，而是靠Java语言来编写一个叫做活动（Activity）的东西，将数据连接到一起。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%9C%AC%E7%A7%91/" class="category-chain-item">本科</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%9C%AC%E7%A7%91/%E5%A4%A7%E4%B8%89%E4%B8%8B/" class="category-chain-item">大三下</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%9C%AC%E7%A7%91/%E5%A4%A7%E4%B8%89%E4%B8%8B/%E7%A7%BB%E5%8A%A8%E4%BA%92%E8%81%94%E7%BD%91%E7%BC%96%E7%A8%8B/" class="category-chain-item">移动互联网编程</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/android/" class="print-no-link">#android</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Android实现一个简易的新闻列表APP（TabLayouut + ViewPager + Fragment）</div>
+      <div>http://example.com/2023/04/22/本科/大三下/移动互联网编程/Android实现一个简易的新闻列表APP（TabLayout+ViewPager+Fragment）/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Cheesheep</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年4月22日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/05/10/%E6%9C%AC%E7%A7%91/%E5%A4%A7%E4%B8%89%E4%B8%8B/%E7%A7%BB%E5%8A%A8%E4%BA%92%E8%81%94%E7%BD%91%E7%BC%96%E7%A8%8B/%E5%AE%89%E5%8D%93%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001/" title="安卓学习笔记01">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">安卓学习笔记01</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/04/15/%E6%9C%AC%E7%A7%91/%E5%A4%A7%E4%B8%89%E4%B8%8B/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/%E9%80%9A%E8%BF%87%E6%AD%A3%E5%88%99%E5%BC%8F%E5%BE%97%E5%88%B0NFA%EF%BC%88%E5%88%A9%E7%94%A8%E9%80%86%E6%B3%A2%E5%85%B0%E5%BC%8F%E5%AE%9E%E7%8E%B0Thompson%E7%AE%97%E6%B3%95%EF%BC%89/" title="编译原理Java实现正规式生成NFA（算符优先实现Thompson算法）">
+                        <span class="hidden-mobile">编译原理Java实现正规式生成NFA（算符优先实现Thompson算法）</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

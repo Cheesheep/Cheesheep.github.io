@@ -1,0 +1,750 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><meta name="referrer" content="no-referrer" /><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#4D783B">
+  <meta name="author" content="Cheesheep">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="A*算法实现八数码 启发式搜索(Heuristically Search)又称为有信息搜索(Informed Search)，它是利用问题拥有的启发信息来引导搜索，达到减少搜索范围、降低问题复杂度的目的，这种利用启发信息的搜索过程称为启发式搜索。其代表算法为：贪婪最佳优先搜索(Greedy best-first search)和A ∗ 搜索  具体实现思路可参考以下文章八数码的对应解法： (113">
+<meta property="og:type" content="article">
+<meta property="og:title" content="A*算法实现八数码.md">
+<meta property="og:url" content="http://example.com/2022/10/21/%E6%9C%AC%E7%A7%91/%E5%A4%A7%E4%B8%89%E4%B8%8A/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BA/A%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0%E5%85%AB%E6%95%B0%E7%A0%81/index.html">
+<meta property="og:site_name" content="Cheesheep的博客">
+<meta property="og:description" content="A*算法实现八数码 启发式搜索(Heuristically Search)又称为有信息搜索(Informed Search)，它是利用问题拥有的启发信息来引导搜索，达到减少搜索范围、降低问题复杂度的目的，这种利用启发信息的搜索过程称为启发式搜索。其代表算法为：贪婪最佳优先搜索(Greedy best-first search)和A ∗ 搜索  具体实现思路可参考以下文章八数码的对应解法： (113">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/20210323213339711.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20221008223239483.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20221008223408892.png">
+<meta property="article:published_time" content="2022-10-21T04:47:16.000Z">
+<meta property="article:modified_time" content="2025-08-15T08:36:12.849Z">
+<meta property="article:author" content="Cheesheep">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/20210323213339711.png">
+  
+  
+  
+  <title>A*算法实现八数码.md - Cheesheep的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_5000605_8e8395qng5b.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"mwBHMJuGLL6mKzq8fTgVohlj-gzGzoHsz","app_key":"WqtvgyDFD8JLi1VHAqiZB7n6","server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Cheesheep</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/pokemon_grass_bg.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.1)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="A*算法实现八数码.md"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Cheesheep
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-10-21 12:47" pubdate>
+          2022年10月21日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          27 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">A*算法实现八数码.md</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="A-算法实现八数码"><a href="#A-算法实现八数码" class="headerlink" title="A*算法实现八数码"></a>A*算法实现八数码</h1><blockquote>
+<p>启发式搜索(Heuristically Search)又称为有信息搜索(Informed Search)，它是利用问题拥有的启发信息来引导搜索，达到减少搜索范围、降低问题复杂度的目的，这种利用启发信息的搜索过程称为启发式搜索。其代表算法为：贪婪最佳优先搜索(Greedy best-first search)和A ∗ 搜索</p>
+</blockquote>
+<h4 id="具体实现思路可参考以下文章"><a href="#具体实现思路可参考以下文章" class="headerlink" title="具体实现思路可参考以下文章"></a>具体实现思路可参考以下文章</h4><p>八数码的对应解法： <a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_45336082/article/details/115264396">(113条消息) 【八数码问题】基于状态空间法的知识表示与状态搜索:无信息搜索(BFS&#x2F;DFS) &amp; 启发式搜索(A*)_DtxGogogo的博客-CSDN博客_八数码问题的状态空间图</a></p>
+<p>启发式搜索算法思路讲解（这一篇讲的挺清晰的了，看给出的例子基本可以看懂了）：<a target="_blank" rel="noopener" href="https://zhiqianghe.blog.csdn.net/article/details/104211475">(114条消息) 启发式搜索 (Heuristically Search)-【贪婪最佳优先搜索】和【A*搜索】_小小何先生的博客-CSDN博客_贪婪最佳优先搜索</a></p>
+<hr>
+<h2 id="实现思路"><a href="#实现思路" class="headerlink" title="实现思路"></a>实现思路</h2><p><strong>算法思路</strong></p>
+<ul>
+<li>算法里面，其评价函数由两部分组成，定义如下：</li>
+</ul>
+<p>$$<br>f（n） &#x3D; g（n） + h（n）<br>$$</p>
+<ul>
+<li>g ( n ) 表示的是从<strong>起始</strong>节点到<strong>当前</strong>的节点n的<strong>实际路径</strong>；h ( n ) 表示从当前节点n到目标节点路径中所估算的<strong>最小路径</strong>（也就是直线路径）。</li>
+</ul>
+<p><strong>八数码对应思路</strong></p>
+<p><strong>g（n）</strong>：</p>
+<p>在八数码中可以视为<strong>空格走过的步数</strong>，其实就是树的深度</p>
+<p><strong>欧式距离法求h（n）</strong>:<br>欧式距离: 初始状态中的每一个棋子位置与目标状态的相应棋子位置的几何距离</p>
+<p>  例如：初始状态的6和目标状态的6相差了1个单位距离，初始状态的8和目标状态的8相差了根号2个单位距离<img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/20210323213339711.png" srcset="/img/loading.gif" lazyload alt="来自CSDN"><br>  因此我们的启发函数就是去找出<strong>当前状态</strong>所有不在目标位置的棋子，它们距离目标位置的<strong>欧式距离之和</strong>就是当前状态到目标状态的开销估计代价h ( n )。</p>
+<hr>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><blockquote>
+<p>有了大概思路之后，其实就很好写了，只需要参照原来BFS的框架去改动就可以了，代码思路<strong>要结合BFS的思路</strong>一起食用，因为是基于它的框架来进行修改</p>
+</blockquote>
+<h3 id="改动部分："><a href="#改动部分：" class="headerlink" title="改动部分："></a>改动部分：</h3><h3 id="1-Main函数"><a href="#1-Main函数" class="headerlink" title="1.Main函数"></a>1.Main函数</h3><p>main函数部分几乎<strong>没有改动</strong></p>
+<ul>
+<li>在最初的State类上面多了一个deepnum,表示的是层数，也表示g（n），即走过的步数</li>
+<li>不需要OPEN表</li>
+</ul>
+<h3 id="2-State类成员变量"><a href="#2-State类成员变量" class="headerlink" title="2.State类成员变量"></a>2.State类成员变量</h3><p>新增了<strong>两个</strong>成员变量和一个静态成员变量</p>
+<ul>
+<li><p>新增Deep表示层数</p>
+</li>
+<li><p>新增Evaluation表示<strong>评估函数</strong> F(n)，后面会有计算评估函数的成员方法</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">State</span>:<br>    Tar_State = <span class="hljs-literal">None</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, CuState, index, deepNum, parent=<span class="hljs-literal">None</span>, <span class="hljs-built_in">dir</span>=<span class="hljs-literal">None</span></span>):<br>        <span class="hljs-variable language_">self</span>.parent = parent  <span class="hljs-comment"># 父亲节点</span><br>        <span class="hljs-variable language_">self</span>.Direction = <span class="hljs-built_in">dir</span><br>        <span class="hljs-variable language_">self</span>.Matrix = CuState<br>        <span class="hljs-variable language_">self</span>.CuIndex = index<br>        <span class="hljs-variable language_">self</span>.Deep = deepNum <span class="hljs-comment">#g(n): 节点深度，表示空格走过的步数</span><br>        <span class="hljs-variable language_">self</span>.Evaluation = <span class="hljs-number">0.0</span> <span class="hljs-comment">#评估函数 = g(n) + h(n)</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="3-State类成员函数"><a href="#3-State类成员函数" class="headerlink" title="3.State类成员函数"></a>3.State类成员函数</h3><p>新增<strong>两个</strong>成员函数,Find（）和Create_Next_State（）函数有所改动</p>
+<ul>
+<li><p><code>GetIndex(int indexNum)</code> 用来查找<strong>某个数字</strong>在<strong>目标状态</strong>的矩阵的哪个位置</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20221008223239483.png" srcset="/img/loading.gif" lazyload alt="image-20221008223239483"></p>
+</li>
+<li><p><code>Get_H_fun(State Next_State)</code> 计算评估函数当中h（n）的值并且返回</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20221008223408892.png" srcset="/img/loading.gif" lazyload alt="image-20221008223408892"></p>
+</li>
+<li><p><code> Create_Next_State(self, Cu_index, Next_index, Fir_State, Dir)</code> 和原来的差不多，但是多了个deepNum且每次自增会＋1</p>
+<p>其次在最后要多一行<strong>计算评估函数</strong>的代码</p>
+</li>
+<li><p>Find（）函数的话，整体思路是差不多的，也是在一个while循环里面不断获取新的状态并且判断，这里是要计算每一次新状态的评估函数，</p>
+<p>并且比较四个新状态（如果有状态在CLOSE表里面重复了则不会参与比较，这样可以<strong>节省</strong>比较次数，并且<strong>不会死循环</strong>）的评估函数大小，下一次循环则用当前f（n）最小的那一个</p>
+<p>剩下的就是一些具体小细节要注意，例如Index记得更新，然后区分好MinPath和_MinPath的作用（在代码中的变量）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">Find</span>(<span class="hljs-params">self</span>):<br>    <span class="hljs-keyword">global</span> CLOSE<br>    stateNum = <span class="hljs-number">0</span><br>    Index = <span class="hljs-variable language_">self</span>.CuIndex<br>    _MinPath=MinPath = <span class="hljs-variable language_">self</span><span class="hljs-comment"># 用来标记最小值</span><br>    MinPath.Evaluation = <span class="hljs-number">9999.0</span><br>    <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>        CLOSE.push(MinPath)<br>        MinPath = copy.deepcopy(_MinPath)<br>        Index = MinPath.CuIndex<br>        _MinPath = <span class="hljs-variable language_">self</span> <span class="hljs-comment">#重新寻找当前父节点下的最小值</span><br>        <span class="hljs-keyword">if</span> ((Index + <span class="hljs-number">1</span>) % <span class="hljs-number">3</span> != <span class="hljs-number">0</span>):  <span class="hljs-comment">#右边界条件</span><br>            Right_State = <span class="hljs-variable language_">self</span>.Create_Next_State(Index, Index + <span class="hljs-number">1</span>, MinPath, <span class="hljs-string">&quot;Right&quot;</span>)<br>            <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> <span class="hljs-variable language_">self</span>.is_State_Existed(CLOSE,Right_State): <span class="hljs-comment">#判断是否已经走过了这条路径</span><br>                <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Move Right&quot;</span>)<span class="hljs-comment"># 代表可以向右移动</span><br>                <span class="hljs-keyword">if</span> (Right_State.Matrix == TargetState).<span class="hljs-built_in">all</span>(): <span class="hljs-comment"># numpy中对比数组中所有元素的方法</span><br>                    <span class="hljs-keyword">return</span> Right_State<br>                    <span class="hljs-comment">#Next_State.ShowState()</span><br>                    <span class="hljs-comment">#判断下一个节点的估值函数是否比当前存储的小</span><br>                <span class="hljs-keyword">elif</span>(_MinPath.Evaluation &gt; Right_State.Evaluation):<br>                    _MinPath = Right_State        <span class="hljs-comment"># 先用_MinPath来暂时存储最小路径，下一个循环的时候再使用 </span><br>                CLOSE.push(Right_State)<br>  <br>        <span class="hljs-keyword">if</span> (Index % <span class="hljs-number">3</span> != <span class="hljs-number">0</span>):  <span class="hljs-comment">#右边界条件</span><br>            Left_State = <span class="hljs-variable language_">self</span>.Create_Next_State(Index, Index - <span class="hljs-number">1</span>, MinPath, <span class="hljs-string">&quot;Left&quot;</span>)<br>            <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> <span class="hljs-variable language_">self</span>.is_State_Existed(CLOSE,Left_State): <span class="hljs-comment">#判断是否已经走过了这条路径</span><br>                <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Move Left&quot;</span>)<span class="hljs-comment"># 代表可以向右移动</span><br>                <span class="hljs-keyword">if</span> (Left_State.Matrix == TargetState).<span class="hljs-built_in">all</span>(): <span class="hljs-comment"># numpy中对比数组中所有元素的方法</span><br>                    <span class="hljs-keyword">return</span> Left_State<br>                    <span class="hljs-comment">#Next_State.ShowState()</span><br>                    <span class="hljs-comment">#判断下一个节点的估值函数是否比当前存储的小</span><br>                <span class="hljs-keyword">elif</span>(_MinPath.Evaluation &gt; Left_State.Evaluation):<br>                    _MinPath = Left_State    <span class="hljs-comment"># 先用_MinPath来暂时存储最小路径，下一个循环的时候再使用 </span><br>                CLOSE.push(Left_State)                        <br>  <br>        <span class="hljs-keyword">if</span> (Index - <span class="hljs-number">3</span> &gt;= <span class="hljs-number">0</span>):  <span class="hljs-comment">#上边界条件</span><br>            Up_State = <span class="hljs-variable language_">self</span>.Create_Next_State(Index, Index - <span class="hljs-number">3</span>, MinPath, <span class="hljs-string">&quot;Up&quot;</span>)<br>            <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> <span class="hljs-variable language_">self</span>.is_State_Existed(CLOSE,Up_State): <span class="hljs-comment">#判断是否已经走过了这条路径</span><br>                <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Move Up&quot;</span>)<span class="hljs-comment"># 代表可以向右移动</span><br>                <span class="hljs-keyword">if</span> (Up_State.Matrix == TargetState).<span class="hljs-built_in">all</span>(): <span class="hljs-comment"># numpy中对比数组中所有元素的方法</span><br>                    <span class="hljs-keyword">return</span> Up_State<br>                    <span class="hljs-comment">#Next_State.ShowState()</span><br>                    <span class="hljs-comment">#判断下一个节点的估值函数是否比当前存储的小</span><br>                <span class="hljs-keyword">elif</span>(_MinPath.Evaluation &gt; Up_State.Evaluation):<br>                    _MinPath = Up_State        <span class="hljs-comment"># 先用_MinPath来暂时存储最小路径，下一个循环的时候再使用 </span><br>                CLOSE.push(Up_State)                        <br>        <br>        <span class="hljs-keyword">if</span> (Index + <span class="hljs-number">3</span> &lt;= <span class="hljs-number">8</span>):  <span class="hljs-comment">#下边界条件</span><br>            Down_State = <span class="hljs-variable language_">self</span>.Create_Next_State(Index, Index + <span class="hljs-number">3</span>, MinPath, <span class="hljs-string">&quot;Down&quot;</span>)<br>            <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> <span class="hljs-variable language_">self</span>.is_State_Existed(CLOSE,Down_State): <span class="hljs-comment">#判断是否已经走过了这条路径</span><br>                <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Move Down&quot;</span>)<span class="hljs-comment"># 代表可以向右移动</span><br>                <span class="hljs-keyword">if</span> (Down_State.Matrix == TargetState).<span class="hljs-built_in">all</span>(): <span class="hljs-comment"># numpy中对比数组中所有元素的方法</span><br>                    <span class="hljs-keyword">return</span> Down_State<br>                    <span class="hljs-comment">#Next_State.ShowState()</span><br>                    <span class="hljs-comment">#判断下一个节点的估值函数是否比当前存储的小</span><br>                <span class="hljs-keyword">elif</span>(_MinPath.Evaluation &gt; Down_State.Evaluation):<br>                    _MinPath = Down_State         <span class="hljs-comment"># 先用_MinPath来暂时存储最小路径，下一个循环的时候再使用</span><br>                CLOSE.push(Down_State)<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;One layer Through，now Min f(n) = &quot;</span>,_MinPath.Evaluation)<br></code></pre></td></tr></table></figure>
+
+<p>最后说一下，该循环是走不出去的，必定要找到目标状态才会停下来，而怎么判断是否该初始状态是否最终能够达到目标状态我好像还不知道怎么写，到时候再完善吧（没有那个时候了可能哈哈哈）</p>
+</li>
+</ul>
+<hr>
+<h2 id="最后总结"><a href="#最后总结" class="headerlink" title="最后总结"></a>最后总结</h2><p>  本次实验也是参照了很多博客的思路，其中帮助比较大的也已经写在文章的上方了，由于笔者本人对于python还不是很熟练，因此写出来的代码难免会有许多冗余的地方，也请多多谅解，本身写这篇东西的目的就是为了做一个记录，也方便以后再次查阅，若能够对他人起到帮助则是锦上添花了。</p>
+<p>  A*算法其实理解下来之后也不是很难，重点还是怎么样去构建一个评估函数可以让其更好的发挥效果，想写出一个代码框架不算特别难，不过笔者能力有限，因此搭建好代码框架之后，花了很多时间去debug自己写的东西，继续努力吧，共勉</p>
+<hr>
+<h2 id="附上全部代码"><a href="#附上全部代码" class="headerlink" title="附上全部代码"></a>附上全部代码</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> copy<br><span class="hljs-keyword">import</span> math<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">MyQueue</span>:  <span class="hljs-comment"># 队列数据结构</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, size</span>):<br>        <span class="hljs-variable language_">self</span>.front = -<span class="hljs-number">1</span><br>        <span class="hljs-variable language_">self</span>.rear = -<span class="hljs-number">1</span><br>        <span class="hljs-variable language_">self</span>._size = size<br>        <span class="hljs-variable language_">self</span>._queue = []<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">push</span>(<span class="hljs-params">self, data</span>):<br>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> (<span class="hljs-variable language_">self</span>.isFull()):<br>            <span class="hljs-variable language_">self</span>._queue.append(data)<br>            <span class="hljs-variable language_">self</span>.rear += <span class="hljs-number">1</span><br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">pop</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> (<span class="hljs-variable language_">self</span>.isEmpty()):<br>            <span class="hljs-variable language_">self</span>._queue.pop(<span class="hljs-number">0</span>)<br>            <span class="hljs-variable language_">self</span>.rear -= <span class="hljs-number">1</span><br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">isFull</span>(<span class="hljs-params">self</span>):  <span class="hljs-comment"># 队列满时返回1</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">self</span>.rear == <span class="hljs-variable language_">self</span>._size - <span class="hljs-number">1</span><br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">isEmpty</span>(<span class="hljs-params">self</span>):  <span class="hljs-comment"># 队列空时返回1</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">self</span>.rear == -<span class="hljs-number">1</span><br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">getFont</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">self</span>.isEmpty() == <span class="hljs-number">0</span>):<br>            <span class="hljs-keyword">return</span> <span class="hljs-variable language_">self</span>._queue[<span class="hljs-number">0</span>]<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">State</span>:<br>    Tar_State = <span class="hljs-literal">None</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, CuState, index, deepNum, parent=<span class="hljs-literal">None</span>, <span class="hljs-built_in">dir</span>=<span class="hljs-literal">None</span></span>):<br>        <span class="hljs-variable language_">self</span>.parent = parent  <span class="hljs-comment"># 父亲节点</span><br>        <span class="hljs-variable language_">self</span>.Direction = <span class="hljs-built_in">dir</span><br>        <span class="hljs-variable language_">self</span>.Matrix = CuState<br>        <span class="hljs-variable language_">self</span>.CuIndex = index<br>        <span class="hljs-variable language_">self</span>.Deep = deepNum <span class="hljs-comment">#g(n): 节点深度，表示空格走过的步数</span><br>        <span class="hljs-variable language_">self</span>.Evaluation = <span class="hljs-number">0.0</span> <span class="hljs-comment">#评估函数 = g(n) + h(n)</span><br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">ShowState</span>(<span class="hljs-params">self</span>):<span class="hljs-comment">#打印矩阵信息</span><br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Move &quot;</span>,<span class="hljs-variable language_">self</span>.Direction,<span class="hljs-string">&quot; f(n) = &quot;</span>,<span class="hljs-variable language_">self</span>.Evaluation)<br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">3</span>):<br>            <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">3</span>):<br>                <span class="hljs-built_in">print</span>(<span class="hljs-variable language_">self</span>.Matrix[j + i * <span class="hljs-number">3</span>],end=<span class="hljs-string">&quot; &quot;</span>)<br>            <span class="hljs-built_in">print</span>()<br>        <span class="hljs-built_in">print</span>()<br>    <br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">GetIndex</span>(<span class="hljs-params">self,indexNum</span>): <span class="hljs-comment">#用来查找某个数字在矩阵的哪个位置</span><br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">9</span>):<br>            <span class="hljs-keyword">if</span>(indexNum == State.Tar_State[i]):<br>                <span class="hljs-keyword">return</span> i<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span> <span class="hljs-comment">#返回数组失败</span><br><br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">Swap</span>(<span class="hljs-params">self, Cu_index, Next_index, NState</span>):<span class="hljs-comment">#交换矩阵当中的两个数</span><br>        temp = NState[Cu_index]<br>        NState[Cu_index] = NState[Next_index]<br>        NState[Next_index] = temp<br><br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">calculate_Reverse</span>(<span class="hljs-params">self,Matrix</span>): <span class="hljs-comment">#计算逆序数</span><br>        State_Matrix = []<br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">9</span>):<br>            State_Matrix.append(Matrix[i])<br>        State_Matrix.remove(<span class="hljs-number">0</span>)<br>        reverse_number = <span class="hljs-number">0</span><br>        <span class="hljs-keyword">for</span> cur <span class="hljs-keyword">in</span> State_Matrix:<br>            index = State_Matrix.index(cur)<br>            <span class="hljs-comment"># 遍历cur后面的数字</span><br>            <span class="hljs-keyword">for</span> after_cur <span class="hljs-keyword">in</span> State_Matrix[index:]:<br>                <span class="hljs-keyword">if</span> cur &gt; after_cur:<br>                    reverse_number += <span class="hljs-number">1</span><br>        <span class="hljs-keyword">if</span> reverse_number % <span class="hljs-number">2</span> == <span class="hljs-number">0</span>:<br>            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span><br>        <span class="hljs-keyword">else</span>:<br>            <span class="hljs-keyword">return</span> <span class="hljs-number">1</span><br>    <br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">is_Solvable</span>(<span class="hljs-params">self</span>): <span class="hljs-comment">#判断该状态是否有解</span><br>        init_Reverse_Num = <span class="hljs-variable language_">self</span>.calculate_Reverse(<span class="hljs-variable language_">self</span>.Matrix)<br>        Tar_Reverse_Num = <span class="hljs-variable language_">self</span>.calculate_Reverse(<span class="hljs-variable language_">self</span>.Tar_State)<br>        <span class="hljs-keyword">if</span> init_Reverse_Num == Tar_Reverse_Num:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;The State is solvable&quot;</span>)<br>            <span class="hljs-keyword">return</span> <span class="hljs-number">1</span><br>        <span class="hljs-keyword">else</span>:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;The State is unsolvable&quot;</span>)<br>            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span><br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">is_State_Existed</span>(<span class="hljs-params">self,CLOSE,Next_State</span>):<span class="hljs-comment">#用来判读新的状态是否和CLOSE表里面的有重叠</span><br>        <span class="hljs-keyword">for</span> node <span class="hljs-keyword">in</span> CLOSE._queue:<br>            <span class="hljs-keyword">if</span>(Next_State.Matrix == node.Matrix).<span class="hljs-built_in">all</span>():<br>                <span class="hljs-keyword">return</span> <span class="hljs-number">1</span> <span class="hljs-comment">#表示已经有元素存在，不会将该状态入队</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span> <br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">Get_H_fun</span>(<span class="hljs-params">self,Next_State</span>):<span class="hljs-comment"># 计算h（n）的大小并且返回h(n)的值</span><br>        h_distance = <span class="hljs-number">0.0</span><br>        <span class="hljs-keyword">for</span> index_cur <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">9</span>):<br>            <span class="hljs-keyword">if</span> Next_State.Matrix[index_cur] != State.Tar_State[index_cur]:<br>                x_cur = index_cur % <span class="hljs-number">3</span><span class="hljs-comment">#该数字当前的索引 空间坐标</span><br>                y_cur = <span class="hljs-built_in">int</span>(index_cur / <span class="hljs-number">3</span>)<br>                index_tar = <span class="hljs-variable language_">self</span>.GetIndex(Next_State.Matrix[index_cur])<span class="hljs-comment">#目标矩阵该数字的对应索引位置</span><br>                x_tar = index_tar % <span class="hljs-number">3</span><span class="hljs-comment">#该数字当前的索引 空间坐标</span><br>                y_tar = <span class="hljs-built_in">int</span>(index_tar / <span class="hljs-number">3</span>) <span class="hljs-comment">#强制转换是为了让y轴只有0~2这三个数</span><br>                h_n_each = math.sqrt((x_cur - x_tar) ** <span class="hljs-number">2</span> + (y_cur - y_tar) ** <span class="hljs-number">2</span>)<br>                h_distance += h_n_each<br>        <span class="hljs-keyword">return</span> h_distance<br>        <br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">Create_Next_State</span>(<span class="hljs-params">self, Cu_index, Next_index, Fir_State, Dir</span>):<span class="hljs-comment">#通过上一个节点来产生一个新的State类，含有新的方向和数组</span><br>        Next_State = State(<br>            CuState=Fir_State.Matrix.copy(),<br>            index=Next_index,<br>            deepNum=Fir_State.Deep + <span class="hljs-number">1</span>,<br>            parent=Fir_State, <span class="hljs-comment">#指向上一个节点</span><br>            <span class="hljs-built_in">dir</span>=Dir)<br>        <span class="hljs-variable language_">self</span>.Swap(Cu_index, Next_index, Next_State.Matrix)<br>        Next_State.Evaluation = <span class="hljs-variable language_">self</span>.Get_H_fun(Next_State) + Next_State.Deep<br>        <span class="hljs-keyword">return</span> Next_State<br>    <br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">Find</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-keyword">global</span> CLOSE<br>        Index = <span class="hljs-variable language_">self</span>.CuIndex<br>        _MinPath=MinPath = <span class="hljs-variable language_">self</span><span class="hljs-comment"># 用来标记最小值</span><br>        MinPath.Evaluation = <span class="hljs-number">9999.0</span><br>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> <span class="hljs-variable language_">self</span>.is_Solvable(): <span class="hljs-comment"># 用逆序数来判断是否有解</span><br>            <span class="hljs-keyword">return</span> <span class="hljs-variable language_">self</span><br>        <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:<br>            CLOSE.push(MinPath)<br>            MinPath = copy.deepcopy(_MinPath)<br>            Index = MinPath.CuIndex<br>            _MinPath = <span class="hljs-variable language_">self</span> <span class="hljs-comment">#重新寻找当前父节点下的最小值</span><br>            <span class="hljs-keyword">if</span> ((Index + <span class="hljs-number">1</span>) % <span class="hljs-number">3</span> != <span class="hljs-number">0</span>):  <span class="hljs-comment">#右边界条件</span><br>                Right_State = <span class="hljs-variable language_">self</span>.Create_Next_State(Index, Index + <span class="hljs-number">1</span>, MinPath, <span class="hljs-string">&quot;Right&quot;</span>)<br>                <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> <span class="hljs-variable language_">self</span>.is_State_Existed(CLOSE,Right_State): <span class="hljs-comment">#判断是否已经走过了这条路径</span><br>                    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Move Right ,&quot;</span>,end=<span class="hljs-string">&#x27; &#x27;</span>)<span class="hljs-comment"># 代表可以向右移动</span><br>                    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;its f(n) = &#x27;</span>,Right_State.Evaluation)<br>                    <span class="hljs-keyword">if</span> (Right_State.Matrix == TargetState).<span class="hljs-built_in">all</span>(): <span class="hljs-comment"># numpy中对比数组中所有元素的方法</span><br>                        <span class="hljs-keyword">return</span> Right_State<br>                        <span class="hljs-comment">#Next_State.ShowState()</span><br>                        <span class="hljs-comment">#判断下一个节点的估值函数是否比当前存储的小</span><br>                    <span class="hljs-keyword">elif</span>(_MinPath.Evaluation &gt; Right_State.Evaluation):<br>                        _MinPath = Right_State        <span class="hljs-comment"># 先用_MinPath来暂时存储最小路径，下一个循环的时候再使用 </span><br>                    CLOSE.push(Right_State)<br><br>            <span class="hljs-keyword">if</span> (Index % <span class="hljs-number">3</span> != <span class="hljs-number">0</span>):  <span class="hljs-comment">#右边界条件</span><br>                Left_State = <span class="hljs-variable language_">self</span>.Create_Next_State(Index, Index - <span class="hljs-number">1</span>, MinPath, <span class="hljs-string">&quot;Left&quot;</span>)<br>                <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> <span class="hljs-variable language_">self</span>.is_State_Existed(CLOSE,Left_State): <span class="hljs-comment">#判断是否已经走过了这条路径</span><br>                    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Move Left ,&quot;</span>,end=<span class="hljs-string">&#x27; &#x27;</span>)<span class="hljs-comment"># 代表可以向右移动</span><br>                    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;its f(n) = &#x27;</span>,Left_State.Evaluation)<br>                    <span class="hljs-keyword">if</span> (Left_State.Matrix == TargetState).<span class="hljs-built_in">all</span>(): <span class="hljs-comment"># numpy中对比数组中所有元素的方法</span><br>                        <span class="hljs-keyword">return</span> Left_State<br>                        <span class="hljs-comment">#Next_State.ShowState()</span><br>                        <span class="hljs-comment">#判断下一个节点的估值函数是否比当前存储的小</span><br>                    <span class="hljs-keyword">elif</span>(_MinPath.Evaluation &gt; Left_State.Evaluation):<br>                        _MinPath = Left_State    <span class="hljs-comment"># 先用_MinPath来暂时存储最小路径，下一个循环的时候再使用 </span><br>                    CLOSE.push(Left_State)                        <br><br>            <span class="hljs-keyword">if</span> (Index - <span class="hljs-number">3</span> &gt;= <span class="hljs-number">0</span>):  <span class="hljs-comment">#上边界条件</span><br>                Up_State = <span class="hljs-variable language_">self</span>.Create_Next_State(Index, Index - <span class="hljs-number">3</span>, MinPath, <span class="hljs-string">&quot;Up&quot;</span>)<br>                <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> <span class="hljs-variable language_">self</span>.is_State_Existed(CLOSE,Up_State): <span class="hljs-comment">#判断是否已经走过了这条路径</span><br>                    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Move Up ,&quot;</span>,end=<span class="hljs-string">&#x27; &#x27;</span>)<span class="hljs-comment"># 代表可以向右移动</span><br>                    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;its f(n) = &#x27;</span>,Up_State.Evaluation)<br>                    <span class="hljs-keyword">if</span> (Up_State.Matrix == TargetState).<span class="hljs-built_in">all</span>(): <span class="hljs-comment"># numpy中对比数组中所有元素的方法</span><br>                        <span class="hljs-keyword">return</span> Up_State<br>                        <span class="hljs-comment">#Next_State.ShowState()</span><br>                        <span class="hljs-comment">#判断下一个节点的估值函数是否比当前存储的小</span><br>                    <span class="hljs-keyword">elif</span>(_MinPath.Evaluation &gt; Up_State.Evaluation):<br>                        _MinPath = Up_State        <span class="hljs-comment"># 先用_MinPath来暂时存储最小路径，下一个循环的时候再使用 </span><br>                    CLOSE.push(Up_State)                        <br>            <br>            <span class="hljs-keyword">if</span> (Index + <span class="hljs-number">3</span> &lt;= <span class="hljs-number">8</span>):  <span class="hljs-comment">#下边界条件</span><br>                Down_State = <span class="hljs-variable language_">self</span>.Create_Next_State(Index, Index + <span class="hljs-number">3</span>, MinPath, <span class="hljs-string">&quot;Down&quot;</span>)<br>                <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> <span class="hljs-variable language_">self</span>.is_State_Existed(CLOSE,Down_State): <span class="hljs-comment">#判断是否已经走过了这条路径</span><br>                    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Move Down ,&quot;</span>,end=<span class="hljs-string">&#x27; &#x27;</span>)<span class="hljs-comment"># 代表可以向右移动</span><br>                    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;its f(n) = &#x27;</span>,Down_State.Evaluation)<br>                    <span class="hljs-keyword">if</span> (Down_State.Matrix == TargetState).<span class="hljs-built_in">all</span>(): <span class="hljs-comment"># numpy中对比数组中所有元素的方法</span><br>                        <span class="hljs-keyword">return</span> Down_State<br>                        <span class="hljs-comment">#Next_State.ShowState()</span><br>                        <span class="hljs-comment">#判断下一个节点的估值函数是否比当前存储的小</span><br>                    <span class="hljs-keyword">elif</span>(_MinPath.Evaluation &gt; Down_State.Evaluation):<br>                        _MinPath = Down_State         <span class="hljs-comment"># 先用_MinPath来暂时存储最小路径，下一个循环的时候再使用</span><br>                    CLOSE.push(Down_State)<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;One layer Through，now Min f(n) = &quot;</span>,_MinPath.Evaluation)<br>            <span class="hljs-built_in">print</span>()                                        <br>                    <br><br>    <br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    <span class="hljs-keyword">if</span> <span class="hljs-number">1</span>:<br>        OriginState = np.array([<span class="hljs-number">2</span>, <span class="hljs-number">8</span>, <span class="hljs-number">3</span>,<br>                    <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">4</span>,<br>                    <span class="hljs-number">7</span>, <span class="hljs-number">6</span>, <span class="hljs-number">5</span>])<br>        Or_Index = <span class="hljs-number">4</span><br>    <span class="hljs-keyword">elif</span> <span class="hljs-number">0</span>:<br>        OriginState = np.array([<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">3</span>,<br>                    <span class="hljs-number">8</span>, <span class="hljs-number">2</span>, <span class="hljs-number">6</span>,<br>                    <span class="hljs-number">7</span>, <span class="hljs-number">5</span>, <span class="hljs-number">4</span>])    <br>        Or_Index = <span class="hljs-number">1</span><br>    <span class="hljs-keyword">elif</span> <span class="hljs-number">0</span>:<br>        OriginState = np.array([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>,<br>                    <span class="hljs-number">4</span>, <span class="hljs-number">0</span>, <span class="hljs-number">5</span>,<br>                    <span class="hljs-number">8</span>, <span class="hljs-number">7</span>, <span class="hljs-number">6</span>])    <br>        Or_Index = <span class="hljs-number">4</span><br>    <span class="hljs-keyword">elif</span> <span class="hljs-number">0</span>:<br>        OriginState = np.array([<span class="hljs-number">4</span>, <span class="hljs-number">8</span>, <span class="hljs-number">3</span>,<br>                    <span class="hljs-number">1</span>, <span class="hljs-number">6</span>, <span class="hljs-number">5</span>,<br>                    <span class="hljs-number">0</span>, <span class="hljs-number">4</span>, <span class="hljs-number">7</span>])<br>        Or_Index = <span class="hljs-number">6</span><br>                                                 <br>    TargetState = np.array([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>,<br>                   <span class="hljs-number">8</span>, <span class="hljs-number">0</span>, <span class="hljs-number">4</span>,<br>                   <span class="hljs-number">7</span>, <span class="hljs-number">6</span>, <span class="hljs-number">5</span>])<br>    CLOSE = MyQueue(<span class="hljs-number">300</span>)<br>    State.Tar_State = TargetState<br>    Or_State = State(CuState=OriginState,deepNum=<span class="hljs-number">0</span>, index=Or_Index)<br>    EndState = Or_State.Find() <span class="hljs-comment">#若查询失败返回Origin节点，没有父类，因此不输出</span><br>    Path = [] <span class="hljs-comment"># 用来存储节点路径，用于正序输出</span><br>    <span class="hljs-keyword">while</span> (EndState.parent <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>):<br>        Path.append(EndState)<br>        EndState = EndState.parent<br>    <span class="hljs-keyword">if</span>(Path):<br>        Or_State.ShowState()<br>        Path.reverse()<br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> Path:<br>            i.ShowState()    <br></code></pre></td></tr></table></figure>
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%9C%AC%E7%A7%91/" class="category-chain-item">本科</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%9C%AC%E7%A7%91/%E5%A4%A7%E4%B8%89%E4%B8%8A/" class="category-chain-item">大三上</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%9C%AC%E7%A7%91/%E5%A4%A7%E4%B8%89%E4%B8%8A/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BA/" class="category-chain-item">人工智能导论</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>A*算法实现八数码.md</div>
+      <div>http://example.com/2022/10/21/本科/大三上/人工智能导论/A算法实现八数码/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Cheesheep</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年10月21日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/10/28/%E5%90%84%E7%A7%8D%E9%9A%8F%E7%AC%94%E7%BB%8F%E9%AA%8C%E8%AE%B0%E5%BD%95/%E5%A6%82%E4%BD%95%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A2/" title="腾讯服务器实现ipad连接远程电脑桌面">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">腾讯服务器实现ipad连接远程电脑桌面</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/08/20/%E5%A4%A7%E5%AD%A6%E7%AB%9E%E8%B5%9B/%E6%99%BA%E8%83%BD%E8%BD%A6/%E5%9F%BA%E4%BA%8E%E7%94%B5%E7%A3%81%E5%BE%AA%E8%BF%B9%E7%9A%84STC16%E5%9B%9B%E8%BD%AE%E8%BD%A6%E6%8A%80%E6%9C%AF%E6%96%87%E6%A1%A3/" title="基于电磁循迹的STC16四轮车">
+                        <span class="hidden-mobile">基于电磁循迹的STC16四轮车</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

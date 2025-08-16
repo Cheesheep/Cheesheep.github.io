@@ -1,0 +1,807 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><meta name="referrer" content="no-referrer" /><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#4D783B">
+  <meta name="author" content="Cheesheep">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="传输层知识总结 [TOC] 1. 传输层基本功能根本目的：在网络层提供的数据通信服务基础上，实现主机进程间可靠服务，实现“端到端”服务（主机-主机 → 端-端） 应用进程标识： 进程标识三元组：协议、本地地址、本地端口，也叫半相关 •比如：TCP, 202.1.2.5:3022 Ø进程通信标识五元组（唯一标识）：协议、本地地址、本地端口、远程地址、远程端口号，也叫全相关 2. UDP2.1 UDP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="传输层知识总结">
+<meta property="og:url" content="http://example.com/2023/06/21/%E6%9C%AC%E7%A7%91/%E5%A4%A7%E4%B8%89%E4%B8%8B/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E4%BC%A0%E8%BE%93%E5%B1%82%E7%9F%A5%E8%AF%86%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="Cheesheep的博客">
+<meta property="og:description" content="传输层知识总结 [TOC] 1. 传输层基本功能根本目的：在网络层提供的数据通信服务基础上，实现主机进程间可靠服务，实现“端到端”服务（主机-主机 → 端-端） 应用进程标识： 进程标识三元组：协议、本地地址、本地端口，也叫半相关 •比如：TCP, 202.1.2.5:3022 Ø进程通信标识五元组（唯一标识）：协议、本地地址、本地端口、远程地址、远程端口号，也叫全相关 2. UDP2.1 UDP">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230625164719657.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230629172347620.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230625211240920.png">
+<meta property="og:image" content="https://iknow-pic.cdn.bcebos.com/810a19d8bc3eb135e1c04ec7b61ea8d3fd1f4443?x-bce-process=image/resize,m_lfit,w_600,h_800,limit_1/quality,q_85/format,f_auto">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230625213051169.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230625213300260.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230625213317566.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230626111232396.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230626111519354.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230626111610137.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230626113329398.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230626145149108.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230626145158053.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230629152724413.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230629175614610.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230626145430292.png">
+<meta property="article:published_time" content="2023-06-20T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-08-15T09:00:39.336Z">
+<meta property="article:author" content="Cheesheep">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230625164719657.png">
+  
+  
+  
+  <title>传输层知识总结 - Cheesheep的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_5000605_8e8395qng5b.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"mwBHMJuGLL6mKzq8fTgVohlj-gzGzoHsz","app_key":"WqtvgyDFD8JLi1VHAqiZB7n6","server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Cheesheep</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/pokemon_grass_bg.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.1)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="传输层知识总结"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Cheesheep
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-06-21 00:00" pubdate>
+          2023年6月21日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          18 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">传输层知识总结</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="传输层知识总结"><a href="#传输层知识总结" class="headerlink" title="传输层知识总结"></a>传输层知识总结</h1><hr>
+<p>[TOC]</p>
+<h2 id="1-传输层基本功能"><a href="#1-传输层基本功能" class="headerlink" title="1. 传输层基本功能"></a>1. 传输层基本功能</h2><p><strong>根本目的</strong>：在网络层提供的数据通信服务基础上，实现主机<strong>进程间可靠</strong>服务，实现“<strong>端到端</strong>”服务（主机-主机 → 端-端）</p>
+<p><strong>应用进程标识：</strong></p>
+<p>进程标识<strong>三元组</strong>：协议、本地地址、本地端口，也叫半相关</p>
+<p>•比如：TCP, 202.1.2.5:3022</p>
+<p>Ø进程通信标识<strong>五元组</strong>（<strong>唯一标识</strong>）：协议、本地地址、本地端口、远程地址、远程端口号，也叫全相关</p>
+<h2 id="2-UDP"><a href="#2-UDP" class="headerlink" title="2. UDP"></a>2. UDP</h2><h3 id="2-1-UDP协议主要特点"><a href="#2-1-UDP协议主要特点" class="headerlink" title="2.1 UDP协议主要特点"></a>2.1 UDP协议主要特点</h3><ul>
+<li><strong>无连接、不可靠</strong>：开销低、尽力而为</li>
+<li><strong>面向报文</strong>的传输层协议：UDP 对应用层传递下来的报文，既不合并，也不拆分，而是保留这些报文的边界。UDP 层一次向对方交付一个完整的报文</li>
+<li><strong>没有拥塞控制</strong>：网络出现的拥塞时，UDP不会使源主机的发送速率降低，适合实时通信应用</li>
+<li><strong>首部开销小</strong>：只有8字节</li>
+<li>提供<strong>复用&#x2F;分用</strong></li>
+</ul>
+<h3 id="2-2-UDP数据报格式-（不包括伪首部！）"><a href="#2-2-UDP数据报格式-（不包括伪首部！）" class="headerlink" title="2.2 UDP数据报格式 （不包括伪首部！）"></a>2.2 UDP数据报格式 （不包括伪首部！）</h3><p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230625164719657.png" srcset="/img/loading.gif" lazyload alt="image-20230625164719657"></p>
+<p>**端口号：**包括源端口号和目的端口号，分别表示发送方和接收方的进程端口号，各为2字节</p>
+<p><strong>UDP总长度</strong>：<strong>包括报头</strong>在内的用户数据报的总长度，2字节（<strong>不包括伪首部</strong>）</p>
+<p>**校验和：**用于检查整个数据报（含报头）是否传输出错，<strong>可选</strong>，若无，填0（TCP是必选）</p>
+<h3 id="2-3-校验和计算"><a href="#2-3-校验和计算" class="headerlink" title="2.3 校验和计算"></a>2.3 校验和计算</h3><p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230629172347620.png" srcset="/img/loading.gif" lazyload alt="image-20230629172347620"></p>
+<p>以下两种说法都是没错的：</p>
+<ul>
+<li><p>UDP校验和字段的计算机包括一个伪首部、UDP首部和携带的用户数据</p>
+</li>
+<li><p>UDP校验和对伪首部、UDP报文头以及应用层数据进行校验</p>
+</li>
+</ul>
+<h2 id="3-TCP"><a href="#3-TCP" class="headerlink" title="3. TCP"></a>3. TCP</h2><h3 id="3-1-TCP协议主要特点"><a href="#3-1-TCP协议主要特点" class="headerlink" title="3.1 TCP协议主要特点"></a>3.1 TCP协议主要特点</h3><ul>
+<li>支持<strong>面向连接</strong>的服务：打电话式、会话式通信</li>
+<li>支持<strong>字节流</strong>传输：字节管道、字节按序传输和到达</li>
+<li>支持<strong>全双工</strong>服务：一个应用进程可以同时收发数据、捎带确认</li>
+<li>支持建立多个<strong>并发的</strong>TCP连接**（服务器同时响应多个连接）**</li>
+<li><strong>支持</strong>可靠**传输服务：不丢失、不重复、有序</li>
+</ul>
+<h3 id="3-2-TCP报文格式"><a href="#3-2-TCP报文格式" class="headerlink" title="3.2 TCP报文格式"></a>3.2 TCP报文格式</h3><p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230625211240920.png" srcset="/img/loading.gif" lazyload alt="image-20230625211240920"></p>
+<ul>
+<li><p>窗口值：指示当前进程可以接收的数据长度</p>
+<ul>
+<li><p>准备接收下一个TCP报文的接收方，通知即将发送报文的发送方下一个报文中最多可以发送的字节数，    </p>
+<p> 是发送方确定<strong>发送窗口</strong>的依据，是<strong>动态可变</strong>的。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>头部长度</strong>：固定部分为20，选项部分为0<del>40，所以TCP头部长度为20</del>60字节</p>
+</li>
+<li><p><strong>校验和</strong>：</p>
+<ul>
+<li>与UDP校验和的<strong>相同点</strong>：1）计算方式相同；2）也需要伪首部。</li>
+<li>与UDP校验和的<strong>不同点</strong>：1）UDP校验和可选，TCP校验和必须；2）伪首部协议字段值为6。</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-3-传输控制协议"><a href="#3-3-传输控制协议" class="headerlink" title="3.3  传输控制协议"></a>3.3  传输控制协议</h3><p><strong>TCP最大段长度（MSS）</strong>：</p>
+<p><strong>定义：<strong>TCP报文</strong>数据部分</strong>的最大长度，<strong>不包括TCP报头长度</strong>。默认值为<strong>536****字节</strong></p>
+<p><strong>MSS和窗口字段和MTU的区别</strong>： </p>
+<p><strong>MSS</strong>是TCP报文段中数据部分的最大长度，如果上层交付下来的数据超过MSS就要对交付下来的数据进行分段。在TCP连接的第一次、第二次握手中会分别告知对方MSS，从而起到通信双方协商MSS的效果。</p>
+<p><strong>MTU</strong>： Maximum Transmit Unit，最大传输单元，即物理接口（<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82&spm=1001.2101.3001.7020">数据链路层</a>）提供给其上层（通常是IP层）最大一次传输数据的大小；以普遍使用的以太网接口为例，缺省MTU&#x3D;1500 Byte，这是以太网接口对IP层的约束，如果IP层有&lt;&#x3D;1500 byte 需要发送，只需要一个IP包就可以完成发送任务；如果IP层有&gt; 1500 byte 数据需要发送，需要分片才能完成发送，这些分片有一个共同点，即IP Header ID相同。</p>
+<p><img src="https://iknow-pic.cdn.bcebos.com/810a19d8bc3eb135e1c04ec7b61ea8d3fd1f4443?x-bce-process=image/resize,m_lfit,w_600,h_800,limit_1/quality,q_85/format,f_auto" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>**窗口：**TCP报文段首部中，“窗口大小”字段通常用于告知对方自己的能够接受的数据量大小。窗口本质就是一个缓冲区buffer，该字段的值用于告知对方自己剩余的可用缓冲区大小。在每一个TCP报文段中都会通过“窗口”字段告知对方自己的所能接收数据的大小。窗口大小通常用滑动窗口流量控制。</p>
+<h3 id="3-4-TCP基本通信过程："><a href="#3-4-TCP基本通信过程：" class="headerlink" title="3.4 TCP基本通信过程："></a>3.4 TCP基本通信过程：</h3><p>连接建立：</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230625213051169.png" srcset="/img/loading.gif" lazyload alt="image-20230625213051169"></p>
+<p>ACK代表想要收到的下一个字节的序号开头。</p>
+<p>释放连接：</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230625213300260.png" srcset="/img/loading.gif" lazyload alt="image-20230625213300260"></p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230625213317566.png" srcset="/img/loading.gif" lazyload alt="image-20230625213317566"></p>
+<p>问题：<strong>为何不采用三次握手释放连接，而且发送最后一次握手报文后要等到2MSL的时间呢？</strong><br>1)保证A发送的最后一个确认报文段能够到达B，如果A不等待2MSL，当A返回的最后确认报文段丢失的，那么就会导致B不能进入正常关闭状态，而且就算B此时再次发送了一个FIN&#x3D;1的结束报文，A由于此时已经关闭了，也不能再次重传了。B就被吊着了</p>
+<h2 id="4-TCP滑动窗口与超时重传"><a href="#4-TCP滑动窗口与超时重传" class="headerlink" title="4. TCP滑动窗口与超时重传"></a>4. TCP滑动窗口与超时重传</h2><h3 id="4-1-TCP滑动窗口"><a href="#4-1-TCP滑动窗口" class="headerlink" title="4.1 TCP滑动窗口"></a>4.1 TCP滑动窗口</h3><p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230626111232396.png" srcset="/img/loading.gif" lazyload alt="image-20230626111232396"></p>
+<p>滑动窗口的特点：</p>
+<ul>
+<li>使用发送和接受缓冲区，以及滑动窗口机制控制TCP连接上的字节传输</li>
+<li>TCP滑动窗口面向字节流，可以起到<strong>差错控制</strong>和<strong>流量控制</strong>作用</li>
+<li>接收方可以在任何时候发送确认，窗口大小可由接收方根据需要增大或减少</li>
+<li>发送窗口值<strong>不能超过</strong>接收窗口值，发送方可以根据<strong>自身需要来决定</strong></li>
+</ul>
+<p><strong>确认重传机制：</strong></p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230626111519354.png" srcset="/img/loading.gif" lazyload alt="image-20230626111519354"></p>
+<h3 id="4-2-超时重传"><a href="#4-2-超时重传" class="headerlink" title="4.2 超时重传"></a>4.2 超时重传</h3><p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230626111610137.png" srcset="/img/loading.gif" lazyload alt="image-20230626111610137"></p>
+<h3 id="4-3-各种定时器："><a href="#4-3-各种定时器：" class="headerlink" title="4.3 各种定时器："></a>4.3 各种定时器：</h3><p>四个定时器的相关链接：[TCP协议中的计时器 - 请叫我小小兽 - 博客园 (cnblogs.com)](<a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingjiaowoxiaoxioashou/p/6506082.html#:~:text=TCP%E4%B8%AD%E6%9C%89%E5%9B%9B%E7%A7%8D%E8%AE%A1%E6%97%B6%E5%99%A8%EF%BC%88Timer%EF%BC%89%EF%BC%8C%E5%88%86%E5%88%AB%E4%B8%BA%EF%BC%9A">https://www.cnblogs.com/qingjiaowoxiaoxioashou/p/6506082.html#:~:text=TCP中有四种计时器（Timer），分别为：</a> 1.重传计时器：Retransmission Timer 2.坚持计时器：Persistent,Timer 3.保活计时器：Keeplive Timer 4.时间等待计时器：Timer_Wait Timer)</p>
+<ul>
+<li>重传定时器：用于控制TCP传输过程中报文确认与<strong>等待重传</strong>的时间</li>
+<li>坚持计时器：用于流量控制中，丢失了“<strong>非零窗口</strong>”的通知后出现一直等待的情况</li>
+<li>保持定时器：用于防止出现<strong>长时间的空闲</strong>每次收到客户端发来的消息就复位；定时器设定为2小时，超时则发送探测包。连续十个探测包还没收到回应，则中断连接。</li>
+<li>时间等待计时器：用于释放连接，也就是<strong>四次握手</strong>的时候，每个方向的连接释放需要再等待一段时间才能关闭连接，设置为报文寿命（MSL maximum segment lifetime）的两倍，也就是2MSL</li>
+</ul>
+<h2 id="5-TCP窗口的拥塞控制和流量控制"><a href="#5-TCP窗口的拥塞控制和流量控制" class="headerlink" title="5. TCP窗口的拥塞控制和流量控制"></a>5. TCP窗口的拥塞控制和流量控制</h2><h3 id="5-1-流量控制"><a href="#5-1-流量控制" class="headerlink" title="5.1 流量控制"></a>5.1 流量控制</h3><h3 id="5-1-1定义："><a href="#5-1-1定义：" class="headerlink" title="5.1.1定义："></a>5.1.1定义：</h3><p>由发送方控制发送速率，使之不超过接收速率，防止接收方来不及接收字节流，而出现报文丢失现象</p>
+<p>TCP的头部的窗口值用于<strong>流量控制</strong></p>
+<ul>
+<li>接收方从缓存中读取速度大于等于字节到达速度，接收方在每个确认中发出一个<strong>非零窗口</strong>通告</li>
+<li>如果发送方发送速度比接收方读取速度快，将造成缓冲区被全部占用，之后到达的字节因缓冲区溢出而丢弃。此时，接收方必须发出一个“<strong>零窗口</strong>”的通告。告知当发送方停止发送（直到接收“非零窗口”通告为止）。</li>
+<li>接收方需要接收能力给出一个合适的<strong>接收窗口</strong>，并将它写入TCP报头中，通知发送方。接收窗口又称为<strong>通知窗口（rwnd）</strong>。</li>
+</ul>
+<h3 id="5-1-2-糊涂窗口综合征-Silly-Window-Syndrome-SWS-："><a href="#5-1-2-糊涂窗口综合征-Silly-Window-Syndrome-SWS-：" class="headerlink" title="5.1.2 糊涂窗口综合征(Silly Window Syndrome, SWS)："></a>5.1.2 糊涂窗口综合征(Silly Window Syndrome, SWS)：</h3><p>•定义：小的报文段在TCP连接上传输，导致有效数据的通信效率低下。小报文段的数据字段长度远小于报文段首部长度20+IP首部长度20</p>
+<p>•SWS可由TCP连接的任何一端引起：接收方通过纯ACK报文段发送小的窗口通告导致SWS；发送方过于积极传输缓冲区中的剩余数据导致SWS</p>
+<h3 id="5-2-拥塞控制"><a href="#5-2-拥塞控制" class="headerlink" title="5.2 拥塞控制"></a>5.2 拥塞控制</h3><p><strong>原理：</strong></p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230626113329398.png" srcset="/img/loading.gif" lazyload alt="image-20230626113329398"></p>
+<p><strong>慢开始阶段以及图解：</strong></p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230626145149108.png" srcset="/img/loading.gif" lazyload alt="image-20230626145149108"></p>
+<p><strong>拥塞避免阶段：</strong></p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230626145158053.png" srcset="/img/loading.gif" lazyload alt="image-20230626145158053"></p>
+<p>cwnd &gt;&#x3D; SST的时候会变成<strong>线性增长</strong>。</p>
+<p><strong>计算方法：</strong></p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230629152724413.png" srcset="/img/loading.gif" lazyload alt="image-20230629152724413"></p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230629175614610.png" srcset="/img/loading.gif" lazyload alt="image-20230629175614610"></p>
+<p><strong>快重传：</strong></p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230626145430292.png" srcset="/img/loading.gif" lazyload alt="image-20230626145430292"></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%9C%AC%E7%A7%91/" class="category-chain-item">本科</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%9C%AC%E7%A7%91/%E5%A4%A7%E4%B8%89%E4%B8%8B/" class="category-chain-item">大三下</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%9C%AC%E7%A7%91/%E5%A4%A7%E4%B8%89%E4%B8%8B/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" class="category-chain-item">计算机网络</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>传输层知识总结</div>
+      <div>http://example.com/2023/06/21/本科/大三下/计算机网络/传输层知识总结/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Cheesheep</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年6月21日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/08/09/%E6%9C%AC%E7%A7%91/%E5%A4%A7%E4%B8%89%E4%B8%8B/%E8%BD%AF%E5%B7%A5%E5%AE%9E%E8%AE%AD/%E5%86%B0%E7%AE%B1%E7%AE%A1%E7%90%86%E5%8A%A9%E6%89%8B%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/" title="冰箱管理助手项目总结">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">冰箱管理助手项目总结</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/06/21/%E6%9C%AC%E7%A7%91/%E5%A4%A7%E4%B8%89%E4%B8%8B/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E4%BC%A0%E8%BE%93%E5%B1%82%E9%9A%BE%E9%A2%98/" title="传输层难题">
+                        <span class="hidden-mobile">传输层难题</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,831 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><meta name="referrer" content="no-referrer" /><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#4D783B">
+  <meta name="author" content="Cheesheep">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="编译原理Java实现正规式生成NFA（利用算符优先级实现Thompson算法）[TOC]  前言： 该部分代码属于仓库当中part03的部分，使用的语言为Java 由于代码比较多，文件数量也较多，因此先介绍一下不同的文件的功能： 其他文件是一些结构代码，方便进行数据的处理和面向对象， 源码已上传至Github，地址Cheesheep&#x2F;CompilingTheory-Exp2-Lexica">
+<meta property="og:type" content="article">
+<meta property="og:title" content="编译原理Java实现正规式生成NFA（算符优先实现Thompson算法）">
+<meta property="og:url" content="http://example.com/2023/04/15/%E6%9C%AC%E7%A7%91/%E5%A4%A7%E4%B8%89%E4%B8%8B/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/%E9%80%9A%E8%BF%87%E6%AD%A3%E5%88%99%E5%BC%8F%E5%BE%97%E5%88%B0NFA%EF%BC%88%E5%88%A9%E7%94%A8%E9%80%86%E6%B3%A2%E5%85%B0%E5%BC%8F%E5%AE%9E%E7%8E%B0Thompson%E7%AE%97%E6%B3%95%EF%BC%89/index.html">
+<meta property="og:site_name" content="Cheesheep的博客">
+<meta property="og:description" content="编译原理Java实现正规式生成NFA（利用算符优先级实现Thompson算法）[TOC]  前言： 该部分代码属于仓库当中part03的部分，使用的语言为Java 由于代码比较多，文件数量也较多，因此先介绍一下不同的文件的功能： 其他文件是一些结构代码，方便进行数据的处理和面向对象， 源码已上传至Github，地址Cheesheep&#x2F;CompilingTheory-Exp2-Lexica">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230409181716901.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230411172859719.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230409143141169.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230409231056648.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230409233138800.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230409142614061.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230410233452996.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230411001312815.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230411002912864.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230411002745197.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230411003253115.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230411004112698.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230411005525481.png">
+<meta property="article:published_time" content="2023-04-14T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-08-15T08:59:18.200Z">
+<meta property="article:author" content="Cheesheep">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230409181716901.png">
+  
+  
+  
+  <title>编译原理Java实现正规式生成NFA（算符优先实现Thompson算法） - Cheesheep的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_5000605_8e8395qng5b.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"mwBHMJuGLL6mKzq8fTgVohlj-gzGzoHsz","app_key":"WqtvgyDFD8JLi1VHAqiZB7n6","server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Cheesheep</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/pokemon_grass_bg.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.1)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="编译原理Java实现正规式生成NFA（算符优先实现Thompson算法）"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Cheesheep
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-04-15 00:00" pubdate>
+          2023年4月15日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          24 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">编译原理Java实现正规式生成NFA（算符优先实现Thompson算法）</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="编译原理Java实现正规式生成NFA（利用算符优先级实现Thompson算法）"><a href="#编译原理Java实现正规式生成NFA（利用算符优先级实现Thompson算法）" class="headerlink" title="编译原理Java实现正规式生成NFA（利用算符优先级实现Thompson算法）"></a>编译原理Java实现正规式生成NFA（利用算符优先级实现Thompson算法）</h1><p>[TOC]</p>
+<blockquote>
+<p><strong>前言</strong>：</p>
+<p>该部分代码属于仓库当中part03的部分，使用的语言为Java</p>
+<p>由于代码比较多，文件数量也较多，因此先介绍一下不同的文件的功能：<br><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230409181716901.png" srcset="/img/loading.gif" lazyload alt="image-20230409181716901"></p>
+<p>其他文件是一些结构代码，方便进行数据的处理和面向对象，</p>
+<p>源码已上传至Github，地址<a target="_blank" rel="noopener" href="https://github.com/Cheesheep/CompilingTheory-Exp2-LexicalAnalysiz">Cheesheep&#x2F;CompilingTheory-Exp2-LexicalAnalysiz: read the regula expression to generate NFA (github.com)</a></p>
+<p>代码位于仓库的part03的文件夹内</p>
+</blockquote>
+<p><strong>程序代码入口</strong>：</p>
+<p>生成对应的NFA需要运行createNFA的Java类，在该类会调用REFIle类来对读入的文件进行处理。</p>
+<p>这里给出一些正规式的<strong>输入示例</strong></p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs lisp">a(<span class="hljs-name">b</span><span class="hljs-name">|aa)*b</span><br><span class="hljs-name">a*b</span><br><span class="hljs-name">0(1|</span><span class="hljs-number">00</span>)<br>a*b(<span class="hljs-name">b</span><span class="hljs-name">|(ab)*c)ca</span><br><span class="hljs-name">a*b(b|</span>(<span class="hljs-name">ab</span>)*c)*ca<br>a*b(<span class="hljs-name">b</span><span class="hljs-name">|(db)*c|</span><span class="hljs-name">css*e</span>)<br>((<span class="hljs-number">0</span>|1)(010|<span class="hljs-number">11</span>)*) | ((0|101)*)*<br></code></pre></td></tr></table></figure>
+
+<p>第二个正规式<strong>输出样例</strong>如下：</p>
+<figure class="highlight mathematica"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs mathematica"><span class="hljs-built_in">Reverse</span> <span class="hljs-variable">to</span> <span class="hljs-variable">PostFix</span><span class="hljs-operator">:</span> <span class="hljs-variable">a</span><span class="hljs-operator">*</span><span class="hljs-variable">b</span><span class="hljs-operator">-</span><br><span class="hljs-built_in">K</span><span class="hljs-operator">=</span> <span class="hljs-punctuation">&#123;</span><span class="hljs-variable">A</span><span class="hljs-operator">,</span> <span class="hljs-variable">B</span><span class="hljs-operator">,</span> <span class="hljs-built_in">C</span><span class="hljs-operator">,</span> <span class="hljs-built_in">D</span><span class="hljs-operator">,</span> <span class="hljs-built_in">E</span><span class="hljs-operator">,</span> <span class="hljs-variable">F</span><span class="hljs-punctuation">&#125;</span><span class="hljs-operator">;</span> Σ<span class="hljs-operator">=</span><span class="hljs-punctuation">&#123;</span><span class="hljs-variable">a</span><span class="hljs-operator">,</span> <span class="hljs-variable">b</span><span class="hljs-punctuation">&#125;</span><span class="hljs-operator">;</span> <br><span class="hljs-variable">f</span><span class="hljs-punctuation">(</span><span class="hljs-variable">A</span><span class="hljs-operator">,</span> <span class="hljs-variable">a</span><span class="hljs-punctuation">)</span><span class="hljs-operator">=</span> <span class="hljs-punctuation">&#123;</span><span class="hljs-variable">B</span><span class="hljs-punctuation">&#125;</span><span class="hljs-operator">,</span> <span class="hljs-variable">f</span><span class="hljs-punctuation">(</span><span class="hljs-variable">B</span><span class="hljs-operator">,</span> ε<span class="hljs-punctuation">)</span><span class="hljs-operator">=</span> <span class="hljs-punctuation">&#123;</span><span class="hljs-variable">A</span><span class="hljs-operator">,</span> <span class="hljs-built_in">D</span><span class="hljs-punctuation">&#125;</span><span class="hljs-operator">,</span> <span class="hljs-variable">f</span><span class="hljs-punctuation">(</span><span class="hljs-built_in">E</span><span class="hljs-operator">,</span> <span class="hljs-variable">b</span><span class="hljs-punctuation">)</span><span class="hljs-operator">=</span> <span class="hljs-punctuation">&#123;</span><span class="hljs-variable">F</span><span class="hljs-punctuation">&#125;</span><span class="hljs-operator">,</span> <span class="hljs-variable">f</span><span class="hljs-punctuation">(</span><span class="hljs-built_in">C</span><span class="hljs-operator">,</span> ε<span class="hljs-punctuation">)</span><span class="hljs-operator">=</span> <span class="hljs-punctuation">&#123;</span><span class="hljs-variable">A</span><span class="hljs-operator">,</span> <span class="hljs-built_in">D</span><span class="hljs-punctuation">&#125;</span><span class="hljs-operator">,</span> <span class="hljs-variable">f</span><span class="hljs-punctuation">(</span><span class="hljs-built_in">D</span><span class="hljs-operator">,</span> ε<span class="hljs-punctuation">)</span><span class="hljs-operator">=</span> <span class="hljs-punctuation">&#123;</span><span class="hljs-built_in">E</span><span class="hljs-punctuation">&#125;</span><span class="hljs-operator">,</span> <span class="hljs-operator">;</span> <br><span class="hljs-built_in">C</span><span class="hljs-operator">;</span> <span class="hljs-variable">Z</span><span class="hljs-operator">=</span><span class="hljs-punctuation">&#123;</span><span class="hljs-variable">F</span><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="实现和输出代码："><a href="#实现和输出代码：" class="headerlink" title="实现和输出代码："></a>实现和输出代码：</h4><p>输出代码以及格式如下：</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230411172859719.png" srcset="/img/loading.gif" lazyload alt="image-20230411172859719"></p>
+<p>主要的运算逻辑代码都在loadFromRegularExp（）里面。</p>
+<h2 id="1-生成后缀形式的正则式"><a href="#1-生成后缀形式的正则式" class="headerlink" title="1. 生成后缀形式的正则式"></a>1. 生成后缀形式的正则式</h2><blockquote>
+<p>通过正则式计算NFA，如果仅仅使用条件语句，无疑是非常困难的，如何高效地使用面向对象来解决这个复杂的问题呢，这里就可以用到算符优先级的方法来实现，也就是Thompson算法。</p>
+</blockquote>
+<p>说到算符优先级， 那么就不得不提到逆波兰式，机器是如何去计算那些四则运算的呢，较为常用的就是将中缀表达式转换成<strong>后缀表达式</strong>。</p>
+<p>为什么要转换成后缀表达式呢，这样是为了让机器更容易去识别运算的优先级，像中缀表达式，由于括号，加法乘法的优先级不同，很容易导致运算顺序的不一致。</p>
+<p>如：<code>5 + 4 * (3 - 2)</code></p>
+<p>放在后面的式子往往会先被运算，为了更好地让电脑知道怎么去计算，我们就手动将其转化成后缀表达式</p>
+<p>结果为：<code>5432-*+</code></p>
+<p>这样就可以很轻松地进行运算了，因为运算的顺序<strong>已经排列好了</strong>。</p>
+<p>这里就不展开阐述逆波兰式的思路了，接下来按照它的思路去给正规式转换成后缀形式的正规式。</p>
+<p>这里举个正规式例子</p>
+<blockquote>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs livecodeserver">正规式：<span class="hljs-keyword">a</span>(b|aa)*b<br>增加连接符：<span class="hljs-keyword">a</span>-(b|<span class="hljs-keyword">a</span>-<span class="hljs-keyword">a</span>)*-b<br>转换后：abaa-|*b<span class="hljs-comment">--</span><br></code></pre></td></tr></table></figure></blockquote>
+<h4 id="1-1-增加连接符"><a href="#1-1-增加连接符" class="headerlink" title="1.1 增加连接符"></a>1.1 增加连接符</h4><p>看到上面转换的过程中，中间比四则运算多了一步“增加连接符”，是因为正规式当中的连接符号是不存在的，例如aa，实际上是两个字母对应的NFA的<strong>连接</strong>。</p>
+<p>所以为了方便编写代码，我们要先将正规式处理一下</p>
+<p>判断是否需要加连接符也很简单，源码如下：</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230409143141169.png" srcset="/img/loading.gif" lazyload alt="image-20230409143141169"></p>
+<p>也是逐个遍历当前的正则式的字符，然后如果<strong>当前字符nowWord</strong>是’*‘或’）‘或Unicode字符（数字字母和一些特殊字母），</p>
+<p>则判断<strong>下一个字符nextWord</strong>是否是’（‘或者UniCode字符，是则说明需要连接。)</p>
+<h4 id="1-2-设置算符优先级"><a href="#1-2-设置算符优先级" class="headerlink" title="1.2 设置算符优先级"></a>1.2 设置算符优先级</h4><p>接着是设置算符的优先级方便运算，这里经过判断后，直接得出优先级顺序应当如下：</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230409231056648.png" srcset="/img/loading.gif" lazyload alt="image-20230409231056648"></p>
+<p>使用map，这样方便 if 语句用<code>containsKey（）</code>判断是否是操作符</p>
+<h4 id="1-3-for循环生成后缀表达式"><a href="#1-3-for循环生成后缀表达式" class="headerlink" title="1.3 for循环生成后缀表达式"></a>1.3 for循环生成后缀表达式</h4><p>大概思路如下</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230409233138800.png" srcset="/img/loading.gif" lazyload alt="image-20230409233138800"></p>
+<p>除了正常根据操作符优先级判断由于括号运算比较特殊，所以需要多加一个判断，</p>
+<p>否则出现右括号的时候，右括号前面的操作符都会被优先输出（因为右括号优先级很高，保证右括号后面的算符<strong>不会被先弹出</strong>，只有等到左括号的时候才能弹出，但是这样右括号前面的就会因为优先级较低而<strong>被先弹出</strong>，这样就矛盾了）</p>
+<p>完整的代码如下（addConnetSymbol()上面已经给出）：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><code class="hljs Java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String <span class="hljs-title function_">infixToPostfix</span><span class="hljs-params">(String infix)</span> &#123;<br>    <span class="hljs-comment">//优先级高的入栈的时候</span><br>    Map&lt;Character, Integer&gt; precedence = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;&gt;();<br>    precedence.put(<span class="hljs-string">&#x27;)&#x27;</span>, <span class="hljs-number">4</span>);<br>    precedence.put(<span class="hljs-string">&#x27;(&#x27;</span>, <span class="hljs-number">4</span>);<br>    precedence.put(<span class="hljs-string">&#x27;|&#x27;</span>, <span class="hljs-number">2</span>);<span class="hljs-comment">//连接符</span><br>    precedence.put(<span class="hljs-string">&#x27;-&#x27;</span>, <span class="hljs-number">1</span>);<br>    precedence.put(<span class="hljs-string">&#x27;*&#x27;</span>, <span class="hljs-number">0</span>);<br>    infix = infix.replaceAll(<span class="hljs-string">&quot; &quot;</span>,<span class="hljs-string">&quot;&quot;</span>);<span class="hljs-comment">//先去掉所有空格</span><br>    infix = addConnectSymbol(infix);<span class="hljs-comment">//增加连接符</span><br>    <span class="hljs-type">StringBuilder</span> <span class="hljs-variable">postfix</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">StringBuilder</span>();<br><br>    <span class="hljs-type">char</span> nowWord; <span class="hljs-comment">//nowWord是当前字符，last是当前栈顶的字符</span><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; infix.length();i++) &#123;<br>        nowWord = infix.charAt(i);<br>        <span class="hljs-keyword">if</span>(precedence.containsKey(nowWord))&#123;<br>            <span class="hljs-comment">//判断是否是操作符</span><br>            <span class="hljs-keyword">if</span>(operatorStack.isEmpty())<br>                operatorStack.push(nowWord);<br>            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (precedence.get(nowWord) &gt; precedence.get(operatorStack.peek())<br>             &amp;&amp; nowWord != <span class="hljs-string">&#x27;(&#x27;</span>) &#123;<span class="hljs-comment">//特殊的，如果是右括号则前面的暂不处理</span><br>                <span class="hljs-comment">//如果下一个操作符的优先级较高，</span><br>                <span class="hljs-comment">// 则要将当前栈的操作符输出直到空或者当前优先级更高</span><br>                <span class="hljs-keyword">do</span> &#123;<br>                    postfix.append(operatorStack.pop());<br>                &#125; <span class="hljs-keyword">while</span> (!operatorStack.isEmpty() &amp;&amp;<br>                        precedence.get(nowWord) &gt; precedence.get(operatorStack.peek()));<br>                <span class="hljs-comment">//这里会有可能将（）入栈，是为了方便用算符优先级表示</span><br>                operatorStack.push(nowWord);<br>            &#125;<br>            <span class="hljs-keyword">else</span>&#123;<br>                operatorStack.push(nowWord);<br>            &#125;<br>            <span class="hljs-keyword">if</span>(nowWord == <span class="hljs-string">&#x27;)&#x27;</span>)<br>            &#123;<br>                <span class="hljs-comment">//清除 （ ）</span><br>                operatorStack.pop();<br>                operatorStack.pop();<br>            &#125;<br><br>        &#125;<span class="hljs-keyword">else</span> &#123;<br>            <span class="hljs-comment">//是字母或者数字则直接输出</span><br>            postfix.append(nowWord);<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">while</span> (!operatorStack.isEmpty())&#123;<br>        postfix.append(operatorStack.pop());<br>    &#125;<br>    <span class="hljs-comment">//去掉多余的括号并且输出</span><br>    <span class="hljs-keyword">return</span> postfix.toString().replaceAll(<span class="hljs-string">&quot;[()]&quot;</span>,<span class="hljs-string">&quot;&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>实例输出结果如下：</p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs livecodeserver">RegularExpression: <br><span class="hljs-keyword">a</span> (b|<span class="hljs-keyword">a</span> <span class="hljs-keyword">a</span> )* b<br>ReversePolish:<br>abaa-|*b<span class="hljs-comment">--</span><br></code></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h2 id="2-使用栈实现运算"><a href="#2-使用栈实现运算" class="headerlink" title="2. 使用栈实现运算"></a>2. 使用栈实现运算</h2><p>首先来讲如何利用<strong>栈结构</strong>来实现运算</p>
+<p>没错这一个部分也需要用到栈，足以见得数据结构的重要性</p>
+<p>流程图如下：</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230409142614061.png" srcset="/img/loading.gif" lazyload alt="image-20230409142614061"></p>
+<p>对正则式加上连接符号处理后，就可以开始识别了。</p>
+<p>主要分为两种情况：</p>
+<ul>
+<li>当前字符是数字或者字母，Java当中可以使用Character类的<code>isLetterOrDigit（）</code>方法来判断</li>
+<li>如果不是上述情况，视为操作符，然后进行switch判断</li>
+</ul>
+<p>在switch方法当中对不同的操作符进行不同的运算。</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230410233452996.png" srcset="/img/loading.gif" lazyload alt="image-20230410233452996"></p>
+<p>如图，思路很清晰也很简单，具体的操作符运算细节这里暂不展开</p>
+<p>for循环代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs Java"><span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> i=<span class="hljs-number">0</span>; i&lt;postfix_RE.length(); ++i) &#123;<br>	<span class="hljs-type">char</span> <span class="hljs-variable">token</span> <span class="hljs-operator">=</span> postfix_RE.charAt(i);<br>	<span class="hljs-keyword">if</span> (Character.isLetterOrDigit(token)) &#123;<br>		<span class="hljs-comment">//是Unicode则生成一个NFA并且入栈</span><br>		nfaStack.push(create(token));<br>	&#125;<span class="hljs-keyword">else</span> &#123;<br>		<span class="hljs-type">NFA</span> <span class="hljs-variable">n1</span> <span class="hljs-operator">=</span> nfaStack.pop();<span class="hljs-comment">//将栈顶取出一个元素</span><br>		<span class="hljs-comment">//是操作符，则出栈并且开始运算</span><br>		<span class="hljs-keyword">switch</span> (token) &#123;<br>			<span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;*&#x27;</span> -&gt; &#123;<br>				nfaStack.push(n1.closure());<span class="hljs-comment">//闭包运算后再放回去</span><br>			&#125;<br>			<span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;-&#x27;</span> -&gt; &#123;<br>				<span class="hljs-type">NFA</span> <span class="hljs-variable">n2</span> <span class="hljs-operator">=</span> nfaStack.pop();<br>				nfaStack.push(n2.connect(n1));<br>			&#125;<br>			<span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;|&#x27;</span> -&gt; &#123;<br>				<span class="hljs-type">NFA</span> <span class="hljs-variable">n2</span> <span class="hljs-operator">=</span> nfaStack.pop();<br>				nfaStack.push(n2.or(n1));<br>			&#125;<br>		&#125;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>for循环结束后，取出当前的栈顶元素就可以获得我们需要的NFA了。</p>
+<hr>
+<h2 id="3-构造NFA类"><a href="#3-构造NFA类" class="headerlink" title="3. 构造NFA类"></a>3. 构造NFA类</h2><blockquote>
+<p>在说明了主要思路之后，接下来只需要把NFA给构造出来，即用面向对象的思想，即可按我们的需要输出状态机NFA了。</p>
+</blockquote>
+<h4 id="3-1-如何存放和表示状态转换表"><a href="#3-1-如何存放和表示状态转换表" class="headerlink" title="3.1 如何存放和表示状态转换表"></a>3.1 如何存放和表示状态转换表</h4><p>在得到NFA后，输出如下：</p>
+<figure class="highlight mathematica"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs mathematica"><span class="hljs-built_in">Reverse</span> <span class="hljs-variable">to</span> <span class="hljs-variable">PostFix</span><span class="hljs-operator">:</span> <span class="hljs-variable">a</span><span class="hljs-operator">*</span><span class="hljs-variable">b</span><span class="hljs-operator">-</span><br><span class="hljs-built_in">K</span><span class="hljs-operator">=</span> <span class="hljs-punctuation">&#123;</span><span class="hljs-variable">A</span><span class="hljs-operator">,</span> <span class="hljs-variable">B</span><span class="hljs-operator">,</span> <span class="hljs-built_in">C</span><span class="hljs-operator">,</span> <span class="hljs-built_in">D</span><span class="hljs-operator">,</span> <span class="hljs-built_in">E</span><span class="hljs-operator">,</span> <span class="hljs-variable">F</span><span class="hljs-punctuation">&#125;</span><span class="hljs-operator">;</span> Σ<span class="hljs-operator">=</span><span class="hljs-punctuation">&#123;</span><span class="hljs-variable">a</span><span class="hljs-operator">,</span> <span class="hljs-variable">b</span><span class="hljs-punctuation">&#125;</span><span class="hljs-operator">;</span> <br><span class="hljs-variable">f</span><span class="hljs-punctuation">(</span><span class="hljs-variable">A</span><span class="hljs-operator">,</span> <span class="hljs-variable">a</span><span class="hljs-punctuation">)</span><span class="hljs-operator">=</span> <span class="hljs-punctuation">&#123;</span><span class="hljs-variable">B</span><span class="hljs-punctuation">&#125;</span><span class="hljs-operator">,</span> <span class="hljs-variable">f</span><span class="hljs-punctuation">(</span><span class="hljs-variable">B</span><span class="hljs-operator">,</span> ε<span class="hljs-punctuation">)</span><span class="hljs-operator">=</span> <span class="hljs-punctuation">&#123;</span><span class="hljs-variable">A</span><span class="hljs-operator">,</span> <span class="hljs-built_in">D</span><span class="hljs-punctuation">&#125;</span><span class="hljs-operator">,</span> <span class="hljs-variable">f</span><span class="hljs-punctuation">(</span><span class="hljs-built_in">E</span><span class="hljs-operator">,</span> <span class="hljs-variable">b</span><span class="hljs-punctuation">)</span><span class="hljs-operator">=</span> <span class="hljs-punctuation">&#123;</span><span class="hljs-variable">F</span><span class="hljs-punctuation">&#125;</span><span class="hljs-operator">,</span> <span class="hljs-variable">f</span><span class="hljs-punctuation">(</span><span class="hljs-built_in">C</span><span class="hljs-operator">,</span> ε<span class="hljs-punctuation">)</span><span class="hljs-operator">=</span> <span class="hljs-punctuation">&#123;</span><span class="hljs-variable">A</span><span class="hljs-operator">,</span> <span class="hljs-built_in">D</span><span class="hljs-punctuation">&#125;</span><span class="hljs-operator">,</span> <span class="hljs-variable">f</span><span class="hljs-punctuation">(</span><span class="hljs-built_in">D</span><span class="hljs-operator">,</span> ε<span class="hljs-punctuation">)</span><span class="hljs-operator">=</span> <span class="hljs-punctuation">&#123;</span><span class="hljs-built_in">E</span><span class="hljs-punctuation">&#125;</span><span class="hljs-operator">,</span> <span class="hljs-operator">;</span> <br><span class="hljs-built_in">C</span><span class="hljs-operator">;</span> <span class="hljs-variable">Z</span><span class="hljs-operator">=</span><span class="hljs-punctuation">&#123;</span><span class="hljs-variable">F</span><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+<p>按照输出的内容以及实际需要，DFA类的成员数据如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java">String RegularExpression;<br><span class="hljs-type">int</span> startState;<br><span class="hljs-type">int</span> endState;<br><span class="hljs-type">char</span> <span class="hljs-variable">epsilon</span> <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;ε&#x27;</span>;<br>StateCode stateCode;<br><span class="hljs-comment">// =&gt; (S,a) -&gt; &#123;A, B&#125; 可能有多个状态，所以用list</span><br>HashMap&lt;Pair, ArrayList&lt;Integer&gt;&gt; transferMat = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;&gt;();<br><span class="hljs-comment">//记录所有产生的状态如A、B等</span><br>ArrayList&lt;Integer&gt; stateList = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();<br><span class="hljs-comment">//转移信息如a，b等小写字母或者数字</span><br>ArrayList&lt;Character&gt; msgList = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><p>RegularExpression：存储输入的正则式</p>
+</li>
+<li><p>statrStae、endState：表示起始和终止状态，分别对应的是输出的最后一行的两个输出，Z&#x3D;{终止状态}</p>
+</li>
+<li><p>stateCode：主要用于生成新的状态</p>
+<p>注意：这里的state都是用Integer来表示，这样方便存储，</p>
+<p>在需要输出的时候，再调用函数按自定的规则映射成相应的字母。</p>
+</li>
+<li><p>transferMat：存放所有的状态迁移，即输出的 f（A，a）&#x3D;{B}</p>
+</li>
+<li><p>stateList：对应输出当中的K里面的内容</p>
+</li>
+<li><p>msgList：转移条件，对应输出的 Σ&#x3D;{a, b}</p>
+</li>
+<li><p>Pair：用于存放单个状态转移内容，由起始状态和转移条件组成</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230411001312815.png" srcset="/img/loading.gif" lazyload alt="image-20230411001312815"></p>
+</li>
+</ul>
+<p>有了以上的内容之后，就可以开始进行数据存储和运算了。</p>
+<h4 id="3-2-如何进行闭包、连接等运算"><a href="#3-2-如何进行闭包、连接等运算" class="headerlink" title="3.2 如何进行闭包、连接等运算"></a>3.2 如何进行闭包、连接等运算</h4><p>刚开始去思考这些算法的时候，会觉得很抽象，思路都很难理清，代码难以下手，因此要先理清思路。</p>
+<p><strong>画图</strong>是个很好的方法，很形象。</p>
+<p>这里一共有四个操作，除了前面提到的连接，闭包，或运算外，还有一个用于创建新的状态。</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230411002912864.png" srcset="/img/loading.gif" lazyload alt="image-20230411002912864"></p>
+<p>给出具体的实现方法，并稍微进行讲解。</p>
+<ul>
+<li><p>create（）：</p>
+<p>根据输入的字符创建一个新的状态机，这个状态机只需要<strong>两个节点</strong>，分别是起始和终止节点。</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230411002745197.png" srcset="/img/loading.gif" lazyload alt="image-20230411002745197"></p>
+<p>a就是我们的输入字符</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs Java"><span class="hljs-keyword">private</span> NFA <span class="hljs-title function_">create</span><span class="hljs-params">(<span class="hljs-type">char</span> msg)</span> &#123; <br>   <span class="hljs-comment">//a</span><br>   <span class="hljs-type">NFA</span> <span class="hljs-variable">nfa</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">NFA</span>(<span class="hljs-built_in">this</span>.stateCode);<br>   generateNewState(nfa);<span class="hljs-comment">//生成新状态</span><br>   nfa.msgList.add(msg);<br>   nfa.addEdge(nfa.startState, nfa.endState, msg);<span class="hljs-comment">//增加一个状态的转移到transMat当中</span><br>   <span class="hljs-keyword">return</span> nfa;<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>connect（）：对应连接符 ‘-’</p>
+<p>该方法会用到自身作为实例，以及传入一个nfa进行连接，用到四个节点的操作：</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230411003253115.png" srcset="/img/loading.gif" lazyload alt="image-20230411003253115"></p>
+<p>中间通过空字符ε进行连接，那几个collect方法是将两个nfa的数据拼接起来并且赋给这个新的nfa</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> NFA <span class="hljs-title function_">connect</span><span class="hljs-params">(NFA other)</span> &#123;<br>   <span class="hljs-comment">//r1 o r2 连接符：‘-’</span><br>   <span class="hljs-comment">//r1.connect(r2)</span><br>   <span class="hljs-type">NFA</span> <span class="hljs-variable">nfa</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">NFA</span>(<span class="hljs-built_in">this</span>.stateCode);<br>   nfa.startState = <span class="hljs-built_in">this</span>.startState;<br>   nfa.endState = other.endState;<br>   nfa.transferMat = <span class="hljs-built_in">this</span>.collectTransferMat(other.transferMat);<br>   nfa.stateList = <span class="hljs-built_in">this</span>.collectStateList(other.stateList);<br>   nfa.msgList = <span class="hljs-built_in">this</span>.collectMsgList(other.msgList);<br>    <span class="hljs-comment">//生成连接的边</span><br>   nfa.addEdge(<span class="hljs-built_in">this</span>.endState, other.startState, epsilon);<br>   <span class="hljs-keyword">return</span> nfa;<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>or（）：对应或运算符 ‘ | ’</p>
+<p>或操作需要生成四条新的连接边，并且会生成两个新的状态：</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230411004112698.png" srcset="/img/loading.gif" lazyload alt="image-20230411004112698"></p>
+<p>如图，分别生成两个新的状态作为起始和终止节点，并且用相应的四条边连接起来。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> NFA <span class="hljs-title function_">or</span><span class="hljs-params">(NFA other)</span> &#123;<br>   <span class="hljs-comment">//r1 | r2</span><br>   <span class="hljs-comment">//用法： n1.or(n2)</span><br>   <span class="hljs-type">NFA</span> <span class="hljs-variable">nfa</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">NFA</span>(<span class="hljs-built_in">this</span>.stateCode);<br>   <span class="hljs-comment">//分支的起点和终点</span><br>   generateNewState(nfa);<br>   <span class="hljs-comment">//将新的两个数据都添加进去</span><br>   nfa.collectTransferMat(<span class="hljs-built_in">this</span>.collectTransferMat(other.transferMat));<br>   nfa.collectStateList(<span class="hljs-built_in">this</span>.collectStateList(other.stateList));<br>   nfa.collectMsgList(<span class="hljs-built_in">this</span>.collectMsgList(other.msgList));<br>   <span class="hljs-comment">//create new epsilon edge</span><br>   nfa.addEdge(nfa.startState, <span class="hljs-built_in">this</span>.startState, epsilon);<br>   nfa.addEdge(nfa.startState, other.startState, epsilon);<br>   nfa.addEdge(other.endState, nfa.endState, epsilon);<br>   nfa.addEdge(<span class="hljs-built_in">this</span>.endState, nfa.endState, epsilon);<br>   <span class="hljs-keyword">return</span> nfa;<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>closure（）闭包：对应闭包运算符： ‘ * ’</p>
+<p>闭包只需要获取当前的nfa，并且对其进行操作，但也需要生成四条边和两个新的状态</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230411005525481.png" srcset="/img/loading.gif" lazyload alt="image-20230411005525481"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> NFA <span class="hljs-title function_">closure</span><span class="hljs-params">()</span>&#123;<br>   <span class="hljs-comment">// a* 闭包操作</span><br>   <span class="hljs-type">NFA</span> <span class="hljs-variable">nfa</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">NFA</span>(<span class="hljs-built_in">this</span>.stateCode);<br>   <span class="hljs-comment">//create new start / end state</span><br>   generateNewState(nfa);<br>   nfa.collectTransferMat(<span class="hljs-built_in">this</span>.transferMat);<br>   nfa.collectStateList(<span class="hljs-built_in">this</span>.stateList);<br>   nfa.collectMsgList(<span class="hljs-built_in">this</span>.msgList);<br>   <span class="hljs-comment">//增加epsilon边缘</span><br>   nfa.addEdge(<span class="hljs-built_in">this</span>.endState,<span class="hljs-built_in">this</span>.startState,epsilon);<span class="hljs-comment">//回溯</span><br>   nfa.addEdge(nfa.startState,<span class="hljs-built_in">this</span>.startState,epsilon);<br>   nfa.addEdge(<span class="hljs-built_in">this</span>.endState,nfa.endState,epsilon);<br>   nfa.addEdge(nfa.startState, nfa.endState,epsilon);<span class="hljs-comment">//允许为空直接跳跃</span><br>   <span class="hljs-keyword">return</span> nfa;<br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ul>
+<p>主要的操作和逻辑都已经介绍了，剩下一些涉及到的方法，根据方法名大致理解了操作思路即可，完整源码这里就不放出来了，可自行到GitHub查看</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%9C%AC%E7%A7%91/" class="category-chain-item">本科</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%9C%AC%E7%A7%91/%E5%A4%A7%E4%B8%89%E4%B8%8B/" class="category-chain-item">大三下</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%9C%AC%E7%A7%91/%E5%A4%A7%E4%B8%89%E4%B8%8B/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" class="category-chain-item">编译原理</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>编译原理Java实现正规式生成NFA（算符优先实现Thompson算法）</div>
+      <div>http://example.com/2023/04/15/本科/大三下/编译原理/通过正则式得到NFA（利用逆波兰式实现Thompson算法）/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Cheesheep</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年4月15日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/04/22/%E6%9C%AC%E7%A7%91/%E5%A4%A7%E4%B8%89%E4%B8%8B/%E7%A7%BB%E5%8A%A8%E4%BA%92%E8%81%94%E7%BD%91%E7%BC%96%E7%A8%8B/Android%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%AE%80%E6%98%93%E7%9A%84%E6%96%B0%E9%97%BB%E5%88%97%E8%A1%A8APP%EF%BC%88TabLayout+ViewPager+Fragment%EF%BC%89/" title="Android实现一个简易的新闻列表APP（TabLayouut + ViewPager + Fragment）">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Android实现一个简易的新闻列表APP（TabLayouut + ViewPager + Fragment）</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/04/11/%E6%9C%AC%E7%A7%91/%E5%A4%A7%E4%B8%89%E4%B8%8B/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/%E5%A6%82%E4%BD%95%E5%B0%86%E5%B8%A6%E7%A9%BA%E5%AD%97%E7%AC%A6%E7%9A%84NFA%E8%BD%AC%E6%8D%A2%E6%88%90DFA/" title="将带空字符的NFA转换成DFA（用确定化算法生成状态表）&amp;&amp; 根据DFA识别字符串类型">
+                        <span class="hidden-mobile">将带空字符的NFA转换成DFA（用确定化算法生成状态表）&amp;&amp; 根据DFA识别字符串类型</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

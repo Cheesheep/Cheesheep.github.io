@@ -1,0 +1,871 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><meta name="referrer" content="no-referrer" /><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#4D783B">
+  <meta name="author" content="Cheesheep">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="用腾讯云服务器实现ipad连接远程电脑桌面record（详细）（含稳定连接方法） 这几天想用ipad连接电脑试一下，这样上课的时候就不用搬抬这么重的臭屁电脑了，于是开始尝试了几种方法，一开始先开通了windows专业版，想用学校机房电脑测试一下，结果不行，后面还是打算研究在ipad上如何使用，这样就可以方便携带了，2023.2.22刚入手了益博斯键盘和向日葵的鼠标，准备尝试一下，用几天，不行就退掉">
+<meta property="og:type" content="article">
+<meta property="og:title" content="腾讯服务器实现ipad连接远程电脑桌面">
+<meta property="og:url" content="http://example.com/2022/10/28/%E5%90%84%E7%A7%8D%E9%9A%8F%E7%AC%94%E7%BB%8F%E9%AA%8C%E8%AE%B0%E5%BD%95/%E5%A6%82%E4%BD%95%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A2/index.html">
+<meta property="og:site_name" content="Cheesheep的博客">
+<meta property="og:description" content="用腾讯云服务器实现ipad连接远程电脑桌面record（详细）（含稳定连接方法） 这几天想用ipad连接电脑试一下，这样上课的时候就不用搬抬这么重的臭屁电脑了，于是开始尝试了几种方法，一开始先开通了windows专业版，想用学校机房电脑测试一下，结果不行，后面还是打算研究在ipad上如何使用，这样就可以方便携带了，2023.2.22刚入手了益博斯键盘和向日葵的鼠标，准备尝试一下，用几天，不行就退掉">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230223001144799.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230223001824698.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/v2-a518d44fbb2c07cb9840c98af800a591_r.jpg">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230224220507199.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230224222136764.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230224222249147.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230224222351820.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230224222442579.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230224222635395.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230224222705230.png">
+<meta property="article:published_time" content="2022-10-27T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-08-16T05:56:19.962Z">
+<meta property="article:author" content="Cheesheep">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230223001144799.png">
+  
+  
+  
+  <title>腾讯服务器实现ipad连接远程电脑桌面 - Cheesheep的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_5000605_8e8395qng5b.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"mwBHMJuGLL6mKzq8fTgVohlj-gzGzoHsz","app_key":"WqtvgyDFD8JLi1VHAqiZB7n6","server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Cheesheep</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/pokemon_grass_bg.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.1)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="腾讯服务器实现ipad连接远程电脑桌面"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Cheesheep
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-10-28 00:00" pubdate>
+          2022年10月28日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.2k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          27 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">腾讯服务器实现ipad连接远程电脑桌面</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="用腾讯云服务器实现ipad连接远程电脑桌面record（详细）（含稳定连接方法）"><a href="#用腾讯云服务器实现ipad连接远程电脑桌面record（详细）（含稳定连接方法）" class="headerlink" title="用腾讯云服务器实现ipad连接远程电脑桌面record（详细）（含稳定连接方法）"></a>用腾讯云服务器实现ipad连接远程电脑桌面record（详细）（含稳定连接方法）</h2><blockquote>
+<p>这几天想用ipad连接电脑试一下，这样上课的时候就不用搬抬这么重的臭屁电脑了，于是开始尝试了几种方法，一开始先开通了windows专业版，想用学校机房电脑测试一下，结果不行，后面还是打算研究在ipad上如何使用，这样就可以方便携带了，2023.2.22刚入手了益博斯键盘和向日葵的鼠标，准备尝试一下，用几天，不行就退掉准备入二手轻薄本了。</p>
+</blockquote>
+<blockquote>
+<p>玩了一周，最后还是用了cygwin下的autossh才能实现足够稳定的连接，吐血了要</p>
+</blockquote>
+<blockquote>
+<p>提前说明这里后面的教程需要有些许基础的linux知识。</p>
+<p>这里给出内容大纲</p>
+</blockquote>
+<p>[TOC]</p>
+<h3 id="1-使用软件连接"><a href="#1-使用软件连接" class="headerlink" title="1. 使用软件连接"></a>1. 使用软件连接</h3><p>这里推荐使用向日葵，直接用就可以了，当然还有类似teamviwer之类的软件。</p>
+<p>不过这类软件的原理是直接投屏。</p>
+<p>那免费版肯定就是会画面卡一点，服务器资源肯定给氪金用户的了，不过目前对比起来感觉和rd-client也差不了多少。</p>
+<p>并且投屏的另一个缺点就是你的电脑会跟着一起点亮屏幕，然后你在ipad做什么别人都能看到你的电脑上也在干这个，所以就稍微隐私性差一点，当然如果你电脑放家里也没啥，只不过我电脑一般放在实验室，emm就有不太好吧。</p>
+<h3 id="2-使用windows自带远程"><a href="#2-使用windows自带远程" class="headerlink" title="2. 使用windows自带远程"></a>2. 使用windows自带远程</h3><p>使用这个呢网上也有很多相关教程了，这里着重推荐这个，他写的好到以至于我都不好意思写了，感觉像是再写一遍。</p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/400086370">从任何地方远程桌面连接到家里的电脑 - 知乎 (zhihu.com)</a></p>
+<h4 id="2-1-需要准备的"><a href="#2-1-需要准备的" class="headerlink" title="2.1 需要准备的"></a>2.1 需要准备的</h4><ul>
+<li>windows专业版</li>
+</ul>
+<p>首先是需要被连接的那个电脑是专业版，不过专业版得800多，所以没有预算的可以去破解，这里的话推荐搜heu kms，一个软件，很方便升级到专业版。</p>
+<ul>
+<li>一台云服务器以及一点linxu知识</li>
+</ul>
+<h4 id="2-2-开启远程桌面"><a href="#2-2-开启远程桌面" class="headerlink" title="2.2 开启远程桌面"></a>2.2 开启远程桌面</h4><p>有了专业版之后就可以开启远程桌面了，这里可以在控制面板找到开启，win10也可以直接在设置里面找</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230223001144799.png" srcset="/img/loading.gif" lazyload alt="image-20230223001144799"></p>
+<p>这里直接搜远程就可以选择了，</p>
+<img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230223001824698.png" srcset="/img/loading.gif" lazyload alt="image-20230223001824698" style="zoom: 67%;" />
+
+<p>在选择用户那里可以看到自己电脑的用户名（这个有时候很多人会弄错）</p>
+<h3 id="3-link-start！"><a href="#3-link-start！" class="headerlink" title="3. link start！"></a>3. link start！</h3><h4 id="3-1电脑端连接"><a href="#3-1电脑端连接" class="headerlink" title="3.1电脑端连接"></a>3.1电脑端连接</h4><p>电脑端连接不需要本电脑是专业版，window电脑本身自带远程桌面连接，输入好正确的ip地址就可以了。</p>
+<p>获取ip地址的方法可以在控制台输入<code>ipconfig</code></p>
+<p>找到下面这里的ip地址</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/v2-a518d44fbb2c07cb9840c98af800a591_r.jpg" srcset="/img/loading.gif" lazyload alt="img">这里引用了知乎的用户的</p>
+<h4 id="3-2-ipad设备"><a href="#3-2-ipad设备" class="headerlink" title="3.2 ipad设备"></a>3.2 ipad设备</h4><p>这里我就不提供其他操作系统的了，有兴趣的人可以去搜下。</p>
+<p>这里连接方法本质上是和电脑端类似的，因为我们用的是RD-client，是微软官方退出的连接客户端，</p>
+<p>也许在APP-Store上面搜到的不叫这个名字，也不是很多人用，但是就是相关度最高那个，下载完之后，名字就是rd-client。</p>
+<p>这里的连接也是比较简单的，输入id即可</p>
+<p><strong>连接失败原因</strong>：</p>
+<p>原因有很多种</p>
+<ul>
+<li><p>比如可能用户名弄错了，密码一般是我们登录微软账号的那个，不要输pin的。</p>
+</li>
+<li><p>可以把那个”仅限网络身份级别连接的勾选“给去掉尝试一下。</p>
+</li>
+<li><p>ip地址也要注意不要写错，比如我们的校园网的ip地址每天都会变的。</p>
+</li>
+</ul>
+<p>注意了，以上的方法都是<strong>只能在同一个局域网下使用的</strong>，例如校园网，那这个时候就有人不满了，那我都同一个局域网了，那算什么远程啊，浪费我时间吗这不。</p>
+<p>ok为了解决这个问题，我们可以通过<strong>内网穿透的方式</strong>来实现在其他网络远程控制（但是两部设备也一样需要联网）。相信大家应该都听过这个词吧，这里就不做详细阐述了，只需要知道我们要一个有公网ip的服务器来帮忙转接端口就可以了。</p>
+<h4 id="3-3-通过云服务器实现内网穿透"><a href="#3-3-通过云服务器实现内网穿透" class="headerlink" title="3.3 通过云服务器实现内网穿透"></a>3.3 通过云服务器实现内网穿透</h4><blockquote>
+<p>这里用的是腾讯云服务器来做一个内网穿透。</p>
+</blockquote>
+<h5 id="3-3-1首先打开服务器防火墙3389端口"><a href="#3-3-1首先打开服务器防火墙3389端口" class="headerlink" title="3.3.1首先打开服务器防火墙3389端口"></a>3.3.1首先打开服务器防火墙3389端口</h5><p>在云服务器控制台和<strong>宝塔</strong>（如果有的话）那里都要打开</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230224220507199.png" srcset="/img/loading.gif" lazyload alt="image-20230224220507199"></p>
+<p>当然如果为了更加安全，可以不要用3389端口</p>
+<h5 id="3-3-2-配置免密登录"><a href="#3-3-2-配置免密登录" class="headerlink" title="3.3.2 配置免密登录"></a>3.3.2 配置免密登录</h5><p>这里比较简单</p>
+<p>首先可以在本机电脑创建ssh密钥（如果已经创建了会有提示）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">ssh-keygen<br></code></pre></td></tr></table></figure>
+
+<p>成功执行后该命令会在<code>~/.ssh</code>文件夹下生成<code>id_rsa</code>文件和<code>id_rsa.pub</code>文件，前者是私钥，需要妥善保管防止泄露，后者是公钥，需要保存到服务器上。可以通过执行以下命令来自动将公钥上传至服务器：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">ssh-copy-id &lt;服务器用户名&gt;@&lt;服务器IP&gt;<br></code></pre></td></tr></table></figure>
+
+<p>当然如果你的电脑上没有<code>ssh-copy-id</code>命令，可以手动将本地的<code>~/.ssh/id_rsa.pub</code>文件中的内容<strong>全部</strong>追加到到服务器中的<code>~/.ssh/authorized_keys</code>文件后面（记得要换行哦，一行是一个不佟的ssh密钥）。</p>
+<p>可以使用vim命令去编辑该文件，如果vim不会的话（建议去学一学，很实用，记住常用的命令即可）</p>
+<p>可以在本地执行一下命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">scp ~/.ssh/id_rsa.pub &lt;服务器用户名&gt;@&lt;服务器IP&gt;:~/<br></code></pre></td></tr></table></figure>
+
+<p>然后在服务器上执行以下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">cat</span> ~/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys<br><span class="hljs-built_in">rm</span> ~/id_rsa.pub<br></code></pre></td></tr></table></figure>
+
+<p>ssh尝试连接服务器时，会自动匹配<code>~/.ssh/authorized_keys</code>中的公钥和你的私钥，如果成功配对，则不需要输入密码就可以连接到服务器了。</p>
+<p>如果不行的话可以往下翻阅，下面有写连接失败的原因</p>
+<h5 id="3-3-3-配置服务器的sshd服务"><a href="#3-3-3-配置服务器的sshd服务" class="headerlink" title="3.3.3 配置服务器的sshd服务"></a>3.3.3 配置服务器的sshd服务</h5><p>在服务器上编辑<code>/etc/ssh/sshd_config</code>文件，，找到<code>#GatewayPorts no</code>改为<code>yes</code>并去掉注释。</p>
+<p>重启sshd服务</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> systemctl restart sshd<br></code></pre></td></tr></table></figure>
+
+
+
+<h5 id="3-3-4-被控制端ssh端口转发"><a href="#3-3-4-被控制端ssh端口转发" class="headerlink" title="3.3.4 被控制端ssh端口转发"></a>3.3.4 被控制端ssh端口转发</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">ssh -NfR &lt;服务器IP&gt;:&lt;服务器Port&gt;:&lt;本地IP&gt;:&lt;本地Port&gt; &lt;服务器用户名&gt;@&lt;服务器IP&gt;<br><br></code></pre></td></tr></table></figure>
+
+<p>其中：</p>
+<ul>
+<li><strong>服务器IP</strong>为你的云服务器的公网IP</li>
+<li><strong>服务器Port</strong>为之前在防火墙中打开的端口，默认为3389</li>
+<li><strong>本地IP</strong>一般填写<code>localhost</code></li>
+<li><strong>本地Port</strong>为启用远程桌面的高级设置中指定的端口，默认为3389</li>
+<li><strong>服务器用户名</strong>为你登陆云服务器的用户名</li>
+<li>**<code>-R</code>**表示远程端口转发</li>
+<li>**<code>-N</code>**表示不执行命令，只进行端口转发</li>
+<li>**<code>-f</code>**表示将ssh放到后台执行</li>
+</ul>
+<p>事实上当我们准备好所有东西后，本地电脑开机的时候我们只需要执行上述这一条命令就可以实现端口转发了，你就可以在任何有互联网的地方远程连接电脑啦！</p>
+<p>但是ssh的连接是<strong>非常不稳定</strong>的，那么如何来解决这个问题呢。</p>
+<h4 id="4-保持ssh连接稳定"><a href="#4-保持ssh连接稳定" class="headerlink" title="4. 保持ssh连接稳定"></a>4. 保持ssh连接稳定</h4><blockquote>
+<p>这里我尝试了好几种方法，但是很多都不太成功，就在这里写下来，供大家参考，顺便看看能不能找出问题，一劳永逸的解决吧</p>
+</blockquote>
+<h5 id="方法1-使用电脑自带的创建计划任务来执行。（不太推荐）"><a href="#方法1-使用电脑自带的创建计划任务来执行。（不太推荐）" class="headerlink" title="方法1 使用电脑自带的创建计划任务来执行。（不太推荐）"></a>方法1 使用电脑自带的创建计划任务来执行。（不太推荐）</h5><h5 id="（成功率不高，有的时候可能可以连接很久，有时很快就断联了）"><a href="#（成功率不高，有的时候可能可以连接很久，有时很快就断联了）" class="headerlink" title="（成功率不高，有的时候可能可以连接很久，有时很快就断联了）"></a>（成功率不高，有的时候可能可以连接很久，有时很快就断联了）</h5><p>该方法比较简单，但是不算很有效</p>
+<p>大概方法如下</p>
+<ul>
+<li><p>找到 <strong>任务计划程序</strong></p>
+<img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230224222136764.png" srcset="/img/loading.gif" lazyload alt="image-20230224222136764" style="zoom:80%;" />
+</li>
+<li><p>创建任务</p>
+<img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230224222249147.png" srcset="/img/loading.gif" lazyload alt="image-20230224222249147" style="zoom: 67%;" />
+</li>
+<li><p>常规如下</p>
+<img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230224222351820.png" srcset="/img/loading.gif" lazyload alt="image-20230224222351820" style="zoom:67%;" />
+</li>
+<li><p>创建触发器</p>
+<img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230224222442579.png" srcset="/img/loading.gif" lazyload alt="image-20230224222442579" style="zoom:67%;" />
+</li>
+<li><p>创建新的操作，参数是自己的那些ip地址</p>
+<img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230224222635395.png" srcset="/img/loading.gif" lazyload alt="image-20230224222635395" style="zoom:80%;" />
+</li>
+<li><p>最后是设置</p>
+<img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230224222705230.png" srcset="/img/loading.gif" lazyload alt="image-20230224222705230" style="zoom:80%;" />
+
+<p>接下来我们启动该任务就可以啦</p>
+</li>
+</ul>
+<p><strong>但是</strong>，即使是这样也还是会断联，但是目前没找出是什么原因，而且wifi有时候也会断连，校园网也可能会有时把我的账号给登出去，所以emm我继续寻找其他办法。</p>
+<h5 id="方法2-autossh（成功率高）"><a href="#方法2-autossh（成功率高）" class="headerlink" title="方法2 autossh（成功率高）"></a>方法2 autossh（成功率高）</h5><ol>
+<li><strong>配置cygwin</strong>（windows需要配置cygwin才能用autossh）</li>
+</ol>
+<p>这一篇是命令的解释参考</p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/112227542">利用AutoSSH建立SSH隧道，实现内网穿透 - 知乎 (zhihu.com)</a></p>
+<p>这里放上下载cygwin的文章，cygwin下载还是很方便的，主要就是下载各种插件，如果漏装了就重新运行安装程序，补充包就可以了</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/hu_yinghui/article/details/125263154?spm=1001.2014.3001.5501">(127条消息) windows下安装Cygwin详细教程_快乐小胡！的博客-CSDN博客</a></p>
+<p>安装autossh和启动的文章</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/hu_yinghui/article/details/125286383">(153条消息) 如何在 Windows 上安装 Autossh服务_autossh windows_快乐小胡！的博客-CSDN博客</a></p>
+<p><strong>注意事项</strong>：这里呢他们两个的文章都有些地方写的不是很详细</p>
+<p>这里补充一些</p>
+<ul>
+<li>用win+R进入services.msc，然后更改autossh登录信息，输入自己的账户，最后启动</li>
+<li>如果全部都弄好后发现还是无法进行ssh连接，看一下有没有在cygwin的情况下生成<strong>一个新的公钥</strong>，因为电脑本地的那个是无法让cygwin连上远程服务器的，并且生成公钥的地址也不一样（地址名字很相似）</li>
+<li>如果执行一些命令发生类似<code>cygrunsrv: Error installing a service</code>的错误，可能是没有以管理员权限运行。</li>
+</ul>
+<ol start="2">
+<li><strong>autossh命令</strong>：</li>
+</ol>
+<p>如果你的电脑是Linux操作系统，那么使用autossh就很简单了</p>
+<p>首先是在自己的本地电脑上执行命令安装Autossh</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">yum install autossh<br></code></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><p><strong>将autossh安装为windows服务命令</strong>：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmd">cygrunsrv -I AutoSSH -p /bin/autossh -e AUTOSSH_NTSERVICE=yes<br></code></pre></td></tr></table></figure></li>
+</ol>
+<p>然后建立SSH隧道，只需要一条代码，非常的简单</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs bash">autossh -M 4010 -NR 80:localhost:4000 username@xxx.xxx.xxx.xxx (-p xxxx)<br>发布的时候记得删掉下面的！<br>autossh -M 21133 -f -N -R 11233:localhost:3389 root@114.132.247.232<br><br>cygrunsrv -I AutoSSH -p /bin/autossh -a <span class="hljs-string">&quot;-M 21133 -fNR 11233:localhost:3389 root@114.132.247.232&quot;</span> -e AUTOSSH_NTSERVICE=<span class="hljs-built_in">yes</span><br><br>这里可以直接用autossh来建立隧道，也可以用cygwin来开启一个服务，用来自动运行autossh<br><br></code></pre></td></tr></table></figure>
+
+<p> <strong>参数解释：</strong></p>
+<ul>
+<li>“-M 4010”意思是使用内网主机 A 的 4010 端口监视 SSH 连接状态，连接出问题了会自动重连</li>
+<li>“ -N”意思是不执行远程命令</li>
+<li>“-R”意思是将远程主机（公网主机 B）的某个端口转发到本地指定机器的指定端口</li>
+</ul>
+<p> <strong>代码解释：</strong></p>
+<ul>
+<li>“80:localhost:4000”意思是将内网主机 A 的 4000 号端口转发至公网主机 B 的 80 号端口上</li>
+<li>“<a href="mailto:&#x75;&#x73;&#101;&#114;&#110;&#x61;&#x6d;&#x65;&#64;&#120;&#x78;&#x78;&#x2e;&#x78;&#x78;&#120;&#x2e;&#x78;&#120;&#120;&#x2e;&#120;&#x78;&#120;">username@xxx.xxx.xxx.xxx</a>”意思是公网主机 B 的用户名和 IP</li>
+<li>“-p xxxx”意思是公网主机 B 的 SSH 端口，如果是默认的 22 号端口，则可以不输入.</li>
+</ul>
+<hr>
+<h3 id="一些注意事项"><a href="#一些注意事项" class="headerlink" title="一些注意事项"></a>一些注意事项</h3><h4 id="1-登录ssh的时候permission-deny"><a href="#1-登录ssh的时候permission-deny" class="headerlink" title="1. 登录ssh的时候permission deny"></a>1. 登录ssh的时候permission deny</h4><p>这种情况有很多，网上也有很多教程</p>
+<p>这里列举一些比较好的</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/imliuqun123/article/details/99862506?ops_request_misc=&request_id=&biz_id=102&utm_term=%E7%94%A8%E4%BA%86%E5%AF%86%E9%92%A5%E8%BF%98%E6%98%AF%E8%A6%81%E5%AF%86%E7%A0%81&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduweb~default-1-99862506.142%5Ev73%5Econtrol,201%5Ev4%5Eadd_ask,239%5Ev2%5Einsert_chatgpt&spm=1018.2226.3001.4187">(150条消息) 【Linux】ssh设置了密钥，但ssh登陆的时候还需要输入密码_zclinux_的博客-CSDN博客_sftp密钥登陆后还需要密码</a></p>
+<p>我当时总是输入密码错误，后面不记得调了什么就又可以了，应该是开了那个<code>PermitRootLogin yes</code>在我的文件里面默认这个是被注释掉了</p>
+<ul>
+<li><p>还有这个<code>RSAAuthentication yes</code>我找不到，其他基本都是正确的。</p>
+</li>
+<li><p>或者ssh密钥已经设置好了的时候还是要密码，要去确认一下authorized_key文件到底有没有写错，记得要分行，一个ssh公钥是一行（画面显示的时候可能会因为屏幕不够长换成多行）</p>
+</li>
+<li><p>Permission denied (publickey,gssapi-keyex,gssapi-with-mic,password</p>
+<p>如果是提示这个的时候呢，其实可能就真的是公钥出问题啦，记得要去看一下，当然也可以上网搜其他方法</p>
+</li>
+</ul>
+<h4 id="2-电脑无法成功连接"><a href="#2-电脑无法成功连接" class="headerlink" title="2. 电脑无法成功连接"></a>2. 电脑无法成功连接</h4><ul>
+<li><p>比如可能用户名弄错了，密码一般是我们登录微软账号的那个，不要输pin的。</p>
+</li>
+<li><p>可以把那个”仅限网络身份级别连接的勾选“给去掉尝试一下。</p>
+</li>
+<li><p>ip地址也要注意不要写错，比如我们的校园网的ip地址每天都会变的。（如果做了内网穿透就不会变）</p>
+</li>
+<li><p>如果有用<strong>宝塔页面</strong>，则记得也要去宝塔那里开启3389的端口，否则也是无法远程连接的</p>
+</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%90%84%E7%A7%8D%E9%9A%8F%E7%AC%94%E7%BB%8F%E9%AA%8C%E8%AE%B0%E5%BD%95/" class="category-chain-item">各种随笔经验记录</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>腾讯服务器实现ipad连接远程电脑桌面</div>
+      <div>http://example.com/2022/10/28/各种随笔经验记录/如何远程桌面/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Cheesheep</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年10月28日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/10/28/%E6%9C%AC%E7%A7%91/%E5%A4%A7%E4%B8%89%E4%B8%8A/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BA/BFS%E5%85%AB%E6%95%B0%E7%A0%81%E5%AE%9E%E9%AA%8C%E9%A2%98/" title="A*算法实现八数码.md">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">A*算法实现八数码.md</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/10/21/%E6%9C%AC%E7%A7%91/%E5%A4%A7%E4%B8%89%E4%B8%8A/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD%E5%AF%BC%E8%AE%BA/A%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0%E5%85%AB%E6%95%B0%E7%A0%81/" title="A*算法实现八数码.md">
+                        <span class="hidden-mobile">A*算法实现八数码.md</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

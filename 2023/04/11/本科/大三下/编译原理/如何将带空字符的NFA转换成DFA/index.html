@@ -1,0 +1,915 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><meta name="referrer" content="no-referrer" /><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#4D783B">
+  <meta name="author" content="Cheesheep">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="将带空字符的NFA转换成DFA（用确定化算法生成状态表）&amp;&amp;根据DFA识别字符串类型[TOC]  前言：这里会用到之前写的文章当中的代码，例如生成的DFA类，是继承于NFA类的，在其之上增加了状态转移表等数据，用于表示DFA 说明一下文件的结构：  Github的源码地址如下https:&#x2F;&#x2F;github.com&#x2F;Cheesheep&#x2F;CompilingTheory-Exp2-Lexi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="将带空字符的NFA转换成DFA（用确定化算法生成状态表）&amp;&amp; 根据DFA识别字符串类型">
+<meta property="og:url" content="http://example.com/2023/04/11/%E6%9C%AC%E7%A7%91/%E5%A4%A7%E4%B8%89%E4%B8%8B/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/%E5%A6%82%E4%BD%95%E5%B0%86%E5%B8%A6%E7%A9%BA%E5%AD%97%E7%AC%A6%E7%9A%84NFA%E8%BD%AC%E6%8D%A2%E6%88%90DFA/index.html">
+<meta property="og:site_name" content="Cheesheep的博客">
+<meta property="og:description" content="将带空字符的NFA转换成DFA（用确定化算法生成状态表）&amp;&amp;根据DFA识别字符串类型[TOC]  前言：这里会用到之前写的文章当中的代码，例如生成的DFA类，是继承于NFA类的，在其之上增加了状态转移表等数据，用于表示DFA 说明一下文件的结构：  Github的源码地址如下https:&#x2F;&#x2F;github.com&#x2F;Cheesheep&#x2F;CompilingTheory-Exp2-Lexi">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230411085818630.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230411093305066.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230411172107224.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230411173312164.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230411094347218.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230411153738592.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230411161409879.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230411153738592.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230411172107224.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230411195905471.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230411200933063.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230412002125427.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230412002713154.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230412002915491.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230412010059943.png">
+<meta property="article:published_time" content="2023-04-10T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-08-15T08:58:17.019Z">
+<meta property="article:author" content="Cheesheep">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230411085818630.png">
+  
+  
+  
+  <title>将带空字符的NFA转换成DFA（用确定化算法生成状态表）&amp;&amp; 根据DFA识别字符串类型 - Cheesheep的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_5000605_8e8395qng5b.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"mwBHMJuGLL6mKzq8fTgVohlj-gzGzoHsz","app_key":"WqtvgyDFD8JLi1VHAqiZB7n6","server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Cheesheep</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/pokemon_grass_bg.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.1)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="将带空字符的NFA转换成DFA（用确定化算法生成状态表）&amp;&amp; 根据DFA识别字符串类型"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Cheesheep
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-04-11 00:00" pubdate>
+          2023年4月11日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          23 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">将带空字符的NFA转换成DFA（用确定化算法生成状态表）&amp;&amp; 根据DFA识别字符串类型</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="将带空字符的NFA转换成DFA（用确定化算法生成状态表）-根据DFA识别字符串类型"><a href="#将带空字符的NFA转换成DFA（用确定化算法生成状态表）-根据DFA识别字符串类型" class="headerlink" title="将带空字符的NFA转换成DFA（用确定化算法生成状态表）&amp;&amp;根据DFA识别字符串类型"></a>将带空字符的NFA转换成DFA（用确定化算法生成状态表）&amp;&amp;根据DFA识别字符串类型</h1><p>[TOC]</p>
+<blockquote>
+<p><strong>前言</strong>：这里会用到之前写的文章当中的代码，例如生成的DFA类，是继承于NFA类的，在其之上增加了<strong>状态转移表</strong>等数据，用于表示DFA</p>
+<p>说明一下文件的结构：</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230411085818630.png" srcset="/img/loading.gif" lazyload alt="image-20230411085818630"></p>
+<p>Github的源码地址如下<a target="_blank" rel="noopener" href="https://github.com/Cheesheep/CompilingTheory-Exp2-LexicalAnalysiz">https://github.com/Cheesheep/CompilingTheory-Exp2-LexicalAnalysiz</a></p>
+<p>代码文件位于part03文件夹当中</p>
+</blockquote>
+<p><strong>程序入口</strong>：</p>
+<p>运行createDFA的类，会去到REFIle类当中处理文件，并且在该类当中生成NFA，再继续对NFA进行处理，从而转换成DFA</p>
+<p>因此要看懂代码的话，建议先去看之前正则式转换成NFA的文章，阅读本篇文章就会更加容易</p>
+<p><strong>输入样例</strong>（正规式以及对应生成的NFA）：</p>
+<figure class="highlight mathematica"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs mathematica">正规式：<br><span class="hljs-variable">a</span><span class="hljs-punctuation">(</span><span class="hljs-variable">b</span><span class="hljs-operator">|</span><span class="hljs-variable">aa</span><span class="hljs-punctuation">)</span><span class="hljs-operator">*</span><span class="hljs-variable">b</span><br>对应的<span class="hljs-variable">NFA</span>：<br><span class="hljs-built_in">K</span><span class="hljs-operator">=</span> <span class="hljs-punctuation">&#123;</span><span class="hljs-variable">A</span><span class="hljs-operator">,</span> <span class="hljs-variable">B</span><span class="hljs-operator">,</span> <span class="hljs-built_in">C</span><span class="hljs-operator">,</span> <span class="hljs-built_in">D</span><span class="hljs-operator">,</span> <span class="hljs-built_in">E</span><span class="hljs-operator">,</span> <span class="hljs-variable">F</span><span class="hljs-operator">,</span> <span class="hljs-variable">G</span><span class="hljs-operator">,</span> <span class="hljs-variable">H</span><span class="hljs-operator">,</span> <span class="hljs-built_in">I</span><span class="hljs-operator">,</span> <span class="hljs-variable">J</span><span class="hljs-operator">,</span> <span class="hljs-built_in">K</span><span class="hljs-operator">,</span> <span class="hljs-variable">L</span><span class="hljs-operator">,</span> <span class="hljs-variable">M</span><span class="hljs-operator">,</span> <span class="hljs-built_in">N</span><span class="hljs-punctuation">&#125;</span><span class="hljs-operator">;</span> Σ<span class="hljs-operator">=</span><span class="hljs-punctuation">&#123;</span><span class="hljs-variable">a</span><span class="hljs-operator">,</span> <span class="hljs-variable">b</span><span class="hljs-punctuation">&#125;</span><span class="hljs-operator">;</span> <br><span class="hljs-variable">f</span><span class="hljs-punctuation">(</span><span class="hljs-variable">L</span><span class="hljs-operator">,</span> ε<span class="hljs-punctuation">)</span><span class="hljs-operator">=</span> <span class="hljs-punctuation">&#123;</span><span class="hljs-variable">M</span><span class="hljs-punctuation">&#125;</span><span class="hljs-operator">,</span> <span class="hljs-variable">f</span><span class="hljs-punctuation">(</span><span class="hljs-variable">A</span><span class="hljs-operator">,</span> <span class="hljs-variable">a</span><span class="hljs-punctuation">)</span><span class="hljs-operator">=</span> <span class="hljs-punctuation">&#123;</span><span class="hljs-variable">B</span><span class="hljs-punctuation">&#125;</span><span class="hljs-operator">,</span> <span class="hljs-variable">f</span><span class="hljs-punctuation">(</span><span class="hljs-built_in">C</span><span class="hljs-operator">,</span> <span class="hljs-variable">b</span><span class="hljs-punctuation">)</span><span class="hljs-operator">=</span> <span class="hljs-punctuation">&#123;</span><span class="hljs-built_in">D</span><span class="hljs-punctuation">&#125;</span><span class="hljs-operator">,</span> <span class="hljs-variable">f</span><span class="hljs-punctuation">(</span><span class="hljs-built_in">E</span><span class="hljs-operator">,</span> <span class="hljs-variable">a</span><span class="hljs-punctuation">)</span><span class="hljs-operator">=</span> <span class="hljs-punctuation">&#123;</span><span class="hljs-variable">F</span><span class="hljs-punctuation">&#125;</span><span class="hljs-operator">,</span> <span class="hljs-variable">f</span><span class="hljs-punctuation">(</span><span class="hljs-variable">G</span><span class="hljs-operator">,</span> <span class="hljs-variable">a</span><span class="hljs-punctuation">)</span><span class="hljs-operator">=</span> <span class="hljs-punctuation">&#123;</span><span class="hljs-variable">H</span><span class="hljs-punctuation">&#125;</span><span class="hljs-operator">,</span> <span class="hljs-variable">f</span><span class="hljs-punctuation">(</span><span class="hljs-variable">M</span><span class="hljs-operator">,</span> <span class="hljs-variable">b</span><span class="hljs-punctuation">)</span><span class="hljs-operator">=</span> <span class="hljs-punctuation">&#123;</span><span class="hljs-built_in">N</span><span class="hljs-punctuation">&#125;</span><span class="hljs-operator">,</span> <br><span class="hljs-variable">f</span><span class="hljs-punctuation">(</span><span class="hljs-variable">B</span><span class="hljs-operator">,</span> ε<span class="hljs-punctuation">)</span><span class="hljs-operator">=</span> <span class="hljs-punctuation">&#123;</span><span class="hljs-built_in">K</span><span class="hljs-punctuation">&#125;</span><span class="hljs-operator">,</span> <span class="hljs-variable">f</span><span class="hljs-punctuation">(</span><span class="hljs-built_in">D</span><span class="hljs-operator">,</span> ε<span class="hljs-punctuation">)</span><span class="hljs-operator">=</span> <span class="hljs-punctuation">&#123;</span><span class="hljs-variable">J</span><span class="hljs-punctuation">&#125;</span><span class="hljs-operator">,</span> <span class="hljs-variable">f</span><span class="hljs-punctuation">(</span><span class="hljs-variable">F</span><span class="hljs-operator">,</span> ε<span class="hljs-punctuation">)</span><span class="hljs-operator">=</span> <span class="hljs-punctuation">&#123;</span><span class="hljs-variable">G</span><span class="hljs-punctuation">&#125;</span><span class="hljs-operator">,</span> <span class="hljs-variable">f</span><span class="hljs-punctuation">(</span><span class="hljs-variable">H</span><span class="hljs-operator">,</span> ε<span class="hljs-punctuation">)</span><span class="hljs-operator">=</span> <span class="hljs-punctuation">&#123;</span><span class="hljs-variable">J</span><span class="hljs-punctuation">&#125;</span><span class="hljs-operator">,</span> <span class="hljs-variable">f</span><span class="hljs-punctuation">(</span><span class="hljs-built_in">I</span><span class="hljs-operator">,</span> ε<span class="hljs-punctuation">)</span><span class="hljs-operator">=</span> <span class="hljs-punctuation">&#123;</span><span class="hljs-built_in">C</span><span class="hljs-operator">,</span> <span class="hljs-built_in">E</span><span class="hljs-punctuation">&#125;</span><span class="hljs-operator">,</span> <span class="hljs-variable">f</span><span class="hljs-punctuation">(</span><span class="hljs-variable">J</span><span class="hljs-operator">,</span> ε<span class="hljs-punctuation">)</span><span class="hljs-operator">=</span> <span class="hljs-punctuation">&#123;</span><span class="hljs-built_in">I</span><span class="hljs-operator">,</span> <span class="hljs-variable">L</span><span class="hljs-punctuation">&#125;</span><span class="hljs-operator">,</span> <br><span class="hljs-variable">f</span><span class="hljs-punctuation">(</span><span class="hljs-built_in">K</span><span class="hljs-operator">,</span> ε<span class="hljs-punctuation">)</span><span class="hljs-operator">=</span> <span class="hljs-punctuation">&#123;</span><span class="hljs-built_in">I</span><span class="hljs-operator">,</span> <span class="hljs-variable">L</span><span class="hljs-punctuation">&#125;</span><span class="hljs-operator">,</span> <span class="hljs-operator">;</span> <br><span class="hljs-variable">A</span><span class="hljs-operator">;</span> <span class="hljs-variable">Z</span><span class="hljs-operator">=</span><span class="hljs-punctuation">&#123;</span><span class="hljs-built_in">N</span><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>看着很多状态很复杂是吧，我们将对应的状态机画出来，看着就简单很多了</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230411093305066.png" srcset="/img/loading.gif" lazyload alt="image-20230411093305066"></p>
+<p><strong>输出样例</strong>：</p>
+<p>对应的DFA输出如下：</p>
+<figure class="highlight dust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs dust"><span class="language-xml">K= </span><span class="hljs-template-variable">&#123;A, B, F, N, O&#125;</span><span class="language-xml">; Σ=</span><span class="hljs-template-variable">&#123;a, b&#125;</span><span class="language-xml">; </span><br><span class="language-xml">f(O, b)= </span><span class="hljs-template-variable">&#123;O&#125;</span><span class="language-xml">, f(A, a)= </span><span class="hljs-template-variable">&#123;B&#125;</span><span class="language-xml">, f(B, a)= </span><span class="hljs-template-variable">&#123;F&#125;</span><span class="language-xml">, f(B, b)= </span><span class="hljs-template-variable">&#123;O&#125;</span><span class="language-xml">, f(F, a)= </span><span class="hljs-template-variable">&#123;B&#125;</span><span class="language-xml">, f(O, a)= </span><span class="hljs-template-variable">&#123;F&#125;</span><span class="language-xml">, </span><br><span class="language-xml">; </span><br><span class="language-xml">A; Z=</span><span class="hljs-template-variable">&#123;N, O, &#125;</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230411172107224.png" srcset="/img/loading.gif" lazyload alt="image-20230411172107224"></p>
+<p>可以看到初始状态仍然是A，但是结束状态变成了O，而且N已经不见了，</p>
+<p>这里是因为O是一个新的状态，同时可以表示到达<strong>B和F的状态</strong>，后面会讲到如何生成</p>
+<h4 id="实现和输出代码主要用到的函数："><a href="#实现和输出代码主要用到的函数：" class="headerlink" title="实现和输出代码主要用到的函数："></a>实现和输出代码主要用到的函数：</h4><p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230411173312164.png" srcset="/img/loading.gif" lazyload alt="image-20230411173312164"></p>
+<p>在讲解<strong>正规式生成NFA</strong>那篇文章当中已经介绍过loadFromRegularExp（）的代码</p>
+<p>因此这里只讲removeEpsilon（）和NFAToDFA（）的思路以及代码</p>
+<p>NFAToDFA（）的调用代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">NFAToDFA</span><span class="hljs-params">()</span>&#123;<br>    <span class="hljs-comment">//使用确定化算法将NFA转换成DFA</span><br>    dfa = <span class="hljs-keyword">new</span> <span class="hljs-title class_">DFA</span>(nfa);<br>    dfa.generateStateFormat(nfa);<span class="hljs-comment">//生成状态迁移表</span><br>    dfa.showStateFormat();<span class="hljs-comment">//打印到控制台</span><br>    dfa.addFormatDataToDFA();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="1-NFA去除空字符（仍可能为NFA）"><a href="#1-NFA去除空字符（仍可能为NFA）" class="headerlink" title="1. NFA去除空字符（仍可能为NFA）"></a>1. NFA去除空字符（仍可能为NFA）</h2><blockquote>
+<p> 为了让更好地转换成DFA，我们需要将NFA当中的 ε 转移去掉，让状态图清晰简洁一点。</p>
+<p>注意，有的NFA去除空字符后，可能就成为DFA了，但也有的还是NFA。</p>
+<p>例如上面给出的例子，会发现B状态输入b的时候，会回到B本身或者到达F终态。</p>
+</blockquote>
+<h4 id="1-1-算法思路："><a href="#1-1-算法思路：" class="headerlink" title="1.1 算法思路："></a>1.1 算法思路：</h4><p>思路是很简单的</p>
+<p>两个由空字符连接起来的状态可以被简化成一个状态，如图</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230411094347218.png" srcset="/img/loading.gif" lazyload alt="image-20230411094347218"></p>
+<p>对应我们的代码，也就是将 f（A，ε)  &#x3D; B 当中的B替换成A</p>
+<p>伪代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs Java"><span class="hljs-keyword">for</span>（遍历所有状态迁移信息）&#123;<br>    <span class="hljs-keyword">if</span>（当前转移信息为ε）&#123;<br>        src = 当前的出发状态;<br>        dst = 当前目标状态;<br>        移除这条状态信息;<br>        <span class="hljs-keyword">for</span>(遍历剩下的状态迁移信息)&#123;<br>            <span class="hljs-keyword">if</span>（当前状态==src）<br>                当前状态=src;<br>            <span class="hljs-keyword">if</span>（目标状态==dst）<br>                当前状态=dst;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>该实现方法我们仍然放在类NFA当中，为<strong>removeEpsilon（）</strong>，因为去除epsilon后可能仍然是NFA，所以就放在该类中</p>
+<h4 id="1-2-实现效果："><a href="#1-2-实现效果：" class="headerlink" title="1.2 实现效果："></a>1.2 实现效果：</h4><p>成功将空字符去除后，状态机如下：</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230411153738592.png" srcset="/img/loading.gif" lazyload alt="image-20230411153738592"></p>
+<p>看到图片当中仍有不确定的状态转移，说明还是NFA</p>
+<h4 id="1-3-注意事项："><a href="#1-3-注意事项：" class="headerlink" title="1.3 注意事项："></a>1.3 注意事项：</h4><ul>
+<li><p><strong>起始</strong>和<strong>终止</strong>状态可能发生变化：</p>
+<p>在替代掉该带有空转移的目标状态之前，</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230411161409879.png" srcset="/img/loading.gif" lazyload alt="image-20230411161409879"></p>
+</li>
+<li><p>最后对替换后的目标状态列表进行<strong>去重</strong></p>
+<p>多个状态可能被替换成同一个状态</p>
+</li>
+</ul>
+<hr>
+<h2 id="2-确定化算法"><a href="#2-确定化算法" class="headerlink" title="2.确定化算法"></a>2.确定化算法</h2><h4 id="2-1-根据NFA写出状态转移表"><a href="#2-1-根据NFA写出状态转移表" class="headerlink" title="2.1 根据NFA写出状态转移表"></a>2.1 根据NFA写出状态转移表</h4><p>将其去重之后就可以进行确定化算法的实现，</p>
+<p>主要的思路就是根据当前的NFA创建一个<strong>状态表</strong>：</p>
+<p>还是以之前的那个正规式作为例子：a（b|aa）*b</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230411153738592.png" srcset="/img/loading.gif" lazyload alt="image-20230411153738592"></p>
+<p>当前状态机如上图，得到如下状态表，生成思路并不难：</p>
+<table>
+<thead>
+<tr>
+<th>当前状态</th>
+<th>a</th>
+<th>b</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>A</td>
+<td>B</td>
+<td></td>
+</tr>
+<tr>
+<td>B</td>
+<td>F</td>
+<td>B、F</td>
+</tr>
+<tr>
+<td>N</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>F</td>
+<td>B</td>
+<td></td>
+</tr>
+<tr>
+<td>B、F</td>
+<td>F</td>
+<td>B、F</td>
+</tr>
+</tbody></table>
+<p>这里看到B、F是一个叠加状态，我们可以用一个新的符号来代表这个状态。由此可以生成一个新的状态机</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230411172107224.png" srcset="/img/loading.gif" lazyload alt="image-20230411172107224"></p>
+<p>如上图状态机，这样每个状态的每个输出都有唯一的对应的目标状态，成功地从NFA转换成了DFA。</p>
+<h4 id="2-2-DFA类的实现以及代码创建状态表（最难的部分）"><a href="#2-2-DFA类的实现以及代码创建状态表（最难的部分）" class="headerlink" title="2.2 DFA类的实现以及代码创建状态表（最难的部分）"></a>2.2 DFA类的实现以及代码创建状态表（最难的部分）</h4><p>为了更好地面向对象，提高代码复用性以及封装性，DFA会继承于NFA类，并且新增一些属于DFA的成员函数和成员数据。</p>
+<p>同时这里的代码量比较大，变量也很多，有很多要注意的操作细节，个人认为由于能力问题写的太过复杂了，导致越写越难，如果有更好更简单地思路是非常正常的。</p>
+<p>以下为DFA的<strong>成员属性</strong>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">DFA</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">NFA</span>&#123;<br>    <span class="hljs-comment">//msgList作为行头，</span><br>    <span class="hljs-comment">// stateFormat 的 key 对应的状态作为列头</span><br>    Map&lt; Integer,ArrayList&lt;HashSet&lt;Integer&gt;&gt;&gt; stateFormat = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;&gt;();<br>    <span class="hljs-comment">//该表用来映射由于多状态而新产生的状态</span><br>    Map&lt;Integer,HashSet&lt;Integer&gt;&gt; newStateMap = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;&gt;();<br>    <span class="hljs-comment">//用于存放在新状态当中产生的更新的状态</span><br>    Map&lt;Integer,HashSet&lt;Integer&gt;&gt; newerStateMap = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;&gt;();<br>    <span class="hljs-comment">//用于存放所有已经产存在的状态</span><br>    Map&lt;Integer,HashSet&lt;Integer&gt;&gt; saveAllStateMap = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;&gt;();<br><br>    <span class="hljs-comment">//主要作为一个变量名称方便使用</span><br>    ArrayList&lt;HashSet&lt;Integer&gt;&gt; theFormat;<span class="hljs-comment">//DFA会有多个终止状态</span><br><br>    ArrayList&lt;Integer&gt; endState = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();<br> &#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>stateFormat</strong>：这里就是存放的二维表格，用Map是为了方便映射状态，key存放的实际就是状态表的行头。</li>
+<li>newStateMap：用于存放新的状态，例如{ B、F }生成的新状态存放在key当中，B、F一起存放在该map的Value当中.</li>
+<li>newerStateMap：在生成新的状态的数据的时候，可能会进一步又产生一个新的状态，因此用多一个Map来存放，方便区分，这个概念可能没那么好懂，后面讲解具体实现的时候会再次展开来讲。</li>
+<li>endState：这里覆盖了NFA当中对应的endState，是因为DFA的结束状态往往不止一个。</li>
+</ul>
+<p><strong>主要成员方法</strong>介绍：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java">generateStateFormat(NFA nfa);<br>changeOldStates();<br>generateNewStateFormat();<br>addFormatDataTODFA();<span class="hljs-comment">//将表的数据放入DFA的迁移状态当中，例如那些f（A，a） = B</span><br><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>changeOldStates：将多状态改成对应的新状态，如{B，F} 改成 O</li>
+<li>generateNewStateFormat（）：如果有新的状态，则需要增加表的内容。</li>
+</ul>
+<p>生成<strong>状态表流程图</strong>如下：</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230411195905471.png" srcset="/img/loading.gif" lazyload alt="image-20230411195905471"></p>
+<p>流程来说是比较简单的，但是具体的代码实现起来有较多需要注意的点。</p>
+<h4 id="2-2-1-generateStateFormat（）：增加现有状态迁移信息到表当中。"><a href="#2-2-1-generateStateFormat（）：增加现有状态迁移信息到表当中。" class="headerlink" title="2.2.1 generateStateFormat（）：增加现有状态迁移信息到表当中。"></a>2.2.1 generateStateFormat（）：增加现有状态迁移信息到表当中。</h4><p>具体代码如下：</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230411200933063.png" srcset="/img/loading.gif" lazyload alt="image-20230411200933063"></p>
+<p><strong>关注细节</strong>：</p>
+<ul>
+<li><p>for循环的是transferMat，是NFA当中已经构建好的状态迁移信息</p>
+</li>
+<li><p>saveAllStateMap的作用是用于存放所有的状态以及映射的旧状态</p>
+</li>
+<li><p>当size&#x3D;&#x3D;2的时候，说明当前状态迁移产生的不止一个状态，因此要用</p>
+<p>新的状态来表示这个多状态。</p>
+</li>
+<li><p>当需要增添新的行的时候，就进入到generateNewStateFormat（）</p>
+</li>
+</ul>
+<h4 id="2-3-generateNewStateFormat（）生成新状态"><a href="#2-3-generateNewStateFormat（）生成新状态" class="headerlink" title="2.3 generateNewStateFormat（）生成新状态"></a>2.3 generateNewStateFormat（）生成新状态</h4><p>代码流程如下：</p>
+<p>由于代码较长，分几步来讲解该函数</p>
+<ol>
+<li><p>遍历所有的新状态，然后新增行</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230412002125427.png" srcset="/img/loading.gif" lazyload alt="image-20230412002125427"></p>
+</li>
+<li><p>填写行数据内容</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230412002713154.png" srcset="/img/loading.gif" lazyload alt="image-20230412002713154"></p>
+</li>
+<li><p>判断是否需要递归</p>
+<p>最后判断newerStateMap里面的数据是否为空，否说明这次新增表格数据的时候又产生了新的目标状态组合，</p>
+<p>因此需要递归，再次增加表的数据。</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230412002915491.png" srcset="/img/loading.gif" lazyload alt="image-20230412002915491"></p>
+</li>
+</ol>
+<p>该函数与generateStateFormat还是会有比较大的区别，要注意的细节也更加多。</p>
+<p><strong>注意事项</strong>：</p>
+<ul>
+<li>在该函数当中，产生新的状态时要存放到<code>newerStateMap</code>当中，而不是<code>newStateMap</code>，注意区分</li>
+<li>该函数是可以进行递归调用的，因为可能不断产生新的状态。</li>
+</ul>
+<h4 id="最终结果示例如下："><a href="#最终结果示例如下：" class="headerlink" title="最终结果示例如下："></a>最终结果示例如下：</h4><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs less">输入：<br><span class="hljs-selector-tag">a</span>(b|aa)*<span class="hljs-selector-tag">b</span><br><span class="hljs-selector-tag">a</span>*<span class="hljs-selector-tag">b</span><br><span class="hljs-number">0</span>(<span class="hljs-number">1</span>|<span class="hljs-number">00</span>)<br><span class="hljs-selector-tag">a</span>*<span class="hljs-selector-tag">b</span>(b|(ab)*c)<span class="hljs-selector-tag">ca</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight dust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs dust"><span class="language-xml">输出：</span><br><span class="language-xml">the 1 DFA: </span><br><span class="language-xml">K= </span><span class="hljs-template-variable">&#123;A, B, F, N, O&#125;</span><span class="language-xml">; Σ=</span><span class="hljs-template-variable">&#123;a, b&#125;</span><span class="language-xml">; </span><br><span class="language-xml">f(O, b)= </span><span class="hljs-template-variable">&#123;O&#125;</span><span class="language-xml">, f(A, a)= </span><span class="hljs-template-variable">&#123;B&#125;</span><span class="language-xml">, f(B, a)= </span><span class="hljs-template-variable">&#123;F&#125;</span><span class="language-xml">, f(B, b)= </span><span class="hljs-template-variable">&#123;O&#125;</span><span class="language-xml">, f(F, a)= </span><span class="hljs-template-variable">&#123;B&#125;</span><span class="language-xml">, f(O, a)= </span><span class="hljs-template-variable">&#123;F&#125;</span><span class="language-xml">, </span><br><span class="language-xml">; </span><br><span class="language-xml">A; Z=</span><span class="hljs-template-variable">&#123;N, O, &#125;</span><span class="language-xml"></span><br><span class="language-xml"> ----------------</span><br><span class="language-xml">the 2 DFA: </span><br><span class="language-xml">K= </span><span class="hljs-template-variable">&#123;C, F&#125;</span><span class="language-xml">; Σ=</span><span class="hljs-template-variable">&#123;a, b&#125;</span><span class="language-xml">; </span><br><span class="language-xml">f(C, a)= </span><span class="hljs-template-variable">&#123;C&#125;</span><span class="language-xml">, f(C, b)= </span><span class="hljs-template-variable">&#123;F&#125;</span><span class="language-xml">, ; </span><br><span class="language-xml">C; Z=</span><span class="hljs-template-variable">&#123;F, &#125;</span><span class="language-xml"></span><br><span class="language-xml"> ----------------</span><br><span class="language-xml">the 3 DFA: </span><br><span class="language-xml">K= </span><span class="hljs-template-variable">&#123;A, B, F, H&#125;</span><span class="language-xml">; Σ=</span><span class="hljs-template-variable">&#123;0, 1&#125;</span><span class="language-xml">; </span><br><span class="language-xml">f(A, 0)= </span><span class="hljs-template-variable">&#123;B&#125;</span><span class="language-xml">, f(B, 0)= </span><span class="hljs-template-variable">&#123;F&#125;</span><span class="language-xml">, f(B, 1)= </span><span class="hljs-template-variable">&#123;H&#125;</span><span class="language-xml">, f(F, 0)= </span><span class="hljs-template-variable">&#123;H&#125;</span><span class="language-xml">, ; </span><br><span class="language-xml">A; Z=</span><span class="hljs-template-variable">&#123;H, &#125;</span><span class="language-xml"></span><br><span class="language-xml"> ----------------</span><br><span class="language-xml">the 4 DFA: </span><br><span class="language-xml">K= </span><span class="hljs-template-variable">&#123;C, F, H, J, T, V&#125;</span><span class="language-xml">; Σ=</span><span class="hljs-template-variable">&#123;a, b, c&#125;</span><span class="language-xml">; </span><br><span class="language-xml">f(C, a)= </span><span class="hljs-template-variable">&#123;C&#125;</span><span class="language-xml">, f(C, b)= </span><span class="hljs-template-variable">&#123;F&#125;</span><span class="language-xml">, f(T, a)= </span><span class="hljs-template-variable">&#123;V&#125;</span><span class="language-xml">, f(F, a)= </span><span class="hljs-template-variable">&#123;J&#125;</span><span class="language-xml">, f(F, b)= </span><span class="hljs-template-variable">&#123;H&#125;</span><span class="language-xml">, f(F, c)= </span><span class="hljs-template-variable">&#123;H&#125;</span><span class="language-xml">, </span><br><span class="language-xml">f(H, c)= </span><span class="hljs-template-variable">&#123;T&#125;</span><span class="language-xml">, f(J, b)= </span><span class="hljs-template-variable">&#123;F&#125;</span><span class="language-xml">, ; </span><br><span class="language-xml">C; Z=</span><span class="hljs-template-variable">&#123;V, &#125;</span><span class="language-xml"></span><br><span class="language-xml"> ----------------</span><br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="3-根据正则式生成的DFA识别字符串"><a href="#3-根据正则式生成的DFA识别字符串" class="headerlink" title="3. 根据正则式生成的DFA识别字符串"></a>3. 根据正则式生成的DFA识别字符串</h2><blockquote>
+<p>输入：一个正规式文件和一个字符串文件</p>
+<p>输出：判断字符串文件中的每个字符串，能否被正规式对应的DFA所识别</p>
+<p>其次，再给每个正规式增加一个类别，识别到给定字符串符合某个特定正规式时，输出该类别。</p>
+<p>示例：如果输入</p>
+<p>a*  Type1</p>
+<p>b  Type2</p>
+<p>那么对字符串aaa输出：aaa，Type1</p>
+</blockquote>
+<p>在前面的实验当中，我们已经成功根据正规式生成了对应的DFA了，因此现在可以直接读入字符串进行识别。</p>
+<p>在这里就不去讲述如何读写文件了，直接讲解需要的功能：根据DFA识别字符串</p>
+<p>用到的思路是根据生成的状态转移表stateFormat，就可以很容易的完成字符串识别了。</p>
+<table>
+<thead>
+<tr>
+<th>当前状态</th>
+<th>a</th>
+<th>b</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>A</td>
+<td>B</td>
+<td></td>
+</tr>
+<tr>
+<td>B</td>
+<td>F</td>
+<td>B、F</td>
+</tr>
+<tr>
+<td>N</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>F</td>
+<td>B</td>
+<td></td>
+</tr>
+<tr>
+<td>B、F</td>
+<td>F</td>
+<td>B、F</td>
+</tr>
+</tbody></table>
+<p>又是这个例子，每次循环当中读入一个<strong>字符</strong>，根据当前字符可以获取下一个要到达的状态。</p>
+<p>例如从A开始，读入aaab，第一个字符是a，则下一个状态为B</p>
+<p>第二个字符还是a，则下一个状态是F，以此类推……</p>
+<p>逻辑代码如下：</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230412010059943.png" srcset="/img/loading.gif" lazyload alt="image-20230412010059943"></p>
+<h4 id="最终结果示例如下：-1"><a href="#最终结果示例如下：-1" class="headerlink" title="最终结果示例如下："></a>最终结果示例如下：</h4><figure class="highlight coq"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs coq">正则式：<br>Type2: a*b<br>Type3: <span class="hljs-number">0</span>(<span class="hljs-number">1</span>|<span class="hljs-type">00</span>)<br>Type4: a*b(b|<span class="hljs-type">(ab</span>)*c)ca<br>Type5: a*b(b|<span class="hljs-type">(ab</span>)*c)*ca<br>Type6: a*b(b|<span class="hljs-type">(ab</span>)*c)|<span class="hljs-type">ca</span><br>Type7: a*b(b|<span class="hljs-type">(ab</span>)*c|<span class="hljs-type">ca</span>)<br>Type8: a*b(b|<span class="hljs-type">(db</span>)*c|<span class="hljs-type">css</span>*e)<br>Type9: ((<span class="hljs-number">0</span>|<span class="hljs-type">1</span>)(<span class="hljs-number">010</span>|<span class="hljs-type">11</span>)*) | <span class="hljs-type">((0</span>|<span class="hljs-type">101</span>)*)*<br>Type1: a(b|<span class="hljs-type">aa</span>)*b<br>----------<br>字符串  类别 ：<br>aaab  Type2  Type1<br>aab  Type2<br>abaabb  Type1<br>aaabababcbca  Type5<br><span class="hljs-number">000</span>  Type3  Type9<br><span class="hljs-number">00</span>  Type9<br><span class="hljs-number">0101000</span>  Type9<br><br></code></pre></td></tr></table></figure>
+
+
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%9C%AC%E7%A7%91/" class="category-chain-item">本科</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%9C%AC%E7%A7%91/%E5%A4%A7%E4%B8%89%E4%B8%8B/" class="category-chain-item">大三下</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%9C%AC%E7%A7%91/%E5%A4%A7%E4%B8%89%E4%B8%8B/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/" class="category-chain-item">编译原理</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>将带空字符的NFA转换成DFA（用确定化算法生成状态表）&amp;&amp; 根据DFA识别字符串类型</div>
+      <div>http://example.com/2023/04/11/本科/大三下/编译原理/如何将带空字符的NFA转换成DFA/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Cheesheep</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年4月11日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/04/15/%E6%9C%AC%E7%A7%91/%E5%A4%A7%E4%B8%89%E4%B8%8B/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86/%E9%80%9A%E8%BF%87%E6%AD%A3%E5%88%99%E5%BC%8F%E5%BE%97%E5%88%B0NFA%EF%BC%88%E5%88%A9%E7%94%A8%E9%80%86%E6%B3%A2%E5%85%B0%E5%BC%8F%E5%AE%9E%E7%8E%B0Thompson%E7%AE%97%E6%B3%95%EF%BC%89/" title="编译原理Java实现正规式生成NFA（算符优先实现Thompson算法）">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">编译原理Java实现正规式生成NFA（算符优先实现Thompson算法）</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/03/16/%E6%9C%AC%E7%A7%91/%E5%A4%A7%E4%B8%89%E4%B8%8B/%E8%BD%AF%E5%B7%A5%E5%AE%9E%E8%AE%AD/%E3%80%8A%E8%BD%AF%E5%B7%A5%E5%AE%9E%E8%AE%AD%E3%80%8B%E5%86%B0%E7%AE%B1%E9%A1%B9%E7%9B%AE-%E5%89%8D%E5%9B%9B%E5%91%A8%E8%BF%AD%E4%BB%A3/" title="《软工实训》冰箱项目-前四周迭代">
+                        <span class="hidden-mobile">《软工实训》冰箱项目-前四周迭代</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

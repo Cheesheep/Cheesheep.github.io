@@ -1,0 +1,1157 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head><!-- hexo injector head_begin start --><meta name="referrer" content="no-referrer" /><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#4D783B">
+  <meta name="author" content="Cheesheep">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Android studio实现校园APP（完整步骤）[TOC]  开发语言：Java 开发工具：Android Studio 用到的一些控件，功能： Tablayout，ViewPager（滑动切换菜单功能），Navigation，ToolBar 需要的外部包： 12345&#x2F;&#x2F;新增的四个依赖，用于Tablayout，viewpager，recyclerView布局，以及数据库litepal">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android Studio实现校园APP（完整步骤）">
+<meta property="og:url" content="http://example.com/2023/05/17/%E6%9C%AC%E7%A7%91/%E5%A4%A7%E4%B8%89%E4%B8%8B/%E7%A7%BB%E5%8A%A8%E4%BA%92%E8%81%94%E7%BD%91%E7%BC%96%E7%A8%8B/Android%20studio%E5%AE%9E%E7%8E%B0%E6%A0%A1%E5%9B%ADAPP/index.html">
+<meta property="og:site_name" content="Cheesheep的博客">
+<meta property="og:description" content="Android studio实现校园APP（完整步骤）[TOC]  开发语言：Java 开发工具：Android Studio 用到的一些控件，功能： Tablayout，ViewPager（滑动切换菜单功能），Navigation，ToolBar 需要的外部包： 12345&#x2F;&#x2F;新增的四个依赖，用于Tablayout，viewpager，recyclerView布局，以及数据库litepal">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230517232119(1).png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230517233602(1).png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230517232617(1).png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230517233152(1).png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230517233423(1).png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230517233637(1).png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230518114857.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230517232807(1).png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230518121747.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230518125521.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230518130742345.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230518130831.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230518131127.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230422164201720.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230518132647.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230518134252.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230518150801.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230518114857(1).png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230518153955863.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230518155931.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230518160221.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230518171636001.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230518171829841.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230423002236907.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230518162233.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230517233602(1).png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230518171531080.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230518173736578.png">
+<meta property="og:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230518175126413.png">
+<meta property="article:published_time" content="2023-05-16T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-08-15T08:54:00.369Z">
+<meta property="article:author" content="Cheesheep">
+<meta property="article:tag" content="android">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230517232119(1).png">
+  
+  
+  
+  <title>Android Studio实现校园APP（完整步骤） - Cheesheep的博客</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_5000605_8e8395qng5b.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":"mwBHMJuGLL6mKzq8fTgVohlj-gzGzoHsz","app_key":"WqtvgyDFD8JLi1VHAqiZB7n6","server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Cheesheep</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/pokemon_grass_bg.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.1)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Android Studio实现校园APP（完整步骤）"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Cheesheep
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-05-17 00:00" pubdate>
+          2023年5月17日 凌晨
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          57 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="leancloud-page-views-container" class="post-meta" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="leancloud-page-views"></span> 次
+        </span>
+        
+      
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Android Studio实现校园APP（完整步骤）</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Android-studio实现校园APP（完整步骤）"><a href="#Android-studio实现校园APP（完整步骤）" class="headerlink" title="Android studio实现校园APP（完整步骤）"></a>Android studio实现校园APP（完整步骤）</h1><p>[TOC]</p>
+<blockquote>
+<p>开发语言：Java</p>
+<p>开发工具：Android Studio</p>
+<p>用到的一些控件，功能：</p>
+<p>Tablayout，ViewPager（滑动切换菜单功能），Navigation，ToolBar</p>
+<p><strong>需要的外部包</strong>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//新增的四个依赖，用于Tablayout，viewpager，recyclerView布局，以及数据库litepal</span><br>   implementation <span class="hljs-string">&#x27;androidx.legacy:legacy-support-v4:1.0.0&#x27;</span><br>   implementation <span class="hljs-string">&#x27;com.google.android.material:material:1.5.0&#x27;</span><br>   implementation <span class="hljs-string">&#x27;androidx.recyclerview:recyclerview:1.2.1&#x27;</span><br>   implementation <span class="hljs-title function_">files</span><span class="hljs-params">(<span class="hljs-string">&#x27;libs\\litepal-2.0.0-src.jar&#x27;</span>)</span><br></code></pre></td></tr></table></figure>
+
+<p>注意！！！</p>
+<ol>
+<li><p>这里可能有的人版本是support-v4对应的包</p>
+<p>添加了support-v4的包后发现build.gradle（Gradle Scripts文件夹下）有报错，</p>
+<p>报错内容类似<code>Version 28 (intended for Android Pie and below) is the last version of the legacy support library</code></p>
+<p>这是因为当前的AS已经不支持这些旧的包，因此可以将support-v4迁移到AndroidX，具体方法参考下面的文章或者自行搜索：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/lfdfhl/article/details/105269551">(174条消息) Version 28 (intended for Android Pie and below) is the last version of the legacy support library_谷哥的小弟的博客-CSDN博客</a></p>
+</li>
+<li><p>最后一个litepal的引入是本地下载好的依赖</p>
+<p>这里尝试过直接引入<code>implementation &#39;org.litepal.guolindev:core:3.2.0&#39;</code>或者是<code>implementation &#39;org.litepal.android:core:3.2.0&#39;</code></p>
+<p>但是发现在Java，manifest文件当中根本找不到喝这个库相关的内容</p>
+<p>于是就直接到github上面下载jar包并且导入了</p>
+<p>给出下载地址</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/guolindev/LitePal#latest-downloads/">https://github.com/guolindev/LitePal#latest-downloads/</a></p>
+</li>
+</ol>
+</blockquote>
+<h2 id="1-效果展示"><a href="#1-效果展示" class="headerlink" title="1. 效果展示"></a>1. 效果展示</h2><blockquote>
+<p>实现功能如下：</p>
+<ul>
+<li>自适应平板和手机的<strong>碎片化</strong>布局（Fragment）</li>
+<li>用户登录（数据持久化）：<strong>数据库文件存储和读取</strong>账号密码</li>
+<li>强制登出（广播机制）</li>
+<li>提示网络中断（广播机制）</li>
+<li>记住密码功能（数据持久化）：使用<strong>SharedPreference</strong></li>
+<li>点击页面打开嵌入式Web内容（使用WebView）以及跳转到<strong>浏览器</strong></li>
+<li>双页模式使用<strong>侧边栏</strong>放置信息条（NavigationVIew）</li>
+<li>右侧单页使用Tab实现切换</li>
+<li>使用RecyclerView实现网格布局（右边碎片网格菜单）</li>
+<li>左边碎片的网格菜单布局GridLayout</li>
+</ul>
+</blockquote>
+<ul>
+<li><p>首先一打开APP的页面就是登录页面。</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230517232119(1).png" srcset="/img/loading.gif" lazyload alt="联想截图_20230517232119(1)"></p>
+<p>可以选中<strong>记住密码</strong>，下次就可以不用输入了</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230517233602(1).png" srcset="/img/loading.gif" lazyload alt="联想截图_20230517233602(1)"></p>
+<p>平板模式如图所示，自适应到屏幕中间</p>
+</li>
+<li><p>登录后进入到首页，这里给出的平板和手机两种布局，稍有不同</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230517232617(1).png" srcset="/img/loading.gif" lazyload alt="联想截图_20230517232617(1)"></p>
+<p>这里最上面导航栏左边是<strong>个人信息的侧边栏</strong>，最右边的按钮是<strong>退出登录</strong>的按钮。接着是<strong>网格菜单</strong>，可以点击进入不同的页面</p>
+<p>最下面是可以左右切换或者上下滚动的<strong>学校新闻列表</strong></p>
+<p>点击网格菜单右下角的<code>更多服务</code>的按钮，会展示更多的<strong>网格菜单</strong>内容</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230517233152(1).png" srcset="/img/loading.gif" lazyload alt="联想截图_20230517233152(1)"></p>
+<p>平板打开的话页面如下：</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230517233423(1).png" srcset="/img/loading.gif" lazyload alt="联想截图_20230517233423(1)"></p>
+<p>看到这里左边已经没有了网格菜单，只剩下新闻列表的内容</p>
+<p>然后右边列出了刚刚给出的更多新闻的菜单，这里实际上就是将<strong>两个碎片</strong>拼在了一起</p>
+</li>
+<li><p>接着打开侧边栏，展示了部分用户信息以及一些导航栏入口</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230517233637(1).png" srcset="/img/loading.gif" lazyload alt="联想截图_20230517233637(1)"></p>
+<p>手机的话也是类似的，最下方也有一个用于登出的<strong>注销</strong>按钮</p>
+<p>点击<strong>用户信息</strong>或者用户的<strong>头像</strong>可以进入个人信息页面</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230518114857.png" srcset="/img/loading.gif" lazyload alt="联想截图_20230518114857"></p>
+<p>在用户信息页面当中会展示更多的个人信息</p>
+</li>
+<li><p>尝试点击进入一个菜单的详情页面或者通知，会通过WebView将链接当中的网址内容展现出来</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230517232807(1).png" srcset="/img/loading.gif" lazyload alt="联想截图_20230517232807(1)"></p>
+<p>如图为手机下打开《计软主页》内容，点击右上角可以选择跳转到浏览器打开该链接</p>
+</li>
+<li><p>最后做了一个<strong>网络中断检测</strong></p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230518121747.png" srcset="/img/loading.gif" lazyload alt="联想截图_20230518121747"></p>
+<p>网络中断的时候会有弹窗弹出，但不会强制下线，不过在进入到每一个新的页面的时候，若还是网络中断，则也会弹出该警告</p>
+</li>
+</ul>
+<hr>
+<h2 id="2-具体实现"><a href="#2-具体实现" class="headerlink" title="2. 具体实现"></a>2. 具体实现</h2><blockquote>
+<p>首先看一下Java类的文件布局</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230518125521.png" srcset="/img/loading.gif" lazyload alt="联想截图_20230518125521"></p>
+<p>主要分成三个部分</p>
+<p>这个BaseActivity是其他所有类的基类，通过该类可以实现任意一个页面强制下线的功能</p>
+<p>功能类大致介绍一下：</p>
+<ul>
+<li>ActivityCollector：用于管理增加或回收所有活动</li>
+<li>DatabaseUtil：对存在assets中的.db数据库文件做读取存储实现</li>
+<li>ForceOffLineReceiver：实现强制下线以及网络状态监听</li>
+<li>NavigationUtil：对侧滑栏的控件绑定数据，视图等进行动态设置</li>
+<li>NewsFragmentPagerAdapter：对viewPager显示通知内容进行适配</li>
+<li>RightGridMenuAdapter：对右侧碎片的RecyclerView内容进行适配</li>
+</ul>
+</blockquote>
+<h3 id="2-1-顶部栏ToolBar以及侧滑栏Navigation"><a href="#2-1-顶部栏ToolBar以及侧滑栏Navigation" class="headerlink" title="2.1 顶部栏ToolBar以及侧滑栏Navigation"></a>2.1 顶部栏ToolBar以及侧滑栏Navigation</h3><blockquote>
+<p>顶部菜单栏：</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230518130742345.png" srcset="/img/loading.gif" lazyload alt="image-20230518130742345"></p>
+<p>侧滑栏：</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230518130831.png" srcset="/img/loading.gif" lazyload alt="联想截图_20230518130831"></p>
+<p>xml文件：</p>
+<ul>
+<li>activity_main.xml ：主活动页面</li>
+<li>toolbar_menu：菜单栏图标（右侧的分享和个人页面的logo）</li>
+<li>nav_header,xml ：侧滑栏的头部信息（头像，昵称，联系方式）</li>
+<li>left_drawer.xml：侧滑栏的菜单内容</li>
+</ul>
+<p>Java文件：</p>
+<ul>
+<li>MainActivity</li>
+<li>NavigationUtil</li>
+</ul>
+</blockquote>
+<h4 id="2-1-1-导入导航栏依赖"><a href="#2-1-1-导入导航栏依赖" class="headerlink" title="2.1.1 导入导航栏依赖"></a>2.1.1 导入导航栏依赖</h4><p>导入”NavigationView“的依赖</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs xml">implementation &#x27;com.android.support:design:29.0.1&#x27;<br></code></pre></td></tr></table></figure>
+
+<h4 id="2-1-2-配置toolbar菜单栏布局文件"><a href="#2-1-2-配置toolbar菜单栏布局文件" class="headerlink" title="2.1.2 配置toolbar菜单栏布局文件"></a>2.1.2 配置toolbar菜单栏布局文件</h4><p>关于toolbar的各种设置，可以参考以下文章</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42324086/article/details/117390236">(174条消息) Android Toolbar的使用详解_暗恋花香的博客-CSDN博客</a></p>
+<p><strong>设置为NoActionBar</strong>：</p>
+<p>要使用toolbar，首先要去掉系统默认设置的ActionBar</p>
+<p>在AndroidManifest.xml文件当中可以设置活动的主题，我们新建一个NoActionBar的主题，并且给我们需要配置toolBar的页面赋予这个主题即可</p>
+<p><strong>AndroidMenifest.xml</strong></p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230518131127.png" srcset="/img/loading.gif" lazyload alt="联想截图_20230518131127"></p>
+<p><strong>themes.xml</strong></p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230422164201720.png" srcset="/img/loading.gif" lazyload alt="image-20230422164201720"></p>
+<p>看到最右边设置了noActionBar，这样才可以让toolbar正常显示</p>
+<p><strong>配置toolBar</strong></p>
+<p>需要在<code>activity_main.xml</code>文件当中放入toolBar，因为是在首页主活动放置toolBar</p>
+<p><strong>activity_main.xml部分代码</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!--    顶部菜单栏toolBar--&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">androidx.appcompat.widget.Toolbar</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:id</span>=<span class="hljs-string">&quot;@+id/my_toolbar&quot;</span>                                   				      	 <span class="hljs-attr">android:theme</span>=<span class="hljs-string">&quot;@style/ThemeOverlay.AppCompat.ActionBar&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">app:popupTheme</span>=<span class="hljs-string">&quot;@style/ThemeOverlay.AppCompat.Light&quot;</span></span><br><span class="hljs-tag">       	<span class="hljs-attr">......</span></span><br><span class="hljs-tag">/&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>除了在活动布局文件中放置toolbar，还需要一个菜单图标文件</p>
+<p><strong>toolbar_menu.xml</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">menu</span> <span class="hljs-attr">xmlns:android</span>=<span class="hljs-string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">xmlns:app</span>=<span class="hljs-string">&quot;http://schemas.android.com/apk/res-auto&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">item</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:id</span>=<span class="hljs-string">&quot;@+id/tool_msg&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:icon</span>=<span class="hljs-string">&quot;@drawable/share&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:orderInCategory</span>=<span class="hljs-string">&quot;80&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:title</span>=<span class="hljs-string">&quot;edit&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">app:showAsAction</span>=<span class="hljs-string">&quot;ifRoom|withText&quot;</span> /&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">item</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:id</span>=<span class="hljs-string">&quot;@+id/tool_user&quot;</span></span><br><span class="hljs-tag">		<span class="hljs-attr">..........</span> /&gt;</span><br><span class="hljs-comment">&lt;!--    后面有更多的item如果放不下就会进入菜单栏--&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">menu</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>这里的配置和actionBar的menu绘制方法类似，唯一区别就是<code>app:showAsAction</code>不同，该属性是Toolbar当中很关键的属性</p>
+<p>其中四个不同的值的作用分别如下：</p>
+<p>1）always：这个值会使菜单项一直显示在 ToolBar上。<br>2）ifRoom：如果有足够的空间，这个值会使菜单项显示在 Tool Bar上。<br>3）never：这个值会使菜单项永远都不出现在 ToolBar上。<br>4）withText：这个值会使菜单项和它的图标、菜单文本一起显示。一般和ifRoom一起通过“|”使用<br>app:showAsAction 属性值为 ifRoom|withText，表示如果有空间，那么就连同文字一起显示在标题栏中，否则就显示在菜单栏中。<br>而当app:showAsAction 属性值为 never时，该项作用为Menu不显示在菜单组件中。</p>
+<p>这个文件后面我们会在<strong>activity的Java代码</strong>当中写入并且连接上</p>
+<p><strong>MainActivity.java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">myToolbar.inflateMenu(R.menu.toolbar_menu);<br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="2-1-3-配置侧滑栏xml文件"><a href="#2-1-3-配置侧滑栏xml文件" class="headerlink" title="2.1.3 配置侧滑栏xml文件"></a>2.1.3 配置侧滑栏xml文件</h4><p>添加NavigationView组件</p>
+<p>（要使用该组件需要从外部导入design包，在前面有提到导入的具体的包）</p>
+<p>将该组件添加到toolbar所在的活动的页面当中，这里就是activity_main.xml</p>
+<p><strong>activity_main.xml部分代码</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;utf-8&quot;</span>?&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">androidx.drawerlayout.widget.DrawerLayout</span></span><br><span class="hljs-tag">    <span class="hljs-attr">...............</span>&gt;</span><br><br>    --------<br>    这里是该页面的其他布局文件，可以将整个布局文件代码放进去也是可以的<br>    <br>    --------<br>    <br><span class="hljs-comment">&lt;!--左侧导航菜单--&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">com.google.android.material.navigation.NavigationView</span></span><br><span class="hljs-tag">	<span class="hljs-attr">..............</span></span><br><span class="hljs-tag">    <span class="hljs-attr">android:layout_gravity</span>=<span class="hljs-string">&quot;start&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">android:background</span>=<span class="hljs-string">&quot;@color/colorPrimary&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">app:headerLayout</span>=<span class="hljs-string">&quot;@layout/nav_header&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">app:menu</span>=<span class="hljs-string">&quot;@menu/left_drawer&quot;</span> /&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">androidx.drawerlayout.widget.DrawerLayout</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>这个菜单栏由于是侧滑出现的，所以放在整个布局的最外面，并且需要用<code>DrawerLayout</code>包裹</p>
+<p>注意看下面两个app的属性<code>app:headerLayout</code>和<code>app:menu</code></p>
+<p>因此这里需要新建两个文件，一个是头部的代码，一个是下面的菜单的部分</p>
+<p><strong>nav_header.xml</strong></p>
+<p>代码以及预览如图</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230518132647.png" srcset="/img/loading.gif" lazyload alt="联想截图_20230518132647"></p>
+<p>看下左边，这里用了帧布局的方法嵌套一个<code>ImageView</code>和<code>RelativeLayout</code>，ImageView这样就可以作为背景图片，使得导航栏头部更加美观</p>
+<p><strong>left_drawer.xml</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;utf-8&quot;</span>?&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">menu</span> </span><br><span class="hljs-tag">     <span class="hljs-attr">xmlns:app</span>=<span class="hljs-string">&quot;.......&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">item</span></span><br><span class="hljs-tag">            <span class="hljs-attr">android:id</span>=<span class="hljs-string">&quot;@+id/navigation_item_user&quot;</span> /&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">item</span></span><br><span class="hljs-tag">            <span class="hljs-attr">android:id</span>=<span class="hljs-string">&quot;@+id/navigation_item_setting&quot;</span>/&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">item</span></span><br><span class="hljs-tag">            <span class="hljs-attr">android:id</span>=<span class="hljs-string">&quot;@+id/navigation_item_about&quot;</span>/&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">item</span></span><br><span class="hljs-tag">            <span class="hljs-attr">android:id</span>=<span class="hljs-string">&quot;@+id/navigation_item_logout&quot;</span>/&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">menu</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>这个是菜单栏的页面，预览的效果和最终实现的效果是<strong>有差异的</strong>，不需要以预览的那个效果为准。</p>
+<p>将nav_header和left_drawer结合之后，效果图片在上面有显示。</p>
+<h4 id="2-1-4-Java逻辑代码实现"><a href="#2-1-4-Java逻辑代码实现" class="headerlink" title="2.1.4 Java逻辑代码实现"></a>2.1.4 Java逻辑代码实现</h4><p>ToolBar的初始化代码都在<strong>MainActivity</strong>当中。</p>
+<p>侧滑栏的代码为了减少MainActivity的冗余，将其单独分离出了一个功能类NavigationUtil</p>
+<p>程序入口在onCreate当中实现</p>
+<p><strong>MainActivity</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Override</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">onCreate</span><span class="hljs-params">(Bundle savedInstanceState)</span> &#123;<br>    <span class="hljs-built_in">super</span>.onCreate(savedInstanceState);<br>    setContentView(R.layout.activity_main);<br>    <span class="hljs-comment">//设置顶部菜单栏的按钮，监听事件等</span><br>    initToolBarView();<br>    <span class="hljs-type">NavigationUtil</span> <span class="hljs-variable">navigationUtil</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">NavigationUtil</span>(<span class="hljs-built_in">this</span>,myToolbar,drawerLayout);<br>    navigationUtil.initMainNavigation();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>先调用<code>initToolBarView（）</code>进行初始化</p>
+<p>接着new一个新的Util类，并且将需要用到的控件传参进去，调用<code>initMainNavigation（）</code></p>
+<p>这里稍微说一下NavigationView的设置的时候一些注意事项</p>
+<ul>
+<li><p>nav_header无法直接被<code>activity.findViewById()</code>找到</p>
+<p>由于该控件不是在<strong>activity_main.xml</strong>当中，只是被引用了</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230518134252.png" srcset="/img/loading.gif" lazyload alt="联想截图_20230518134252"></p>
+<p>所以无法直接找到，因此要用如下代码获得</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java">        <br><span class="hljs-type">NavigationView</span> <span class="hljs-variable">mNavigationView</span> <span class="hljs-operator">=</span> activity.findViewById(R.id.nav_view);<br><span class="hljs-type">View</span> <span class="hljs-variable">headerView</span> <span class="hljs-operator">=</span> mNavigationView.getHeaderView(<span class="hljs-number">0</span>);<br></code></pre></td></tr></table></figure>
+
+<p>也就是先获得NavigationView，再获取它当中的<strong>headerVIew</strong></p>
+</li>
+<li><p>用户的信息展现是动态的，这里的数据是存储在<strong>数据库</strong>当中的</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java">nickName.setText(LoginActivity.userInfo.getNickname());<br>grade.setText(LoginActivity.userInfo.getGrade());<br>major.setText(LoginActivity.userInfo.getMajor());<br></code></pre></td></tr></table></figure>
+
+<p>如上，信息都存储在来自登录活动当中的静态成员变量userInfo，后面会有介绍登录的实现</p>
+<p>不同的用户登录，显示的信息是不一样的</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230518150801.png" srcset="/img/loading.gif" lazyload alt="联想截图_20230518150801"></p>
+</li>
+</ul>
+<h4 id="2-1-5-个人信息页面"><a href="#2-1-5-个人信息页面" class="headerlink" title="2.1 5 个人信息页面"></a>2.1 5 个人信息页面</h4><p>最后这里简单地介绍一下个人页面的信息。</p>
+<p>可以点击侧滑栏的头像或者《用户信息》都可以跳转到该页面。</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230518114857(1).png" srcset="/img/loading.gif" lazyload alt="联想截图_20230518114857(1)"></p>
+<p>这里放出的是平板的界面，和手机是完全一样的，</p>
+<p>只是平板会拉伸，但是信息内容都是左右放置，所以不会有区别</p>
+<hr>
+<h3 id="2-2平板手机适配（Fragment）"><a href="#2-2平板手机适配（Fragment）" class="headerlink" title="2. 2平板手机适配（Fragment）"></a>2. 2平板手机适配（Fragment）</h3><p>为了实现手机的平板的适配，就需要用到一个非常强大的功能Fragment了，它被称为安卓的第五大组件，</p>
+<p>可以实现类似于Activity的效果，同时有具有极为灵活的特性</p>
+<p>看一下<strong>activity_main</strong>文件</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230518153955863.png" srcset="/img/loading.gif" lazyload alt="image-20230518153955863"></p>
+<p>首先这里有两个文件，带有(sw600dp)的是存放在<strong>layout-sw600dp</strong>的文件夹当中</p>
+<p>这样当屏幕比较大的时候，就会自动加载（sw600dp）的activity_main文件了</p>
+<p>activity_main (sw600dp)</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;utf-8&quot;</span>?&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">androidx.drawerlayout.widget.DrawerLayout</span></span><br><span class="hljs-tag">    <span class="hljs-attr">xmlns:android</span>=<span class="hljs-string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">.........</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">LinearLayout</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">&quot;match_parent&quot;</span> <span class="hljs-attr">.......</span>&gt;</span><br>        <span class="hljs-comment">&lt;!--顶部工具栏--&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">androidx.appcompat.widget.Toolbar</span>   <span class="hljs-attr">.......</span>/&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">ImageView</span> <span class="hljs-attr">............</span>/&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">LinearLayout.........</span>&gt;</span><br>            <span class="hljs-comment">&lt;!--左边碎片--&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">fragment</span></span><br><span class="hljs-tag">                <span class="hljs-attr">android:id</span>=<span class="hljs-string">&quot;@+id/main_left_fragment&quot;</span></span><br><span class="hljs-tag">                <span class="hljs-attr">android:name</span>=<span class="hljs-string">&quot;com.example.myschool.fragment.MainLeftFragment&quot;</span></span><br><span class="hljs-tag">                <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">&quot;match_parent&quot;</span></span><br><span class="hljs-tag">                <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">&quot;match_parent&quot;</span></span><br><span class="hljs-tag">                <span class="hljs-attr">android:layout_weight</span>=<span class="hljs-string">&quot;3&quot;</span></span><br><span class="hljs-tag">                <span class="hljs-attr">tools:layout</span>=<span class="hljs-string">&quot;@layout/fragment_main_left&quot;</span></span><br><span class="hljs-tag">                <span class="hljs-attr">tools:ignore</span>=<span class="hljs-string">&quot;MissingConstraints&quot;</span> /&gt;</span><br>            <span class="hljs-comment">&lt;!--右边碎片--&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">fragment</span></span><br><span class="hljs-tag">                <span class="hljs-attr">android:id</span>=<span class="hljs-string">&quot;@+id/right_frag&quot;</span></span><br><span class="hljs-tag">                <span class="hljs-attr">android:name</span>=<span class="hljs-string">&quot;com.example.myschool.fragment.MainRightFragment&quot;</span></span><br><span class="hljs-tag">                <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">&quot;match_parent&quot;</span></span><br><span class="hljs-tag">                <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">&quot;match_parent&quot;</span></span><br><span class="hljs-tag">                <span class="hljs-attr">android:layout_gravity</span>=<span class="hljs-string">&quot;center&quot;</span></span><br><span class="hljs-tag">                <span class="hljs-attr">android:layout_weight</span>=<span class="hljs-string">&quot;2&quot;</span></span><br><span class="hljs-tag">                <span class="hljs-attr">tools:layout</span>=<span class="hljs-string">&quot;@layout/fragment_main_right&quot;</span></span><br><span class="hljs-tag">                <span class="hljs-attr">tools:ignore</span>=<span class="hljs-string">&quot;MissingConstraints&quot;</span> /&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">LinearLayout</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">LinearLayout</span>&gt;</span><br>    <span class="hljs-comment">&lt;!--左侧导航菜单--&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">com.google.android.material.navigation.NavigationView</span></span><br><span class="hljs-tag">        <span class="hljs-attr">......</span> /&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">androidx.drawerlayout.widget.DrawerLayout</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>这里省略了其他的内容，着重于看两个fragment，这里的<strong>layout_weight</strong>的大小不同，说明它们占据的布局位置也不同。</p>
+<p>而在适配手机的activity_main当中，就不需要后面的那个fragment的碎片。</p>
+<h3 id="2-3-左侧碎片-（MainLeftFragment）"><a href="#2-3-左侧碎片-（MainLeftFragment）" class="headerlink" title="2.3 左侧碎片 （MainLeftFragment）"></a>2.3 左侧碎片 （MainLeftFragment）</h3><p>对控件的初始化代码都放在该Fragment类的<code>onCreateView（）</code>当中</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Override</span><br><span class="hljs-keyword">public</span> View <span class="hljs-title function_">onCreateView</span><span class="hljs-params">(LayoutInflater inflater, ViewGroup container,</span><br><span class="hljs-params">                         Bundle savedInstanceState)</span> &#123;<br>    <span class="hljs-comment">//获取碎片视图</span><br>    view = inflater.inflate(R.layout.fragment_main_left, container, <span class="hljs-literal">false</span>);<br>    <span class="hljs-comment">//设置首页工具栏内容以及样式</span><br>    <span class="hljs-comment">//初始化上方的网格菜单</span><br>    initGridMenu();<br>    <span class="hljs-comment">//将页面绑定viewPager，进行设置</span><br>    initViewPager();<br>    <span class="hljs-comment">//初始化layout的设置，例如图标，定位</span><br>    initTabLayoutView();<br>    <span class="hljs-keyword">return</span> view;<br></code></pre></td></tr></table></figure>
+
+
+
+<h4 id="2-3-1-网格菜单（GridLayout）"><a href="#2-3-1-网格菜单（GridLayout）" class="headerlink" title="2.3.1 网格菜单（GridLayout）"></a>2.3.1 网格菜单（GridLayout）</h4><p>网格菜单使用了gridLayout，并且在里面 放置了多个图片的内容</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">GridLayout</span> <span class="hljs-attr">xmlns:android</span>=<span class="hljs-string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">android:columnCount</span>=<span class="hljs-string">&quot;4&quot;</span>   <span class="hljs-attr">设置它的最大列</span></span><br><span class="hljs-tag">    <span class="hljs-attr">android:rowCount</span>=<span class="hljs-string">&quot;2&quot;</span>    <span class="hljs-attr">设置最大行</span></span><br><span class="hljs-tag">    <span class="hljs-attr">android:layout_gravity</span>=<span class="hljs-string">&quot;center&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">android:orientation</span>=<span class="hljs-string">&quot;horizontal&quot;</span></span><br><span class="hljs-tag">    &gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>实现效果如图</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230518155931.png" srcset="/img/loading.gif" lazyload alt="联想截图_20230518155931"></p>
+<h4 id="2-3-2-通知列表（TabLayout-ViewPager-Fragment）"><a href="#2-3-2-通知列表（TabLayout-ViewPager-Fragment）" class="headerlink" title="2.3.2 通知列表（TabLayout + ViewPager + Fragment）"></a>2.3.2 通知列表（TabLayout + ViewPager + Fragment）</h4><blockquote>
+<p>通知列表使用了上述三样东西结合</p>
+<p>TabLayout：提供选项切换到不同的菜单</p>
+<p>ViewPager：用于滑动切换到不同的菜单</p>
+<p>Fragment：每个菜单显示的页面内容</p>
+<p><strong>实现效果</strong>：</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230518160221.png" srcset="/img/loading.gif" lazyload alt="联想截图_20230518160221"></p>
+<p><strong>涉及配置xml文件</strong>：</p>
+<ul>
+<li>fragment_main_left.xml （左侧碎片布局）</li>
+<li>main_grid_menu.xml （网格菜单）</li>
+<li>selected.xml （选中菜单的颜色设置）</li>
+<li>themes.xml  （设置菜单的文件大小）</li>
+</ul>
+<p><strong>Java代码文件</strong>：</p>
+<ul>
+<li>MainLeftFragment （整体左侧碎片）</li>
+<li>NewsFragmentPagerAdapter（用于切换列表的适配器）</li>
+<li>NotificationFragment（通知列表碎片）</li>
+</ul>
+</blockquote>
+<h5 id="界面配置文件"><a href="#界面配置文件" class="headerlink" title="界面配置文件"></a>界面配置文件</h5><p>给出整体的左侧碎片简略xml代码</p>
+<p><strong>fragment_main_left.xml</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;utf-8&quot;</span>?&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">LinearLayout</span> <span class="hljs-attr">xmlns:android</span>=<span class="hljs-string">&quot;http://schemas.android.com/apk/res/android&quot;</span></span><br><span class="hljs-tag">	<span class="hljs-attr">.................</span>&gt;</span><br>    <span class="hljs-comment">&lt;!--顶部网格菜单--&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">include</span> <span class="hljs-attr">layout</span>=<span class="hljs-string">&quot;@layout/main_grid_menu&quot;</span>/&gt;</span><br><br>    <span class="hljs-comment">&lt;!--顶部导航栏，切换选项卡--&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">com.google.android.material.tabs.TabLayout</span></span><br><span class="hljs-tag">        <span class="hljs-attr">app:tabBackground</span>=<span class="hljs-string">&quot;@drawable/selected&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">app:tabTextAppearance</span>=<span class="hljs-string">&quot;@style/MyTabLayoutTextAppearance&quot;</span></span><br><span class="hljs-tag">		<span class="hljs-attr">................</span>/&gt;</span><br>    <span class="hljs-comment">&lt;!--用于实现左右滑动效果--&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">androidx.viewpager.widget.ViewPager</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:id</span>=<span class="hljs-string">&quot;@+id/viewPager&quot;</span></span><br><span class="hljs-tag">		<span class="hljs-attr">.........</span>/&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">ImageView</span> <span class="hljs-attr">android:id</span>=<span class="hljs-string">&quot;@+id/more_page_bt&quot;</span>/&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">LinearLayout</span>&gt;</span><br><br></code></pre></td></tr></table></figure>
+
+<p>中间的两个<code>ViewPager</code>和<code>TabLayout</code>就是我们用来实现通知列表的控件</p>
+<p>初始化这几个控件的方法，具体源码去查看仓库代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//将页面绑定viewPager，进行设置</span><br>initViewPager();<br><span class="hljs-comment">//初始化layout的设置，例如图标，定位</span><br>initTabLayoutView();<br></code></pre></td></tr></table></figure>
+
+<p>每个通知List的文章布局：</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230518171636001.png" srcset="/img/loading.gif" lazyload alt="image-20230518171636001"></p>
+<p>对应的数据库内容：</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230518171829841.png" srcset="/img/loading.gif" lazyload alt="image-20230518171829841"></p>
+<p>这里最右侧的”标签“是用于显示不同tab下的文章内容</p>
+<p>获取通知列表数据的方法如下</p>
+<p><strong>NotifictaionFragment.java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">initData</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-comment">//根据label标签条件查询处相应的文章</span><br>    mList = LitePal.where(<span class="hljs-string">&quot;label = ?&quot;</span>,label).find(Notification.class);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>根据where方法获取对应label下的内容，这样就可以将全部通知信息放在<strong>一张表</strong>下面</p>
+<p><strong>注意事项！：</strong></p>
+<p><strong>其他xml文件的添加</strong></p>
+<p>这里说几个tablayout和viewPager要导入的一些其他的简短的xml文件</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230423002236907.png" srcset="/img/loading.gif" lazyload alt="image-20230423002236907"></p>
+<p>在<code>themes.xml</code>（或styles.xml）文件当中要添加<code>style name = MyTabLayoutTextAppearance</code>的样式</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!--    TabLayout的文本大小--&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">style</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;MyTabLayoutTextAppearance&quot;</span> <span class="hljs-attr">parent</span>=<span class="hljs-string">&quot;TextAppearance.AppCompat.Widget.ActionBar.Title&quot;</span>&gt;</span><span class="language-xml"></span><br><span class="language-xml">        <span class="hljs-tag">&lt;<span class="hljs-name">item</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;android:textSize&quot;</span>&gt;</span>18sp<span class="hljs-tag">&lt;/<span class="hljs-name">item</span>&gt;</span></span><br><span class="language-xml">        <span class="hljs-tag">&lt;<span class="hljs-name">item</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;android:textColor&quot;</span>&gt;</span>@color/white<span class="hljs-tag">&lt;/<span class="hljs-name">item</span>&gt;</span></span><br><span class="language-xml">    </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>还有在drawable文件下的 <code>selected.xml</code>，用于展示被选中下菜单的颜色</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;utf-8&quot;</span>?&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">selector</span> <span class="hljs-attr">xmlns:android</span>=<span class="hljs-string">&quot;http://schemas.android.com/apk/res/android&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">item</span> <span class="hljs-attr">android:state_selected</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">android:drawable</span>=<span class="hljs-string">&quot;@color/TabBackGround&quot;</span>/&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">item</span> <span class="hljs-attr">android:drawable</span>=<span class="hljs-string">&quot;@color/colorAccent&quot;</span>/&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">selector</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="2-4-文章详情页面（WebView）"><a href="#2-4-文章详情页面（WebView）" class="headerlink" title="2.4 文章详情页面（WebView）"></a>2.4 文章详情页面（WebView）</h3><blockquote>
+<p><strong>xml文件</strong>：</p>
+<p>activity_news_article_content.xml</p>
+<p><strong>java文件</strong>：</p>
+<p>NewsArticleContentActivity</p>
+</blockquote>
+<p><strong>xml文件内容</strong>：</p>
+<p><strong>activity_news_article_content.xml</strong></p>
+<p>这里就用线性布局放置了一个WebView，比较简单</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">LinearLayout</span></span><br><span class="hljs-tag">    <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">&quot;match_parent&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">&quot;match_parent&quot;</span></span><br><span class="hljs-tag">    <span class="hljs-attr">android:orientation</span>=<span class="hljs-string">&quot;vertical&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">WebView</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:id</span>=<span class="hljs-string">&quot;@+id/news_webView&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">&quot;match_parent&quot;</span></span><br><span class="hljs-tag">        <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">&quot;match_parent&quot;</span>/&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">LinearLayout</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+
+
+<p>这个比较简单，文章或者是菜单什么点击后都会触发事件并且跳转到这个活动，</p>
+<p>跳转过来的时候往往会带有一个标题和一个链接url，然后就可以用xml文件里面的WebView显示出来</p>
+<p>例如在左侧碎片最下面的一个图标可以跳转到公文通</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230518162233.png" srcset="/img/loading.gif" lazyload alt="联想截图_20230518162233"></p>
+<h3 id="2-5-登录界面"><a href="#2-5-登录界面" class="headerlink" title="2.5 登录界面"></a>2.5 登录界面</h3><p>上面讲的很多内容都是上一个实验的，而登录界面则涉及到了新的知识，广播机制以及数据持久化存储</p>
+<blockquote>
+<p><strong>xml文件</strong>：</p>
+<p>activity_login.xml</p>
+<p><strong>登录账号</strong>：</p>
+<p>账号：2020111051  密码：8888</p>
+<p>账号：admin 密码：1111</p>
+<p><strong>java 相关文件</strong>：</p>
+<ul>
+<li>LoginActivity</li>
+<li>BaseActivity</li>
+</ul>
+<p><strong>登录界面</strong>：</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/%E8%81%94%E6%83%B3%E6%88%AA%E5%9B%BE_20230517233602(1).png" srcset="/img/loading.gif" lazyload alt="联想截图_20230517233602(1)"></p>
+</blockquote>
+<p>这里的布局文件只有一个，就不详细介绍了</p>
+<p>只说一下用了哪些不太常见的控件</p>
+<ul>
+<li>editText：输入框，可通过<code>android:theme</code>设置颜色风格</li>
+<li>CheckBox：勾选框</li>
+</ul>
+<h4 id="2-5-1-用户信息校对"><a href="#2-5-1-用户信息校对" class="headerlink" title="2.5.1  用户信息校对"></a>2.5.1  用户信息校对</h4><p>从<strong>数据库</strong>当中获取用户的所有信息，和当前输入框的信息进行校对</p>
+<p><strong>LoginActivity</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">onClick</span><span class="hljs-params">(View view)</span> &#123;<br>    <span class="hljs-type">String</span> <span class="hljs-variable">account</span> <span class="hljs-operator">=</span> accountEdit.getText().toString();<br>    <span class="hljs-type">String</span> <span class="hljs-variable">password</span> <span class="hljs-operator">=</span> passwordEdit.getText().toString();<br>    <span class="hljs-comment">//如果账号是admin且密码是123456,就认为登录成功</span><br>    userInfoList = LitePal.findAll(UserInfo.class);<span class="hljs-comment">//获取密码数据库信息</span><br>    <span class="hljs-keyword">for</span>(UserInfo info : userInfoList)&#123;<br>        <br>        <span class="hljs-keyword">if</span>(info.getAdmin().equals(account.trim()) &amp;&amp; info.getPassword().equals(password.trim()))<br>        &#123; <br>            <span class="hljs-comment">//密码正确后的逻辑代码</span><br>        &#125;<br>    &#125;<br></code></pre></td></tr></table></figure>
+
+<p>看到上面的代码通过</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java">userInfoList = LitePal.findAll(UserInfo.class);<span class="hljs-comment">//获取密码数据库信息</span><br><br></code></pre></td></tr></table></figure>
+
+<p>这一行来获取数据库中该表的所有数据</p>
+<p>该表的内容如下</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230518171531080.png" srcset="/img/loading.gif" lazyload alt="image-20230518171531080"></p>
+<h4 id="2-5-2-记录用户数据（SharedPreference）"><a href="#2-5-2-记录用户数据（SharedPreference）" class="headerlink" title="2.5.2 记录用户数据（SharedPreference）"></a>2.5.2 记录用户数据（SharedPreference）</h4><p>为了让用户登录更加方便，在登录页面当中，<strong>记住密码</strong>这个功能是必不可少的</p>
+<p>而用SharedPreference可以很方便地实现这个功能</p>
+<p>代码也很简单，</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java">SharedPreferences pref;<br>SharedPreferences.<span class="hljs-type">Editor</span> <span class="hljs-variable">editor</span> <span class="hljs-operator">=</span> pref.edit();<br><span class="hljs-keyword">if</span>(rememberPass.isChecked())&#123; <span class="hljs-comment">//检查是否勾选了记住密码</span><br>    <span class="hljs-comment">//使用Editor来添加数据存储</span><br>    editor.putBoolean(<span class="hljs-string">&quot;remember_password&quot;</span>,<span class="hljs-literal">true</span>);<br>    editor.putString(<span class="hljs-string">&quot;account&quot;</span>,account);<br>    editor.putString(<span class="hljs-string">&quot;password&quot;</span>,password);<br>&#125;<br><span class="hljs-keyword">else</span> editor.clear();<br></code></pre></td></tr></table></figure>
+
+<p>上图也就十行代码，只需要直接调用SharedPreference的库提供的内容</p>
+<p>在检测到用户勾选了”记住密码“之后，就将数据都put到editor当中，这样就已经将用户的信息存在本地了，它的具体文件位置可以上网搜索</p>
+<p>下次再次进入到LoginActivity的时候，就可以直接调用存在SharedPreference的数据了</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java">pref = PreferenceManager.getDefaultSharedPreferences(<span class="hljs-built_in">this</span>);<br><span class="hljs-type">boolean</span> <span class="hljs-variable">isRemember</span> <span class="hljs-operator">=</span> pref.getBoolean(<span class="hljs-string">&quot;remember_password&quot;</span>,<span class="hljs-literal">false</span>);<br><span class="hljs-keyword">if</span>(isRemember)&#123;<br>    <span class="hljs-comment">//将记住的内容直接设置上去</span><br>    accountEdit.setText(pref.getString(<span class="hljs-string">&quot;account&quot;</span>,<span class="hljs-string">&quot;&quot;</span>));<br>    passwordEdit.setText(pref.getString(<span class="hljs-string">&quot;password&quot;</span>,<span class="hljs-string">&quot;&quot;</span>));<br>    rememberPass.setChecked(<span class="hljs-literal">true</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="2-6-数据库实现-（LitePal）"><a href="#2-6-数据库实现-（LitePal）" class="headerlink" title="2.6 数据库实现 （LitePal）"></a>2.6 数据库实现 （LitePal）</h3><blockquote>
+<p><strong>相关配置文件</strong>：</p>
+<ul>
+<li>litepal.xml</li>
+<li>AndroidManifest.xml</li>
+<li>SchioolDemo.db</li>
+<li>build.gradle</li>
+</ul>
+<p><strong>相关Java文件</strong>：</p>
+<p>DatabaseUtil.java</p>
+</blockquote>
+<h4 id="2-6-1-导入依赖以及配置"><a href="#2-6-1-导入依赖以及配置" class="headerlink" title="2.6.1 导入依赖以及配置"></a>2.6.1 导入依赖以及配置</h4><p>这里我学习了《第一行代码》当中给出的LitePal的库的使用并且进行了导入</p>
+<p>不过这里用给出的导入方法或者网上的都不行，于是只能到github直接将<strong>Jar包</strong>下载下来了。</p>
+<p><strong>配置数据库方法</strong></p>
+<p>这里书上也有教程，这里就简单介绍一下</p>
+<ul>
+<li><p>导入依赖</p>
+<p>在build.gradle（Module.app）当中导入</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">implementation <span class="hljs-title function_">files</span><span class="hljs-params">(<span class="hljs-string">&#x27;libs\\litepal-2.0.0-src.jar&#x27;</span>)</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p>在main当中新建assets文件夹，并新建一个litepal.xml</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230518173736578.png" srcset="/img/loading.gif" lazyload alt="image-20230518173736578"></p>
+<p>该文件用于配置数据库和Java当中的类的关系映射</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">litepal</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dbname</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;SchoolDemo&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">dbname</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">version</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;3&quot;</span> &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">list</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">mapping</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.example.myschool.schobject.Notification&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">mapping</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">mapping</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.example.myschool.schobject.UserInfo&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">mapping</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">mapping</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;com.example.myschool.schobject.Card&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">mapping</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">list</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">litepal</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><p>dbname：数据库名字为”SchoolDemo“，然后一共有三个数据表，</p>
+</li>
+<li><p>version ：value就是数据表的个数</p>
+</li>
+<li><p>list：对应每一个Java当中的类的一个映射</p>
+</li>
+</ul>
+</li>
+<li><p>在<code>AndroidManifest.xml</code>当中配置一下</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">application</span></span><br><span class="hljs-tag">    <span class="hljs-attr">android:name</span>=<span class="hljs-string">&quot;org.litepal.LitePalApplication&quot;</span></span><br><span class="hljs-tag">             <span class="hljs-attr">.......</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">application</span>&gt;</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+<p>配置成功后，可以通过android studio自带的<strong>Device File Explorer</strong>来查找虚拟机当中的文件</p>
+<p>它在虚拟机文件当中的路径为<code>data/data/com.example.mewsapppage/databases</code></p>
+<p>不过这个路径在本机电脑当中是不实际存在的，也就是说你无法在<strong>虚拟机关机</strong>的情况下去<strong>修改这个文件</strong>.</p>
+<h4 id="2-6-2-存储提前准备好的数据文件"><a href="#2-6-2-存储提前准备好的数据文件" class="headerlink" title="2.6.2 存储提前准备好的数据文件"></a>2.6.2 存储提前准备好的数据文件</h4><p>由于考虑到每次到一台新的机器上面，都会创建一个新的数据库db，因为它是不存在本地的，因此我们要去读取它的文件</p>
+<p>为了避免在Java当中还要手动写代码去导入数据到数据库当中，而且数据也不方便修改</p>
+<p>于是可以采用将<strong>存在安卓资源文件中的db数据库</strong> 写入 到android手机存储db数据库的位置当中，这样就实现了文件的覆盖，可以使用预先写好数据的数据库了！</p>
+<p>这就涉及到文件的读写操作了，我们将数据库文件存放在assets目录下面</p>
+<p><img src="https://gitee.com/cheesheep/typora-photo-bed/raw/master/Timg/image-20230518175126413.png" srcset="/img/loading.gif" lazyload alt="image-20230518175126413"></p>
+<p>名字也要和我们要生成的安卓手机上的数据库<strong>文件名字一致</strong>，接着编写代码进行IO操作</p>
+<p><strong>DatabaseUtil.java</strong></p>
+<p>首先在Java当中获取存取的路径名称</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// com.example.myschool 是程序的包名，请根据自己的程序调整</span><br><span class="hljs-comment">// /data/data/com.example.myschool/databases目录是准备放 SQLite 数据库的地方，也是 Android 程序默认的数据库存储目录</span><br><span class="hljs-comment">// 数据库名为 SchoolDemo.db</span><br><span class="hljs-type">String</span> <span class="hljs-variable">DB_PATH</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;/data/data/&quot;</span> + context.getPackageName() +<span class="hljs-string">&quot;/databases/&quot;</span>;<br><span class="hljs-type">String</span> <span class="hljs-variable">DB_NAME</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;SchoolDemo.db&quot;</span>;<br></code></pre></td></tr></table></figure>
+
+<p>接着使用<code>InputStream</code> 和<code>FileOutputStream</code>类来分别进行<strong>字节流</strong>的输入输出操作</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 得到 assets 目录下我们实现准备好的 SQLite 数据库作为输入流</span><br><span class="hljs-type">InputStream</span> <span class="hljs-variable">is</span> <span class="hljs-operator">=</span> context.getAssets().open(DB_NAME);<br><span class="hljs-comment">// 输出流,在指定路径下生成db文件</span><br><span class="hljs-type">OutputStream</span> <span class="hljs-variable">os</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">FileOutputStream</span>(DB_PATH + DB_NAME);<br><span class="hljs-comment">// 文件写入</span><br><span class="hljs-type">byte</span>[] buffer = <span class="hljs-keyword">new</span> <span class="hljs-title class_">byte</span>[<span class="hljs-number">1024</span>];<br><span class="hljs-type">int</span> length;<br><span class="hljs-keyword">while</span> ((length = is.read(buffer)) &gt; <span class="hljs-number">0</span>) <br>    os.write(buffer, <span class="hljs-number">0</span>, length);<br><span class="hljs-comment">// 关闭文件流</span><br>os.flush();<br>os.close();<br>is.close();<br></code></pre></td></tr></table></figure>
+
+<p>代码也比较简单，这样我们就实现了文件的写入覆盖，就可以在<strong>本地编辑好数据库</strong>之后，直接将数据库跑在安卓的机器上啦</p>
+<h3 id="2-7-强制下线以及网络监听（广播机制）"><a href="#2-7-强制下线以及网络监听（广播机制）" class="headerlink" title="2.7 强制下线以及网络监听（广播机制）"></a>2.7 强制下线以及网络监听（广播机制）</h3><blockquote>
+<p><strong>涉及Java代码</strong>：</p>
+<ul>
+<li>ForceOfflineReceiver.java</li>
+<li>BaseActivity.java</li>
+<li>ActivityCollector.java</li>
+</ul>
+<p>相关配置文件：</p>
+<p>无直接相关的，只需要调用上面的Java类代码即可自动触发功能</p>
+</blockquote>
+<h4 id="2-7-1-注册广播器："><a href="#2-7-1-注册广播器：" class="headerlink" title="2.7.1 注册广播器："></a>2.7.1 注册广播器：</h4><p>首先要对广播器Receiver进行<strong>注册</strong></p>
+<p>在BaseActivity当中进行注册，然后所有有需求执行登出操作的界面都可以继承这个类作为基类，这样就会统一收到广播了</p>
+<p>注册的代码如下：</p>
+<p><strong>BaseActivity：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Override</span><br><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">onResume</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-comment">//动态注册广播器</span><br>    <span class="hljs-built_in">super</span>.onResume();<br>    <span class="hljs-type">IntentFilter</span> <span class="hljs-variable">filter</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">IntentFilter</span>();<br>    <span class="hljs-comment">//增加需要监听的内容</span><br>    filter.addAction(<span class="hljs-string">&quot;com.example.myschool.FORCE_OFFLINE&quot;</span>); <span class="hljs-comment">//监听强制下线广播</span><br>    filter.addAction(<span class="hljs-string">&quot;android.net.conn.CONNECTIVITY_CHANGE&quot;</span>); <span class="hljs-comment">//监听网络连接广播</span><br>    forceOffLineReceiver = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ForceOffLineReceiver</span>();<br>    <span class="hljs-comment">//注册监听，这样ForceOfflineReceiver就可以接收到所有FORCE——OFFLINE的广播</span><br>    registerReceiver(forceOffLineReceiver,filter);<br>&#125;<br><span class="hljs-meta">@Override</span><br><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">onPause</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-built_in">super</span>.onPause();<br>    <span class="hljs-keyword">if</span>(forceOffLineReceiver != <span class="hljs-literal">null</span>)<br>        unregisterReceiver(forceOffLineReceiver); <span class="hljs-comment">//最后取消注册</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这里增加了两条需要监听的内容，分别是强制下线广播和网络链接广播，这样就很容易地实现了注册</p>
+<p>最后不要忘了在onPause或者onDestroy的时候进行取消注册，不然可能会引发一些后果。</p>
+<h4 id="2-7-2-实现监听触发事件"><a href="#2-7-2-实现监听触发事件" class="headerlink" title="2.7.2 实现监听触发事件"></a>2.7.2 实现监听触发事件</h4><p>接下来就是要到ForceOffLineReceiver这个类当中去实现具体的<strong>监听触发</strong>事件了。</p>
+<p>具体类实现：</p>
+<p><strong>ForceOffLineReceiver</strong>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ForceOffLineReceiver</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">BroadcastReceiver</span> &#123;<br>    <span class="hljs-comment">//该监听器包括了网络监听何强制下线监听</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">onReceive</span><span class="hljs-params">(Context context, Intent intent)</span> &#123;<br>        AlertDialog.<span class="hljs-type">Builder</span> <span class="hljs-variable">builder</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">AlertDialog</span>.Builder(context);<span class="hljs-comment">//构建对话框</span><br>        builder.setTitle(<span class="hljs-string">&quot;警告&quot;</span>);<br>        <span class="hljs-type">String</span> <span class="hljs-variable">action</span> <span class="hljs-operator">=</span> intent.getAction();<br>        <span class="hljs-keyword">if</span> (action.equals(<span class="hljs-string">&quot;com.example.myschool.FORCE_OFFLINE&quot;</span>)) &#123;<br>            <span class="hljs-comment">// Handle the FORCE_OFFLINE broadcast</span><br>            <br>        &#125;<br>        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (action.equals(<span class="hljs-string">&quot;android.net.conn.CONNECTIVITY_CHANGE&quot;</span>)) &#123;<br>            <span class="hljs-comment">// Handle the CONNECTIVITY_CHANGE broadcast</span><br>            <br>        &#125;<br>        builder.show();<span class="hljs-comment">//令该对话框可视化</span><br>    &#125;<br></code></pre></td></tr></table></figure>
+
+<p>首先该监听器要继承<code>BroadcastReceiver</code>，然后去重载它的<code>onReceive（）</code>方法，</p>
+<p>该方法在收到之前添加的监听事件之后就会触发，我们需要做一个if判断它是哪个类型的事件触发了即可</p>
+<h2 id="3-实验总结"><a href="#3-实验总结" class="headerlink" title="3. 实验总结"></a>3. 实验总结</h2><h3 id="3-1-APP亮点"><a href="#3-1-APP亮点" class="headerlink" title="3.1 APP亮点"></a>3.1 APP亮点</h3><p>这里列出该APP设计的一些认为比较突出的地方：</p>
+<ul>
+<li>使用SharedPreference实现记住密码</li>
+<li>使用安卓的库LitePel实现数据库的账号密码的存取</li>
+<li>用户信息从数据库中提取，不同的用户动态展现不同的信息</li>
+<li>使用放在assets文件中已经写好的数据库，可手动编辑</li>
+<li>碎片化实现平板与手机的适配</li>
+<li>使用gridLayout网格绘制菜单（与下面对比两种不同的方式）</li>
+<li>recyclerView实现网格菜单</li>
+</ul>
+<h3 id="3-2-遇到过的问题"><a href="#3-2-遇到过的问题" class="headerlink" title="3.2. 遇到过的问题"></a>3.2. 遇到过的问题</h3><ul>
+<li><p>数据库无法在新的机器上存储，需要在代码添加进去</p>
+<p>解决方法：</p>
+<p>在本地做好一个数据库文件，然后通过文件字节流读写的方式写入到安卓模拟器上的位置</p>
+</li>
+<li><p>ImageView无法通过elevation设置阴影</p>
+<p>使用CardView包裹实现阴影效果</p>
+</li>
+</ul>
+<h3 id="3-3-感想心得"><a href="#3-3-感想心得" class="headerlink" title="3.3 感想心得"></a>3.3 感想心得</h3><p>本次实验给我的第一感觉就是内容比上次要多了更多，需要做的东西有诸如数据库，广播等等，这也是因为我们学到了更加多的新知识，因此也需要在实验中应用上相关的知识。</p>
+<p>虽然这次的内容比较多吧，但是感觉没有上次做起来这么难了，因为上次的是第一次去认真地完成一个APP，从零开始，而这次不仅已经有了上一次实验的经验，有些代码框架和内容也可以沿用上一次的，并且基于上一次做的不足的地方做更好地调整，例如这次我对侧边栏进行了更多地美化，加上了背景图片的嵌入，还有设计了个人信息界面，可以通过侧边栏找到入口进入。另外在页面碎片当中也进行了代码的优化和简化。</p>
+<p>当然这一次收获最大的还是数据持久化的学习还有广播机制的应用，使用广播机制就可以实现几乎所有APP都会具有的一个功能，就是登录，而为了存储用户的数据，自然也就需要结合数据持久化的存储，而这次直接学习了数据库的使用，因此在ListView显示每一条文章的数据的时候再也不需要在Java当中手动写入这些数据了，而是可以直接放在数据库db文件当中，而这里用的是安卓提供的SQLite数据库，不仅可以存储用户数据，也可以存储文章数据等等。</p>
+<p>不过在学习的同时也越来越发现自己还有很多不会的地方，现在做的实际上对于社会上的安卓工程师，这些只是很简单的东西，例如数据库应该会有更好地方法进行操作，可以利用后台写接口的方式更好地对数据进行处理，总之，仍有很多的地方需要学习。</p>
+<h3 id="可以改进或者扩展的地方（删掉）"><a href="#可以改进或者扩展的地方（删掉）" class="headerlink" title="可以改进或者扩展的地方（删掉）"></a>可以改进或者扩展的地方（删掉）</h3><ol>
+<li>图片没有真正存进数据库里面，以后看看可能可以用Bitmap存储</li>
+<li>控件的阴影设置有自定义的方法，也可以用别人的库，还可以用什么<code>点9图</code></li>
+<li>数据库以后应该可以采用后台开发的方式，看看能不能用springboot开发</li>
+<li>平板正放侧放切屏的时候会闪退</li>
+<li>数据库的db文件是否可以一直存在软件当中，还是到新的机器上就会被清除</li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%9C%AC%E7%A7%91/" class="category-chain-item">本科</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%9C%AC%E7%A7%91/%E5%A4%A7%E4%B8%89%E4%B8%8B/" class="category-chain-item">大三下</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/%E6%9C%AC%E7%A7%91/%E5%A4%A7%E4%B8%89%E4%B8%8B/%E7%A7%BB%E5%8A%A8%E4%BA%92%E8%81%94%E7%BD%91%E7%BC%96%E7%A8%8B/" class="category-chain-item">移动互联网编程</a>
+  
+  
+
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/android/" class="print-no-link">#android</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Android Studio实现校园APP（完整步骤）</div>
+      <div>http://example.com/2023/05/17/本科/大三下/移动互联网编程/Android studio实现校园APP/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Cheesheep</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年5月17日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/06/04/%E6%9C%AC%E7%A7%91/%E5%A4%A7%E4%B8%89%E4%B8%8B/%E8%BD%AF%E5%B7%A5%E5%AE%9E%E8%AE%AD/Springboot%E4%BD%BF%E7%94%A8Elastic%20Search%E6%95%99%E7%A8%8B/" title="Springboot项目使用Elastic Search教程">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Springboot项目使用Elastic Search教程</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/05/10/%E6%9C%AC%E7%A7%91/%E5%A4%A7%E4%B8%89%E4%B8%8B/%E7%A7%BB%E5%8A%A8%E4%BA%92%E8%81%94%E7%BD%91%E7%BC%96%E7%A8%8B/%E5%AE%89%E5%8D%93%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001/" title="安卓学习笔记01">
+                        <span class="hidden-mobile">安卓学习笔记01</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> <div style="font-size: 0.85rem"> <span id="timeDate">载入天数...</span> <span id="times">载入时分秒...</span> <script src="/js/duration.js"></script> </div> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script defer src="/js/leancloud.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
